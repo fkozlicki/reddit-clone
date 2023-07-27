@@ -6,32 +6,10 @@ import FeedFilter from '@/components/FeedFilter/FeedFilter';
 import Post from '@/components/Post/Post';
 import CreatePost from '@/components/CreatePost/CreatePost';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import Feed from '@/components/Feed/Feed';
 
 export default async function Hot() {
 	const session = await getServerSession(authOptions);
-	const oneDayAgo = new Date();
-	oneDayAgo.setHours(oneDayAgo.getHours() - 24);
-	const posts = await prisma?.post.findMany({
-		where: {
-			createdAt: {
-				gte: oneDayAgo,
-				lte: new Date(),
-			},
-		},
-		orderBy: [
-			{
-				comments: {
-					_count: 'desc',
-				},
-			},
-		],
-		include: {
-			author: true,
-			community: true,
-			votes: true,
-			comments: true,
-		},
-	});
 
 	return (
 		<div className="flex-1 bg-background-feed min-h-[calc(100vh-48px)]">
@@ -43,31 +21,7 @@ export default async function Hot() {
 						<div className="text-sm font-medium mb-2">Popular posts</div>
 					)}
 					<FeedFilter best highlighted="hot" />
-					{posts &&
-						posts.map(
-							({
-								id,
-								author,
-								content,
-								title,
-								createdAt,
-								votes,
-								comments,
-								community,
-							}) => (
-								<Post
-									key={id}
-									id={id}
-									authorName={author.name}
-									content={content}
-									title={title}
-									createdAt={createdAt}
-									votes={votes}
-									comments={comments}
-									communityName={community.name}
-								/>
-							)
-						)}
+					<Feed />
 				</div>
 				<div className="w-[312px] hidden lg:block flex-shrink-0">
 					{!session && <div className="h-7" />}
