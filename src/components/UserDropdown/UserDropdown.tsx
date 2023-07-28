@@ -7,12 +7,13 @@ import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { signOut } from 'next-auth/react';
 import { useClickAway } from '@/hooks/useClickAway';
 import { gql, useQuery } from '@apollo/client';
+import { Topic } from '@prisma/client';
 
 interface UserDropdownProps {
-	userName: string;
+	userName?: string | null;
 }
 
-const topicsQuery = gql`
+const TOPICS_QUERY = gql`
 	query {
 		topics {
 			name
@@ -20,11 +21,15 @@ const topicsQuery = gql`
 	}
 `;
 
+type TopicsQueryResponse = {
+	topics: Topic[];
+};
+
 const UserDropdown = ({ userName }: UserDropdownProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [topicsOpen, setTopicsOpen] = useState<boolean>(false);
 	const dropdown = useClickAway<HTMLDivElement>(() => setOpen(false));
-	const { data } = useQuery(topicsQuery);
+	const { data } = useQuery<TopicsQueryResponse>(TOPICS_QUERY);
 
 	const toggleDropdown = () => {
 		setOpen((prev) => !prev);
