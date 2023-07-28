@@ -118,3 +118,75 @@ builder.mutationField('updateCommunity', (t) =>
 		},
 	})
 );
+
+builder.mutationField('joinCommunity', (t) =>
+	t.prismaField({
+		type: 'Community',
+		args: {
+			name: t.arg.string({ required: true }),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('You have to be logged in.');
+			}
+
+			const { name } = args;
+
+			const community = await ctx.prisma.community.update({
+				...query,
+				where: {
+					name,
+				},
+				data: {
+					members: {
+						connect: {
+							id: ctx.session.user.id,
+						},
+					},
+				},
+			});
+
+			if (!community) {
+				throw new Error('Couldnt update community.');
+			}
+
+			return community;
+		},
+	})
+);
+
+builder.mutationField('leaveCommunity', (t) =>
+	t.prismaField({
+		type: 'Community',
+		args: {
+			name: t.arg.string({ required: true }),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('You have to be logged in.');
+			}
+
+			const { name } = args;
+
+			const community = await ctx.prisma.community.update({
+				...query,
+				where: {
+					name,
+				},
+				data: {
+					members: {
+						disconnect: {
+							id: ctx.session.user.id,
+						},
+					},
+				},
+			});
+
+			if (!community) {
+				throw new Error('Couldnt update community.');
+			}
+
+			return community;
+		},
+	})
+);
