@@ -1,11 +1,11 @@
 import Providers from '@/components/Providers';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Navbar from '@/components/Navbar/Navbar';
+import Navbar from '@/components/layout/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
-import HomeSidebar from '@/components/HomeSidebar/HomeSidebar';
+import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { ReactNode } from 'react';
 import ChangeNameForm from '@/components/forms/ChangeNameForm/ChangeNameForm';
 
@@ -33,7 +33,7 @@ export default async function RootLayout({
 					<main className="flex">
 						{!session && (
 							<div className="hidden xl:block">
-								<HomeSidebar />
+								<Sidebar />
 							</div>
 						)}
 						{children}

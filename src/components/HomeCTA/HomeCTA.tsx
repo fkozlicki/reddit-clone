@@ -6,7 +6,6 @@ import ctaImage from '../../../public/home-cta.png';
 import alienImage from '../../../public/alien.png';
 import Button from '../buttons/Button/Button';
 import CreateCommunityForm from '../forms/CommunityForm/CommunityForm';
-import { useSession } from 'next-auth/react';
 
 const HomeCTA = () => {
 	const [createCommunityModalOpen, setCreateCommunityModalOpen] =

@@ -29,7 +29,7 @@ const IconButton = ({
 		<Link
 			href={href}
 			className={`flex items-center gap-1 bg-background-primary hover:bg-border-input ${shapeClass} ${
-				color ? color : ''
+				color ?? ''
 			} ${selected ? 'bg-border-input text-primary' : ''}`}
 		>
 			{icon}
@@ -39,7 +39,7 @@ const IconButton = ({
 		<button
 			onClick={onClick}
 			className={`flex items-center gap-1 bg-background-primary hover:bg-border-input ${shapeClass} ${
-				color ? color : ''
+				color ?? ''
 			} ${selected ? 'bg-border-input text-primary' : ''}`}
 		>
 			{icon}
