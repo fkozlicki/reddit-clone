@@ -38,36 +38,6 @@ const AddTopicMutation = gql`
 	}
 `;
 
-const TopicsDropdown = ({ addTopic }: { addTopic: (id: string) => void }) => {
-	const { data, loading, error } = useQuery<TopicsQueryResponse>(TopicsQuery);
-
-	if (loading) {
-		return <div>Loading topics...</div>;
-	}
-
-	if (error) {
-		return <div>Error</div>;
-	}
-
-	if (data && data.topics.length < 1) {
-		return <div>No topics</div>;
-	}
-
-	return (
-		<div className="absolute bg-background-primary top-full left-0 z-30 w-full shadow rounded overflow-hidden">
-			{data?.topics.map(({ id, name }, index) => (
-				<div
-					onClick={() => addTopic(id)}
-					key={index}
-					className="p-2 hover:bg-primary hover:text-white text-sm font-medium cursor-pointer"
-				>
-					{name}
-				</div>
-			))}
-		</div>
-	);
-};
-
 interface CommunityTopicProps {
 	initialTopic: string;
 }
@@ -88,6 +58,7 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 			setTopic(data.updateCommunity.topic.name);
 		},
 	});
+	const { data } = useQuery<TopicsQueryResponse>(TopicsQuery);
 
 	const handleAddTopic = (topicId: string) => {
 		setTopicsDropdownOpen(false);
@@ -120,7 +91,22 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 						</div>
 					)}
 				</button>
-				{topicsDropdownOpen && <TopicsDropdown addTopic={handleAddTopic} />}
+				{topicsDropdownOpen &&
+					(data ? (
+						<div className="absolute bg-background-primary top-full left-0 z-30 w-full shadow rounded overflow-hidden">
+							{data.topics.map(({ id, name }, index) => (
+								<div
+									onClick={() => handleAddTopic(id)}
+									key={index}
+									className="p-2 hover:bg-primary hover:text-white text-sm font-medium cursor-pointer"
+								>
+									{name}
+								</div>
+							))}
+						</div>
+					) : (
+						<div>Couldn&apos;t load topics</div>
+					))}
 			</div>
 		</div>
 	);
