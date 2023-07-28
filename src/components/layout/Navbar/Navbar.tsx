@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Button from '../buttons/Button/Button';
-import Search from '../inputs/Search/Search';
+import Button from '../../buttons/Button/Button';
+import Search from '../../inputs/Search/Search';
 import { useSession } from 'next-auth/react';
-import SignInForm from '../forms/SignInForm/SignInForm';
+import SignInForm from '../../forms/SignInForm/SignInForm';
 import UserDropdown from '../UserDropdown/UserDropdown';
 import Link from 'next/link';
 
@@ -30,7 +30,7 @@ const Navbar = () => {
 				<Image src="/logo-sign.svg" alt="reddit logo" width={57} height={18} />
 			</Link>
 			<div className="w-2 h-full" />
-			<div className={`flex-1  ${!session ? 'max-w-[690px]' : ''}`}>
+			<div className="flex-1 max-w-[690px]">
 				<Search />
 			</div>
 			<div className="w-2 h-full" />

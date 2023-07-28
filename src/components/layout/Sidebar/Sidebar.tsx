@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '../../buttons/Button/Button';
 import Link from 'next/link';
-import LinkButton from '../buttons/LinkButton/LinkButton';
+import LinkButton from '../../buttons/LinkButton/LinkButton';
 import { StarIcon } from '@heroicons/react/24/solid';
 
-const HomeSidebar = () => {
+const Sidebar = () => {
 	return (
 		<div className="flex w-[270px] h-[calc(100vh-48px)] xl:flex flex-col">
 			<div className="flex-1">
@@ -39,6 +39,6 @@ const HomeSidebar = () => {
 	);
 };
 
-export default HomeSidebar;
+export default Sidebar;
 
 const topics = ['Gaming', 'Sports', 'Business', 'Crypto', 'Celebrity'];

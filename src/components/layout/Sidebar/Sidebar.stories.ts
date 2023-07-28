@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import HomeSidebar from './HomeSidebar';
+import HomeSidebar from './Sidebar';
 import '../../app/globals.css';
 
 const meta: Meta<typeof HomeSidebar> = {

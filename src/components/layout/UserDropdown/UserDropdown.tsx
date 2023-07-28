@@ -2,9 +2,15 @@
 
 import React, { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import LinkButton from '../buttons/LinkButton/LinkButton';
-import { Cog6ToothIcon } from '@heroicons/react/24/outline';
-import { signOut } from 'next-auth/react';
+import LinkButton from '../../buttons/LinkButton/LinkButton';
+import {
+	ArrowRightOnRectangleIcon,
+	Cog6ToothIcon,
+	MoonIcon,
+	RocketLaunchIcon,
+	UserIcon,
+} from '@heroicons/react/24/outline';
+import { signOut, useSession } from 'next-auth/react';
 import { useClickAway } from '@/hooks/useClickAway';
 import { gql, useQuery } from '@apollo/client';
 import { Topic } from '@prisma/client';
@@ -60,24 +66,24 @@ const UserDropdown = ({ userName }: UserDropdownProps) => {
 				<div className="absolute top-full right-0 w-[250px] bg-background-primary border border-border-input border-t-0 rounded-b rounded-tl z-10 overflow-hidden">
 					<div className="flex flex-col">
 						<LinkButton
-							href=""
-							icon={<Cog6ToothIcon width={20} />}
+							href={`/u/${userName}`}
+							icon={<UserIcon width={20} />}
 							text="Profile"
 						/>
 						<LinkButton
-							href=""
+							href="/settings"
 							icon={<Cog6ToothIcon width={20} />}
 							text="User Settings"
 						/>
 						<LinkButton
 							href=""
-							icon={<Cog6ToothIcon width={20} />}
+							icon={<MoonIcon width={20} />}
 							text="Dark Mode"
 						/>
 						<div className="w-full">
 							<LinkButton
 								onClick={toggleTopics}
-								icon={<Cog6ToothIcon width={20} />}
+								icon={<RocketLaunchIcon width={20} />}
 								text="Explore"
 							/>
 							{topicsOpen && data && (
@@ -94,7 +100,7 @@ const UserDropdown = ({ userName }: UserDropdownProps) => {
 						</div>
 						<LinkButton
 							href=""
-							icon={<Cog6ToothIcon width={20} />}
+							icon={<ArrowRightOnRectangleIcon width={20} />}
 							text="Log out"
 							onClick={() => signOut()}
 						/>
