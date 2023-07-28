@@ -1,6 +1,7 @@
 import ChooseCommunity from '@/components/ChooseCommunity/ChooseCommunity';
 import CommunityAbout from '@/components/CommunityAbout/CommunityAbout';
-import PostForm from '@/components/PostForm/PostForm';
+import PostForm from '@/components/forms/PostForm/PostForm';
+import Grid from '@/components/Grid/Grid';
 import PostRules from '@/components/PostRules/PostRules';
 import { notFound } from 'next/navigation';
 import React from 'react';

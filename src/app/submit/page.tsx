@@ -4,7 +4,7 @@ import React from 'react';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import ChooseCommunity from '@/components/ChooseCommunity/ChooseCommunity';
-import PostForm from '@/components/PostForm/PostForm';
+import PostForm from '@/components/forms/PostForm/PostForm';
 import PostRules from '@/components/PostRules/PostRules';
 
 export default async function Submit() {

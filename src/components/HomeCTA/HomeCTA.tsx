@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import ctaImage from '../../../public/home-cta.png';
 import alienImage from '../../../public/alien.png';
 import Button from '../buttons/Button/Button';
-import CreateCommunityForm from '../CreateCommunityForm/CreateCommunityForm';
+import CreateCommunityForm from '../forms/CommunityForm/CommunityForm';
 import { useSession } from 'next-auth/react';
 
 const HomeCTA = () => {

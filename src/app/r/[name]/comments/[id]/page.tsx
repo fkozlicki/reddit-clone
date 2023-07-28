@@ -1,5 +1,5 @@
 import Comment from '@/components/Comment/Comment';
-import CommentForm from '@/components/CommentForm/CommentForm';
+import CommentForm from '@/components/forms/CommentForm/CommentForm';
 import CommentsSection from '@/components/CommentsSection/CommentsSection';
 import CommunityAbout from '@/components/CommunityAbout/CommunityAbout';
 import Post from '@/components/Post/Post';

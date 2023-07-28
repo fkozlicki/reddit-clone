@@ -3,7 +3,7 @@
 import { CommentVote, Comment as PrismaComment, User } from '@prisma/client';
 import React, { useState } from 'react';
 import Comment from '../Comment/Comment';
-import CommentForm from '../CommentForm/CommentForm';
+import CommentForm from '../forms/CommentForm/CommentForm';
 
 export type InitialComment = PrismaComment & {
 	author: User;

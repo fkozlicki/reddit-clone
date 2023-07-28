@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import HomeSidebar from '@/components/HomeSidebar/HomeSidebar';
 import { ReactNode } from 'react';
-import ChangeNameForm from '@/components/ChangeNameForm/ChangeNameForm';
+import ChangeNameForm from '@/components/forms/ChangeNameForm/ChangeNameForm';
 
 const inter = Inter({ subsets: ['latin'] });
 
