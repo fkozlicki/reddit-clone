@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '../buttons/Button/Button';
-import Search from '../Search/Search';
+import Search from '../inputs/Search/Search';
 import { useSession } from 'next-auth/react';
-import SignInForm from '../SignInForm/SignInForm';
+import SignInForm from '../forms/SignInForm/SignInForm';
 import UserDropdown from '../UserDropdown/UserDropdown';
 import Link from 'next/link';
 

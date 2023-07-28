@@ -18,7 +18,7 @@ const PostRules = () => {
 export default PostRules;
 
 const rules = [
-	'1. Remember the human',
+	'1. Remember be the human',
 	'2. Behave like you would in real life',
 	'3. Look for the original source of content',
 	'4. Search for duplicates before posting',

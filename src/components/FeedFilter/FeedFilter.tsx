@@ -9,13 +9,13 @@ import {
 	StarIcon,
 } from '@heroicons/react/24/outline';
 
-interface FeedFilter {
+export interface FeedFilterProps {
 	highlighted: 'best' | 'hot' | 'new' | 'top';
 	best?: boolean;
 	prefix?: string;
 }
 
-const FeedFilter = ({ prefix, best, highlighted }: FeedFilter) => {
+const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 	return (
 		<div className="bg-background-primary p-3 rounded border border-border-post mb-6">
 			<div className="flex gap-2">

@@ -8,7 +8,7 @@ import VoteSection from '../VoteSection/VoteSection';
 import { CommentVote } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { InitialComment } from '../CommentsSection/CommentsSection';
-import CommentForm from '../CommentForm/CommentForm';
+import CommentForm from '../forms/CommentForm/CommentForm';
 import { useParams } from 'next/navigation';
 
 interface CommentProps {

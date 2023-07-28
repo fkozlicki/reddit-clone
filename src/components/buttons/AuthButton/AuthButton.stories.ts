@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import AuthButton from './AuthButton';
 import '../../../app/globals.css';
-import { StarIcon } from '@heroicons/react/24/solid';
 import googleImage from '../../../../public/google.svg';
 
 const meta: Meta<typeof AuthButton> = {
