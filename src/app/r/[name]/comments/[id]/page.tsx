@@ -45,9 +45,9 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
 
 	return (
 		<div className="flex-1 bg-black/50 min-h-[calc(100vh-48px)]">
-			<div className="bg-background-feed max-w-[1300px] m-auto sm:p-6 min-h-full">
-				<div className="flex gap-4 justify-center">
-					<div className="w-full lg:max-w-[750px]">
+			<div className="bg-background-feed max-w-[1300px] m-auto sm:p-6 min-h-full flex">
+				<div className="flex gap-4 justify-center flex-1 min-h-full">
+					<div className="w-full lg:max-w-[750px] flex flex-col">
 						<Post
 							id={post.id}
 							title={post.title}
