@@ -1,24 +1,40 @@
-import CommunityAbout from '@/components/CommunityAbout/CommunityAbout';
-import CommunityHeader from '@/components/CommunityHeader/CommunityHeader';
-import FeedFilter from '@/components/FeedFilter/FeedFilter';
-import Post from '@/components/Post/Post';
+import CommunityScreen from '@/components/CommunityScreen/CommunityScreen';
+import { gql } from '@apollo/client';
 import { notFound } from 'next/navigation';
 import React from 'react';
+
+const COMMUNITY_HOT_POSTS_QUERY = (communityName: string) => gql`
+	query ($offset: Int, $limit: Int) {
+		posts(
+			offset: $offset
+			limit: $limit
+			filter: { community: { name: ${`"${communityName}"`} }  }
+		) {
+			id
+			title
+			content
+			createdAt
+			comments {
+				id
+			}
+			votes {
+				userId
+				value
+			}
+			author {
+				name
+			}
+			community {
+				name
+			}
+		}
+	}
+`;
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const community = await prisma?.community.findUnique({
 		where: {
 			name,
-		},
-		include: {
-			topic: true,
-			posts: {
-				include: {
-					author: true,
-					votes: true,
-				},
-			},
-			members: true,
 		},
 	});
 
@@ -27,29 +43,11 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 	}
 
 	return (
-		<div className="flex-1 min-h-[calc(100vh-48px)] bg-background-feed">
-			<CommunityHeader />
-			<div className="pt-6">
-				<div className="flex justify-center gap-6">
-					<div className="w-full lg:w-auto lg:min-w-[640px]">
-						<FeedFilter prefix={`r/${name}`} />
-						{community.posts.map((post) => (
-							<Post
-								key={post.id}
-								authorName={post.author.name}
-								content={post.content}
-								createdAt={post.createdAt}
-								title={post.title}
-								votes={post.votes}
-							/>
-						))}
-					</div>
-					<div className="w-[312px] hidden lg:block flex-shrink-0">
-						<CommunityAbout />
-					</div>
-				</div>
-			</div>
-		</div>
+		<CommunityScreen
+			name={name}
+			query={COMMUNITY_HOT_POSTS_QUERY(name)}
+			highlighted="hot"
+		/>
 	);
 };
 
