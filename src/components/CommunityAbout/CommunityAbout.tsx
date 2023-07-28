@@ -8,8 +8,9 @@ import { useParams } from 'next/navigation';
 import { Community } from '@prisma/client';
 import CommunityTopic from '../CommunityTopic/CommunityTopic';
 import { formatDate } from '@/utils/formatDate';
-import { useClickAway } from '@/hooks/useClickAway';
 import { useSession } from 'next-auth/react';
+import CommunityDescriptionForm from '../forms/CommunityDescriptionForm/CommunityDescriptionForm';
+import CommunityMembershipButton from '../CommunityMembershipButton/CommunityMembershipButton';
 
 export const CommunityQuery = gql`
 	query ($name: String!) {
@@ -58,14 +59,10 @@ const CommunityAbout = ({
 	cta,
 	editable,
 }: CommunityAboutProps) => {
+	const [description, setDescription] = useState<string | null>(null);
 	const { data: session } = useSession();
 	const params = useParams();
 	const name = params.name as string;
-	const [descriptionInputOpen, setDescriptionInputOpen] =
-		useState<boolean>(false);
-	const description = useClickAway<HTMLDivElement>(() => {
-		setDescriptionInputOpen(false);
-	});
 	const { data, loading, error } = useQuery<
 		CommunityQueryResponse,
 		CommunityQueryValues
@@ -73,23 +70,20 @@ const CommunityAbout = ({
 		variables: {
 			name,
 		},
+		onCompleted(data) {
+			setDescription(data.community.description);
+		},
 	});
 
-	const openDescriptionInput = () => {
-		if (!descriptionInputOpen) {
-			setDescriptionInputOpen(true);
-		}
+	const updateDescription = (description: string | null) => {
+		setDescription(description);
 	};
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 
-	if (error) {
-		return <div>Error</div>;
-	}
-
-	if (!data) {
+	if (error || !data) {
 		return <div>Couldnt load data</div>;
 	}
 
@@ -99,6 +93,13 @@ const CommunityAbout = ({
 	const isMember = data.community.members.some(
 		(member) => member.id === session?.user.id
 	);
+
+	const {
+		name: communityName,
+		createdAt,
+		members,
+		topic: { name: topicName },
+	} = data.community;
 
 	return (
 		<div className="rounded border border-border-post bg-background-primary relative">
@@ -116,54 +117,33 @@ const CommunityAbout = ({
 				{withName && (
 					<div className="flex items-center gap-3 mb-4">
 						<div className="w-10 h-10 bg-black rounded-full"></div>
-						<div>r/{data.community.name}</div>
+						<div>r/{communityName}</div>
 					</div>
 				)}
 				{editable && isModerator ? (
-					<div
-						onClick={openDescriptionInput}
-						className="p-2 border border-border-input mb-2 rounded hover:border-primary cursor-pointer"
-					>
-						{descriptionInputOpen ? (
-							<div ref={description}>
-								<input
-									autoFocus
-									type="text"
-									className="w-full outline-none text-sm mb-2"
-									placeholder="Tell us about your community"
-								/>
-								<div className="flex justify-between text-xs">
-									<div className="text-text-gray">characters remaining</div>
-									<div className="flex items-center gap-2">
-										<div className="font-semibold text-danger">Cancel</div>
-										<div className="font-semibold text-primary">Save</div>
-									</div>
-								</div>
-							</div>
-						) : (
-							<div className="text-primary text-xs font-semibold">
-								{data?.community.description ?? 'Add description'}
-							</div>
-						)}
-					</div>
+					<CommunityDescriptionForm
+						updateDescription={updateDescription}
+						communityName={communityName}
+						initialDescription={description}
+					/>
 				) : (
-					<div className="text-sm mb-2">{data?.community.description}</div>
+					<div className="text-sm mb-2">{description}</div>
 				)}
 				<div className="flex items-center gap-4">
 					<CalendarDaysIcon width={20} />
 					<span className="text-text-gray text-sm">
-						Created {formatDate(new Date(data!.community.createdAt))}
+						Created {formatDate(new Date(createdAt))}
 					</span>
 				</div>
 				<div className="w-full h-px bg-border-input my-4" />
 				<div>
-					<div>{data?.community.members.length}</div>
+					<div>{members.length}</div>
 					<div className="text-xs text-text-gray">Memebers</div>
 				</div>
 				<div className="w-full h-px bg-border-input my-4" />
 				{editable && isModerator && (
 					<>
-						<CommunityTopic initialTopic={data.community.topic.name} />
+						<CommunityTopic initialTopic={topicName} />
 						<div className="w-full h-px bg-border-input my-4" />
 					</>
 				)}
@@ -171,7 +151,7 @@ const CommunityAbout = ({
 					(cta === 'Create Post' ? (
 						<Button text="Create Post" filled href={`/r/${name}/submit`} />
 					) : (
-						<Button text={isMember ? 'Joined' : 'Join'} filled={!isMember} />
+						<CommunityMembershipButton name={name} width="w-full" />
 					))}
 			</div>
 		</div>
