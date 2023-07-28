@@ -5,8 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Button from '../buttons/Button/Button';
+import Button from '../../buttons/Button/Button';
 import { gql, useMutation } from '@apollo/client';
+import Input from '../../inputs/Input/Input';
 
 const changeNameSchema = z.object({
 	name: z.string().min(1),
@@ -56,16 +57,12 @@ const ChangeNameForm = () => {
 			<div className="mb-2 text-lg font-medium">
 				Do you want to keep this username?
 			</div>
-			<div className="relative">
-				<input
-					{...register('name')}
-					type="text"
-					className="border border-primary rounded p-3 pl-6 w-full"
-				/>
-				<span className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-text-gray">
-					u/
-				</span>
-			</div>
+			<Input
+				placeholder=""
+				register={register('name')}
+				border="primary"
+				fontSize="text-sm"
+			/>
 			<div className="py-2 text-xs text-danger">
 				{errors.name && errors.name.message}
 			</div>

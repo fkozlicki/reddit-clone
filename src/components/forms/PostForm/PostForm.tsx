@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
+import Input from '../../inputs/Input/Input';
 
 interface PostFormProps {
 	communityId?: string;
@@ -46,25 +48,30 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		handleSubmit,
 		register,
 		formState: { isValid },
+		reset,
 	} = useForm<CreatePostValues>({
 		resolver: zodResolver(createPostSchema),
 		defaultValues: {
 			communityId,
 		},
 	});
-	const [createPost] = useMutation<CreatePostResponse, CreatePostValues>(
-		createPostMutation,
-		{
-			onCompleted({
-				createPost: {
-					id,
-					community: { name },
-				},
-			}) {
-				push(`/r/${name}/comments/${id}`);
+	const [createPost, { loading }] = useMutation<
+		CreatePostResponse,
+		CreatePostValues
+	>(createPostMutation, {
+		onCompleted({
+			createPost: {
+				id,
+				community: { name },
 			},
-		}
-	);
+		}) {
+			reset();
+			toast('Post created successfuly', {
+				icon: '✅',
+			});
+			push(`/r/${name}/comments/${id}`);
+		},
+	});
 
 	const onSubmit = (values: CreatePostValues) => {
 		createPost({ variables: values });
@@ -75,24 +82,26 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			onSubmit={handleSubmit(onSubmit)}
 			className="bg-background-primary p-3 rounded"
 		>
-			<input
-				{...register('title')}
-				type="text"
-				className="w-full outline-none border border-border-input mb-2 rounded text-sm py-2 px-3 focus:border-black"
+			<Input
 				placeholder="Title"
+				register={register('title')}
+				fontSize="text-sm"
 			/>
-			<textarea
-				{...register('content')}
-				placeholder="Text (optional)"
-				className="w-full resize-y outline-none border border-border-input rounded py-2 px-3 focus:border-black text-sm min-h-[150px] mb-2"
-			></textarea>
+			<div className="w-full h-4" />
+			<Input
+				placeholder="Text"
+				register={register('content')}
+				fontSize="text-sm"
+				textarea
+			/>
+			<div className="w-full h-4" />
 			<div className="flex justify-end">
 				<Button
 					text="Post"
 					type="submit"
 					width="w-auto"
 					filled
-					disabled={!isValid}
+					disabled={!isValid || loading}
 				/>
 			</div>
 		</form>

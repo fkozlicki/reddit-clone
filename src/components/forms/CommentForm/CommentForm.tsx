@@ -1,25 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import { gql, useMutation } from '@apollo/client';
-import { InitialComment } from '../CommentsSection/CommentsSection';
+import { InitialComment } from '../../CommentsSection/CommentsSection';
 
 const commentSchema = z.object({
 	content: z.string().min(1),
 });
 
 type CommentValues = z.infer<typeof commentSchema>;
-
-interface CommentFormProps {
-	postId: string;
-	updateComments: (newComment: InitialComment) => void;
-	replyToId?: string;
-}
 
 export const CreateCommentMutation = gql`
 	mutation ($postId: String!, $content: String!, $replyToId: String) {
@@ -36,6 +30,12 @@ export const CreateCommentMutation = gql`
 		}
 	}
 `;
+
+interface CommentFormProps {
+	postId: string;
+	updateComments: (newComment: InitialComment) => void;
+	replyToId?: string;
+}
 
 const CommentForm = ({
 	postId,
@@ -69,9 +69,11 @@ const CommentForm = ({
 
 	return (
 		<>
-			<div className="mb-1 text-xs">
-				Comment as <span className="text-primary">{session?.user.name}</span>
-			</div>
+			{!replyToId && (
+				<div className="mb-1 text-xs">
+					Comment as <span className="text-primary">{session?.user.name}</span>
+				</div>
+			)}
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className={`border ${

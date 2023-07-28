@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react';
-import PostForm from './PostForm';
+import CreatePostForm from './PostForm';
 import '../../app/globals.css';
 
-const meta: Meta<typeof PostForm> = {
-	title: 'Forms/PostForm',
-	component: PostForm,
+const meta: Meta<typeof CreatePostForm> = {
+	title: 'Forms/CreatePostForm',
+	component: CreatePostForm,
 	tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof PostForm>;
+type Story = StoryObj<typeof CreatePostForm>;
 
 export const Default: Story = {
 	args: {

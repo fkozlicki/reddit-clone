@@ -2,13 +2,14 @@
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import Input from '../../inputs/Input/Input';
 
 interface CreateCommunityFormProps {
 	closeModal: () => void;
@@ -35,7 +36,12 @@ type CreateCommunityResponse = {
 
 const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 	const { push } = useRouter();
-	const { handleSubmit, register, reset } = useForm<CreateCommunityValues>({
+	const {
+		handleSubmit,
+		register,
+		reset,
+		formState: { isValid },
+	} = useForm<CreateCommunityValues>({
 		resolver: zodResolver(createCommunitySchema),
 	});
 	const [createCommunity, { loading }] = useMutation<
@@ -70,15 +76,8 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 					<XMarkIcon width={20} />
 				</button>
 			</div>
-			<div className="flex flex-col gap-4 mb-8">
-				<label htmlFor="communityName">Name</label>
-				<input
-					{...register('name')}
-					type="text"
-					id="communityName"
-					className="p-2 border border-border-input rounded"
-				/>
-			</div>
+			<div className="mb-4">Name</div>
+			<Input placeholder="/r" register={register('name')} fontSize="text-sm" />
 			<div className="flex items-center justify-end p-4 gap-2">
 				<Button
 					text="Cancel"
@@ -87,10 +86,12 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 					type="button"
 				/>
 				<Button
-					text={loading ? 'Loading...' : 'Create Community'}
+					text="Create Community"
 					filled
 					width="w-auto"
 					type="submit"
+					disabled={!isValid || loading}
+					loading={loading}
 				/>
 			</div>
 		</form>

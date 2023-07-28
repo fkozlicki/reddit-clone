@@ -1,9 +1,9 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React from 'react';
-import Button from '../buttons/Button/Button';
-import AuthButton from '../buttons/AuthButton/AuthButton';
-import googleImage from '../../../public/google.svg';
-import AnimatedInput from '../AnimatedInput/AnimatedInput';
+import Button from '../../buttons/Button/Button';
+import AuthButton from '../../buttons/AuthButton/AuthButton';
+import googleImage from '../../../../public/google.svg';
+import AnimatedInput from '../../inputs/AnimatedInput/AnimatedInput';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
