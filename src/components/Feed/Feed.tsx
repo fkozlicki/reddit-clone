@@ -1,7 +1,7 @@
 'use client';
 
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { gql, useQuery } from '@apollo/client';
+import { DocumentNode, gql, useQuery } from '@apollo/client';
 import {
 	Comment,
 	Community,
@@ -25,35 +25,16 @@ type PostsQueryValues = {
 	limit: number;
 };
 
-const POSTS_QUERY = gql`
-	query ($offset: Int, $limit: Int) {
-		posts(offset: $offset, limit: $limit) {
-			id
-			title
-			content
-			createdAt
-			comments {
-				id
-			}
-			votes {
-				value
-			}
-			author {
-				name
-			}
-			community {
-				name
-			}
-		}
-	}
-`;
+interface FeedProps {
+	query: DocumentNode;
+}
 
-const Feed = () => {
+const Feed = ({ query }: FeedProps) => {
 	const [hasMoreData, setHasMoreData] = useState<boolean>(true);
 	const { data, fetchMore, loading } = useQuery<
 		PostsQueryResponse,
 		PostsQueryValues
-	>(POSTS_QUERY, {
+	>(query, {
 		fetchPolicy: 'network-only',
 		notifyOnNetworkStatusChange: true,
 		onError(error) {
