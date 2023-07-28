@@ -6,6 +6,8 @@ interface ButtonProps {
 	text: string;
 	href?: string;
 	onClick?: () => void;
+	onMouseEnter?: () => void;
+	onMouseLeave?: () => void;
 	width?: string;
 	filled?: boolean;
 	color?: 'orange' | 'white';
@@ -28,6 +30,8 @@ const Button = ({
 	disabled,
 	fontSize,
 	loading,
+	onMouseEnter,
+	onMouseLeave,
 }: ButtonProps) => {
 	const colorStyles = {
 		orange: filled
@@ -45,12 +49,12 @@ const Button = ({
 	return href ? (
 		<Link
 			href={href}
-			className={`${
-				width ? width : 'w-full'
-			} flex items-center justify-center ${
-				height ? height : 'min-h-[32px]'
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+			className={`${width ?? 'w-full'} flex items-center justify-center ${
+				height ?? 'min-h-[32px]'
 			} ${border} ${background} px-4 py-1 rounded-full ${
-				fontSize ? fontSize : 'text-sm'
+				fontSize ?? 'text-sm'
 			} font-bold min-h-8 whitespace-nowrap`}
 		>
 			{text}
@@ -60,11 +64,13 @@ const Button = ({
 			disabled={disabled}
 			type={type}
 			onClick={onClick}
-			className={`${width ? width : 'w-full'} ${
-				height ? height : 'min-h-[32px]'
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+			className={`${width ?? 'w-full'} ${
+				height ?? 'min-h-[32px]'
 			} ${border} ${background} ${
-				fontSize ? fontSize : 'text-sm'
-			} px-4 py-1 rounded-full text-sm font-bold min-h-8 whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed`}
+				fontSize ?? 'text-sm'
+			} px-4 py-1 rounded-full text-sm font-bold min-h-8 whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed flex justify-center items-center`}
 		>
 			{loading ? <Spinner /> : text}
 		</button>
