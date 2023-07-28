@@ -12,6 +12,7 @@ import IconButton from '../buttons/IconButton/IconButton';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import VoteSection from '../VoteSection/VoteSection';
+import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 
 interface PostProps {
 	id: string;
@@ -54,12 +55,22 @@ const Post = ({
 			<div className="bg-background-primary flex-1">
 				<div className="flex items-center p-2">
 					<div className="w-5 h-5 rounded-full bg-primary"></div>
-					<span className="text-xs font-semibold ml-1">r/{communityName}</span>
+					<Link
+						href={`/r/${communityName}`}
+						className="text-xs font-semibold ml-1 hover:underline"
+					>
+						r/{communityName}
+					</Link>
 					<span className="mx-1 text-[6px]">•</span>
 					<span className="text-xs">Posted by</span>
-					<span className="text-xs ml-1">u/{authorName}</span>
+					<Link
+						href={`/u/${authorName}`}
+						className="text-xs ml-1 hover:underline"
+					>
+						u/{authorName}
+					</Link>
 					<span className="text-xs ml-1">
-						{/* {calculateEllapsedTime(createdAt.toISOString())} */}
+						{calculateEllapsedTime(new Date(createdAt))}
 					</span>
 				</div>
 				<Link href={`/r/${communityName}/comments/${id}`}>
