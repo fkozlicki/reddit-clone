@@ -8,7 +8,7 @@ builder.prismaObject('Post', {
 		createdAt: t.expose('createdAt', {
 			type: 'Date',
 		}),
-		votes: t.relation('votes', {}),
+		votes: t.relation('votes'),
 		author: t.relation('author'),
 		comments: t.relation('comments'),
 		community: t.relation('community'),
@@ -48,6 +48,11 @@ builder.mutationField('createPost', (t) =>
 const CommunityWhere = builder.prismaWhere('Community', {
 	fields: {
 		name: 'String',
+		topic: builder.prismaWhere('Topic', {
+			fields: {
+				name: 'String',
+			},
+		}),
 	},
 });
 
@@ -60,7 +65,6 @@ const PostFilter = builder.prismaWhere('Post', {
 const PostSort = builder.prismaOrderBy('Post', {
 	fields: {
 		createdAt: true,
-		title: true,
 	},
 });
 
@@ -85,8 +89,6 @@ builder.queryField('posts', (t) =>
 		},
 		resolve: async (query, _parent, args, ctx) => {
 			const { offset, limit, filter, sort } = args;
-
-			console.log('SORT', sort);
 
 			const posts = await ctx.prisma.post.findMany({
 				...query,
