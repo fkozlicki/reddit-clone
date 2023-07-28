@@ -1,3 +1,4 @@
+import Spinner from '@/components/Spinner/Spinner';
 import Link from 'next/link';
 import React, { ButtonHTMLAttributes } from 'react';
 
@@ -12,6 +13,7 @@ interface ButtonProps {
 	type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 	disabled?: boolean;
 	fontSize?: string;
+	loading?: boolean;
 }
 
 const Button = ({
@@ -25,6 +27,7 @@ const Button = ({
 	href,
 	disabled,
 	fontSize,
+	loading,
 }: ButtonProps) => {
 	const colorStyles = {
 		orange: filled
@@ -63,7 +66,7 @@ const Button = ({
 				fontSize ? fontSize : 'text-sm'
 			} px-4 py-1 rounded-full text-sm font-bold min-h-8 whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed`}
 		>
-			{text}
+			{loading ? <Spinner /> : text}
 		</button>
 	);
 };
