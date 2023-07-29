@@ -39,7 +39,7 @@ const AddTopicMutation = gql`
 `;
 
 interface CommunityTopicProps {
-	initialTopic: string;
+	initialTopic?: string;
 }
 
 const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
@@ -49,7 +49,7 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 	const topicsDropdown = useClickAway<HTMLDivElement>(() => {
 		setTopicsDropdownOpen(false);
 	});
-	const [topic, setTopic] = useState(initialTopic);
+	const [topic, setTopic] = useState<string | undefined>(initialTopic);
 	const [changeTopic, { loading }] = useMutation<
 		AddTopicRespnse,
 		AddTopicValues

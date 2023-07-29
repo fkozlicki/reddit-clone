@@ -64,7 +64,7 @@ const Post = ({
 					<span className="mx-1 text-[6px]">•</span>
 					<span className="text-xs">Posted by</span>
 					<Link
-						href={`/u/${authorName}`}
+						href={`/user/${authorName}`}
 						className="text-xs ml-1 hover:underline"
 					>
 						u/{authorName}
