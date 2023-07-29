@@ -4,6 +4,7 @@ import type { NextAuthOptions } from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '../../../../lib/prisma';
+import { generateName } from '@/utils/randomNameGenerator';
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -24,6 +25,10 @@ export const authOptions: NextAuthOptions = {
 			}
 
 			return session;
+		},
+		signIn({ user }) {
+			user.name = generateName();
+			return true;
 		},
 	},
 };
