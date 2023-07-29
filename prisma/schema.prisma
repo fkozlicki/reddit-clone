@@ -44,8 +44,10 @@ model Session {
 model User {
   id                   String        @id @default(cuid())
   email                String        @unique
-  name                 String?       @unique
+  createdAt            DateTime      @default(now())
+  name                 String        @unique
   displayName          String?
+  about                String?
   emailVerified        DateTime?
   image                String?
   accounts             Account[]
@@ -73,18 +75,18 @@ model Post {
   createdAt   DateTime  @default(now())
   votes       Vote[]
   comments    Comment[]
-  community   Community @relation(fields: [communityId], references: [id])
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
-  author      User      @relation(fields: [authorId], references: [id])
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String
 }
 
 model Vote {
   id     String @id @default(cuid())
   value  Int
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 }
 
@@ -92,22 +94,22 @@ model Comment {
   id        String        @id @default(cuid())
   content   String
   createdAt DateTime      @default(now())
-  post      Post          @relation(fields: [postId], references: [id])
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
-  author    User          @relation(fields: [authorId], references: [id])
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
   votes     CommentVote[]
   replies   Comment[]     @relation("ReplyTo")
-  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id])
+  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   replyToId String?
 }
 
 model CommentVote {
   id        String  @id @default(cuid())
   value     Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   Comment @relation(fields: [commentId], references: [id])
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 }
 
@@ -119,7 +121,7 @@ model Community {
   moderators  User[]   @relation("moderators")
   posts       Post[]
   description String?
-  topic       Topic?   @relation(fields: [topicId], references: [id])
+  topic       Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
   topicId     String?
 }
 
