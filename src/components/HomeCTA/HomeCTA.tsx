@@ -6,16 +6,25 @@ import ctaImage from '../../../public/home-cta.png';
 import alienImage from '../../../public/alien.png';
 import Button from '../buttons/Button/Button';
 import CreateCommunityForm from '../forms/CommunityForm/CommunityForm';
+import { useSession } from 'next-auth/react';
+import { useModalsContext } from '@/contexts/ModalsContext';
 
 const HomeCTA = () => {
+	const { data: session } = useSession();
+	const [, dispatch] = useModalsContext();
 	const [createCommunityModalOpen, setCreateCommunityModalOpen] =
 		useState(false);
 
 	const openCreateCommunityModal = () => {
 		setCreateCommunityModalOpen(true);
 	};
+
 	const closeCreateCommunityModal = () => {
 		setCreateCommunityModalOpen(false);
+	};
+
+	const openSignIn = () => {
+		dispatch({ type: 'openSignIn' });
 	};
 
 	return (
@@ -32,9 +41,17 @@ const HomeCTA = () => {
 						favorite communities.
 					</p>
 					<div className="w-full h-px my-4 bg-border-input" />
-					<Button text="Create Post" filled href="/submit" />
+					<Button
+						text="Create Post"
+						filled
+						href={session ? '/submit' : undefined}
+						onClick={!session ? openSignIn : undefined}
+					/>
 					<div className="w-full h-3" />
-					<Button text="Create Community" onClick={openCreateCommunityModal} />
+					<Button
+						text="Create Community"
+						onClick={session ? openCreateCommunityModal : openSignIn}
+					/>
 				</div>
 			</div>
 			{createCommunityModalOpen && (

@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { ReactNode } from 'react';
-import ChangeNameForm from '@/components/forms/ChangeNameForm/ChangeNameForm';
+import ModalsProvider from '@/contexts/ModalsContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,19 +26,22 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<Providers>
-				<body className={inter.className}>
-					{session && !session.user.name && <ChangeNameForm />}
-					<Toaster position="top-center" />
-					<Navbar />
-					<main className="flex">
-						{!session && (
-							<div className="hidden xl:block">
-								<Sidebar />
-							</div>
-						)}
-						{children}
-					</main>
-				</body>
+				<ModalsProvider>
+					<body className={inter.className}>
+						<Toaster position="top-center" />
+						<div className="fixed w-full top-0 z-20">
+							<Navbar />
+						</div>
+						<main className={`flex pt-12 ${!session && 'pl-[270px]'}`}>
+							{!session && (
+								<div className="hidden xl:block fixed top-12 left-0">
+									<Sidebar />
+								</div>
+							)}
+							{children}
+						</main>
+					</body>
+				</ModalsProvider>
 			</Providers>
 		</html>
 	);

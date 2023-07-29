@@ -1,9 +1,11 @@
+import { useModalsContext } from '@/contexts/ModalsContext';
 import { gql, useMutation } from '@apollo/client';
 import {
 	ArrowDownCircleIcon,
 	ArrowUpCircleIcon,
 } from '@heroicons/react/24/outline';
 import { CommentVote, Vote } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -56,6 +58,8 @@ const commentVoteMutation = gql`
 `;
 
 const VoteSection = (props: VoteSectionProps) => {
+	const { data: session } = useSession();
+	const [, dispatch] = useModalsContext();
 	const { direction, initialKarma, type, initialVote } = props;
 	const [userVote, setUserVote] = useState<Vote | CommentVote | undefined>(
 		initialVote
@@ -73,6 +77,10 @@ const VoteSection = (props: VoteSectionProps) => {
 	useEffect(() => {
 		setUserVote(initialVote);
 	}, [initialVote]);
+
+	const openSignIn = () => {
+		dispatch({ type: 'openSignIn' });
+	};
 
 	const handleVote = async (value: 1 | -1) => {
 		const variables =
@@ -105,7 +113,7 @@ const VoteSection = (props: VoteSectionProps) => {
 			}`}
 		>
 			<button
-				onClick={() => handleVote(1)}
+				onClick={session ? () => handleVote(1) : openSignIn}
 				className="rounded-sm hover:bg-button-hover group p-px"
 			>
 				<ArrowUpCircleIcon
@@ -116,7 +124,7 @@ const VoteSection = (props: VoteSectionProps) => {
 			</button>
 			<div className="text-[12px] font-semibold">{karma}</div>
 			<button
-				onClick={() => handleVote(-1)}
+				onClick={session ? () => handleVote(-1) : openSignIn}
 				className="rounded-sm hover:bg-button-hover group p-px"
 			>
 				<ArrowDownCircleIcon

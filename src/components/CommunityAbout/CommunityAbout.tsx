@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import Button from '../buttons/Button/Button';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
-import { Community } from '@prisma/client';
+import { Community, Topic } from '@prisma/client';
 import CommunityTopic from '../CommunityTopic/CommunityTopic';
 import { formatDate } from '@/utils/formatDate';
 import { useSession } from 'next-auth/react';
 import CommunityDescriptionForm from '../forms/CommunityDescriptionForm/CommunityDescriptionForm';
 import CommunityMembershipButton from '../CommunityMembershipButton/CommunityMembershipButton';
+import { useModalsContext } from '@/contexts/ModalsContext';
 
 export const CommunityQuery = gql`
 	query ($name: String!) {
@@ -36,10 +37,7 @@ type CommunityQueryResponse = {
 	community: Community & {
 		moderators: { id: string }[];
 		members: { id: string }[];
-		topic: {
-			id: string;
-			name: string;
-		};
+		topic: Topic | null;
 	};
 };
 type CommunityQueryValues = {
@@ -61,6 +59,7 @@ const CommunityAbout = ({
 }: CommunityAboutProps) => {
 	const [description, setDescription] = useState<string | null>(null);
 	const { data: session } = useSession();
+	const [, dispatch] = useModalsContext();
 	const params = useParams();
 	const name = params.name as string;
 	const { data, loading, error } = useQuery<
@@ -79,6 +78,10 @@ const CommunityAbout = ({
 		setDescription(description);
 	};
 
+	const openSignIn = () => {
+		dispatch({ type: 'openSignIn' });
+	};
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -90,16 +93,8 @@ const CommunityAbout = ({
 	const isModerator = data.community.moderators.some(
 		(mod) => mod.id === session?.user.id
 	);
-	const isMember = data.community.members.some(
-		(member) => member.id === session?.user.id
-	);
 
-	const {
-		name: communityName,
-		createdAt,
-		members,
-		topic: { name: topicName },
-	} = data.community;
+	const { name: communityName, createdAt, members, topic } = data.community;
 
 	return (
 		<div className="rounded border border-border-post bg-background-primary relative">
@@ -143,13 +138,18 @@ const CommunityAbout = ({
 				<div className="w-full h-px bg-border-input my-4" />
 				{editable && isModerator && (
 					<>
-						<CommunityTopic initialTopic={topicName} />
+						<CommunityTopic initialTopic={topic?.name} />
 						<div className="w-full h-px bg-border-input my-4" />
 					</>
 				)}
 				{cta &&
 					(cta === 'Create Post' ? (
-						<Button text="Create Post" filled href={`/r/${name}/submit`} />
+						<Button
+							text="Create Post"
+							filled
+							href={session ? `/r/${name}/submit` : undefined}
+							onClick={!session ? openSignIn : undefined}
+						/>
 					) : (
 						<CommunityMembershipButton name={name} width="w-full" />
 					))}

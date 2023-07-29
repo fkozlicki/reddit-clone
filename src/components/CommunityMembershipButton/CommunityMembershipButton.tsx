@@ -5,6 +5,7 @@ import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import Button from '../buttons/Button/Button';
+import { useModalsContext } from '@/contexts/ModalsContext';
 
 const JOIN_COMMUNITY_MUTATION = gql`
 	mutation ($name: String!) {
@@ -57,6 +58,7 @@ const CommunityMembershipButton = ({
 	name,
 	width,
 }: CommunityMembershipButtonProps) => {
+	const [, dispatch] = useModalsContext();
 	const [isMember, setIsMember] = useState<boolean>(false);
 	const { data: session } = useSession();
 	const { data } = useQuery<CommunityQueryResponse, CommunityQueryVariables>(
@@ -92,6 +94,10 @@ const CommunityMembershipButton = ({
 		},
 	});
 
+	const openSignIn = () => {
+		dispatch({ type: 'openSignIn' });
+	};
+
 	if (!data) {
 		return null;
 	}
@@ -102,7 +108,7 @@ const CommunityMembershipButton = ({
 			onMouseLeave={() => setText('Joined')}
 			text={text}
 			width={width ?? 'w-24'}
-			onClick={() => leaveCommunity()}
+			onClick={session ? () => leaveCommunity() : openSignIn}
 			loading={leaveLoading}
 			disabled={leaveLoading}
 		/>
@@ -113,7 +119,7 @@ const CommunityMembershipButton = ({
 			width={width ?? 'w-24'}
 			loading={joinLoading}
 			disabled={joinLoading}
-			onClick={() => joinCommunity()}
+			onClick={session ? () => joinCommunity() : openSignIn}
 		/>
 	);
 };

@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import { InitialComment } from '../CommentsSection/CommentsSection';
 import CommentForm from '../forms/CommentForm/CommentForm';
 import { useParams } from 'next/navigation';
+import { useModalsContext } from '@/contexts/ModalsContext';
 
 interface CommentProps {
 	id: string;
@@ -28,6 +29,7 @@ const Comment = ({
 	votes,
 	initialReplies,
 }: CommentProps) => {
+	const [, dispatch] = useModalsContext();
 	const params = useParams();
 	const { data: session } = useSession();
 	const [replies, setReplies] = useState(initialReplies || []);
@@ -42,6 +44,10 @@ const Comment = ({
 
 	const toggleReplyFormOpen = () => {
 		setReplyFormOpen((prev) => !prev);
+	};
+
+	const openSignIn = () => {
+		dispatch({ type: 'openSignIn' });
 	};
 
 	return (
@@ -74,7 +80,7 @@ const Comment = ({
 							icon={<ChatBubbleLeftIcon width={18} />}
 							color="text-text-gray"
 							fontSize="text-xs"
-							onClick={toggleReplyFormOpen}
+							onClick={session ? toggleReplyFormOpen : openSignIn}
 						/>
 					</div>
 				</div>
