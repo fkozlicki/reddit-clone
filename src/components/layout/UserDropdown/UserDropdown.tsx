@@ -10,13 +10,13 @@ import {
 	RocketLaunchIcon,
 	UserIcon,
 } from '@heroicons/react/24/outline';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useClickAway } from '@/hooks/useClickAway';
 import { gql, useQuery } from '@apollo/client';
 import { Topic } from '@prisma/client';
 
 interface UserDropdownProps {
-	userName?: string | null;
+	userName: string;
 }
 
 const TOPICS_QUERY = gql`
@@ -49,14 +49,18 @@ const UserDropdown = ({ userName }: UserDropdownProps) => {
 		<div ref={dropdown} className="relative w-max">
 			<button
 				onClick={toggleDropdown}
-				className={`px-2 py-1 flex items-center border border-transparent hover:border-border-input rounded w-[175px] justify-between ${
-					open ? 'border-border-input border-b-0 rounded-b-none' : ''
+				className={`px-2 py-1 flex items-center border hover:border-border-input rounded w-[175px] justify-between ${
+					open
+						? 'border-border-input border-b-0 rounded-b-none'
+						: 'border-transparent'
 				}`}
 			>
 				<div className="flex items-center gap-2">
 					<div className="w-6 h-6 bg-black rounded-full"></div>
-					<div>
-						<div className="text-xs font-semibold">{userName}</div>
+					<div className="flex flex-col items-start">
+						<div className="text-xs font-semibold max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+							{userName}
+						</div>
 						<div className="text-xs text-text-gray text-start">1 karma</div>
 					</div>
 				</div>
@@ -66,7 +70,7 @@ const UserDropdown = ({ userName }: UserDropdownProps) => {
 				<div className="absolute top-full right-0 w-[250px] bg-background-primary border border-border-input border-t-0 rounded-b rounded-tl z-10 overflow-hidden">
 					<div className="flex flex-col">
 						<LinkButton
-							href={`/u/${userName}`}
+							href={`/user/${userName}`}
 							icon={<UserIcon width={20} />}
 							text="Profile"
 						/>

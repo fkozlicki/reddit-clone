@@ -7,6 +7,7 @@ interface InputProps {
 	textarea?: boolean;
 	fontSize?: string;
 	border?: 'gray' | 'primary';
+	maxLength?: number;
 }
 
 const Input = ({
@@ -14,6 +15,7 @@ const Input = ({
 	register,
 	placeholder,
 	fontSize,
+	maxLength,
 	border = 'gray',
 }: InputProps) => {
 	const _border =
@@ -28,6 +30,7 @@ const Input = ({
 			className={`w-full resize-y outline-none border ${_border} rounded py-2 px-3 min-h-[150px] ${
 				fontSize ?? ''
 			}`}
+			maxLength={maxLength}
 		></textarea>
 	) : (
 		<input
@@ -37,6 +40,7 @@ const Input = ({
 				fontSize ?? ''
 			}`}
 			placeholder={placeholder}
+			maxLength={maxLength}
 		/>
 	);
 };

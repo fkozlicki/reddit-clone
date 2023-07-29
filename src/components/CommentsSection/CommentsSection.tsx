@@ -4,6 +4,7 @@ import { CommentVote, Comment as PrismaComment, User } from '@prisma/client';
 import React, { useState } from 'react';
 import Comment from '../Comment/Comment';
 import CommentForm from '../forms/CommentForm/CommentForm';
+import { useSession } from 'next-auth/react';
 
 export type InitialComment = PrismaComment & {
 	author: User;
@@ -18,6 +19,7 @@ interface CommentsSectionProps {
 
 const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 	const [comments, setComments] = useState<InitialComment[]>(initialComments);
+	const { data: session } = useSession();
 
 	const updateComments = (newComment: InitialComment) => {
 		setComments((prev) => [newComment, ...prev]);
@@ -25,10 +27,14 @@ const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 
 	return (
 		<div className="bg-background-primary py-5 px-4 flex-1">
-			<div className="mx-8">
-				<CommentForm postId={postId} updateComments={updateComments} />
-			</div>
-			<div className="w-full h-5" />
+			{session && (
+				<>
+					<div className="mx-8">
+						<CommentForm postId={postId} updateComments={updateComments} />
+					</div>
+					<div className="w-full h-5" />
+				</>
+			)}
 			{comments.map((comment) => (
 				<Comment
 					id={comment.id}

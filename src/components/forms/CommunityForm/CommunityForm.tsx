@@ -1,7 +1,7 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,7 +24,13 @@ export const CreateCommunityMutation = gql`
 `;
 
 const createCommunitySchema = z.object({
-	name: z.string().min(1).max(21),
+	name: z
+		.string()
+		.min(3, {
+			message: 'Name must be minimum 3 characters long',
+		})
+		.max(21, { message: 'Name must be maximum 21 characters long' })
+		.regex(/^[a-zA-Z0-9_-]+$/, { message: 'Invalid name' }),
 });
 
 type CreateCommunityValues = z.infer<typeof createCommunitySchema>;
@@ -40,9 +46,15 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 		handleSubmit,
 		register,
 		reset,
-		formState: { isValid },
+		formState: { errors },
+		watch,
 	} = useForm<CreateCommunityValues>({
 		resolver: zodResolver(createCommunitySchema),
+		defaultValues: {
+			name: '',
+		},
+		reValidateMode: 'onChange',
+		mode: 'onSubmit',
 	});
 	const [createCommunity, { loading }] = useMutation<
 		CreateCommunityResponse,
@@ -58,6 +70,7 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 		},
 		onError: (err) => console.error(err),
 	});
+	const [remainingCharacters, setRemainingCharacters] = useState<number>(21);
 
 	const onSubmit = (values: CreateCommunityValues) => {
 		createCommunity({
@@ -76,8 +89,29 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 					<XMarkIcon width={20} />
 				</button>
 			</div>
-			<div className="mb-4">Name</div>
-			<Input placeholder="/r" register={register('name')} fontSize="text-sm" />
+			<div className="mb-4 font-medium">Name</div>
+			<Input
+				placeholder="/r"
+				register={register('name', {
+					onChange() {
+						setRemainingCharacters(21 - watch('name').length);
+					},
+				})}
+				fontSize="text-sm"
+				maxLength={21}
+			/>
+			<div className="h-2" />
+			<div
+				className={`text-xs ${
+					remainingCharacters === 0 ? 'text-danger' : 'text-text-gray'
+				}`}
+			>
+				{remainingCharacters} remaining characters
+			</div>
+			<div className="h-1" />
+			{errors.name && (
+				<div className="text-xs text-danger">{errors.name.message}</div>
+			)}
 			<div className="flex items-center justify-end p-4 gap-2">
 				<Button
 					text="Cancel"
@@ -90,7 +124,7 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 					filled
 					width="w-auto"
 					type="submit"
-					disabled={!isValid || loading}
+					disabled={loading}
 					loading={loading}
 				/>
 			</div>

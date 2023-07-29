@@ -48,11 +48,13 @@ const CommentForm = ({
 		register,
 		handleSubmit,
 		formState: { isValid },
+		reset,
 	} = useForm<CommentValues>({
 		resolver: zodResolver(commentSchema),
 	});
-	const [createComment] = useMutation(CreateCommentMutation, {
+	const [createComment, { loading }] = useMutation(CreateCommentMutation, {
 		onCompleted({ createComment }) {
+			reset();
 			updateComments(createComment);
 		},
 	});
@@ -94,7 +96,8 @@ const CommentForm = ({
 						width="w-auto"
 						filled
 						height="h-6"
-						disabled={!isValid}
+						disabled={!isValid || loading}
+						loading={loading}
 					/>
 				</div>
 			</form>
