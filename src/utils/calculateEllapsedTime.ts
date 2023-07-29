@@ -8,16 +8,16 @@ export const calculateEllapsedTime = (date: Date): string => {
 	const days = Math.floor(ellapsed / (60 * 60 * 1000 * 24));
 
 	if (days > 0) {
-		return days + ' days ago';
+		return days + ` day${days > 1 ? 's' : ''} ago`;
 	}
 
 	if (hours > 0) {
-		return hours + ' hours ago';
+		return hours + ` hour${hours > 1 ? 's' : ''} ago`;
 	}
 
 	if (minutes > 0) {
-		return minutes + ' minutes ago';
+		return minutes + ` minute${minutes > 1 ? 's' : ''} ago`;
 	}
 
-	return seconds + ' seconds ago';
+	return seconds + ` second${seconds > 1 ? 's' : ''} ago`;
 };
