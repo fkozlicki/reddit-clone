@@ -12,6 +12,10 @@ builder.prismaObject('User', {
 			type: 'String',
 			nullable: true,
 		}),
+		about: t.expose('about', {
+			type: 'String',
+			nullable: true,
+		}),
 		image: t.expose('image', {
 			type: 'String',
 			nullable: true,
@@ -53,11 +57,14 @@ builder.mutationField('updateUser', (t) =>
 		args: {
 			name: t.arg.string(),
 			displayName: t.arg.string(),
+			about: t.arg.string(),
 		},
 		resolve: async (query, _parent, args, ctx) => {
 			if (!ctx.session) {
 				throw new Error('You have to be logged in');
 			}
+
+			const { displayName, about } = args;
 
 			const user = await ctx.prisma.user.update({
 				...query,
@@ -65,8 +72,9 @@ builder.mutationField('updateUser', (t) =>
 					id: ctx.session.user.id,
 				},
 				data: {
-					name: args.name,
-					displayName: args.displayName,
+					name: args.name ?? undefined,
+					displayName,
+					about,
 				},
 			});
 
