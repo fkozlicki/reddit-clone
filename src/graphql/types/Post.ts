@@ -59,6 +59,11 @@ const CommunityWhere = builder.prismaWhere('Community', {
 const PostFilter = builder.prismaWhere('Post', {
 	fields: {
 		community: CommunityWhere,
+		author: builder.prismaWhere('User', {
+			fields: {
+				name: 'String',
+			},
+		}),
 	},
 });
 
