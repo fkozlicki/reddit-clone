@@ -5,9 +5,10 @@ import Grid from '@/components/Grid/Grid';
 import PostRules from '@/components/PostRules/PostRules';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { prisma } from '@/lib/prisma';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
-	const community = await prisma?.community.findUnique({
+	const community = await prisma.community.findUnique({
 		where: {
 			name,
 		},

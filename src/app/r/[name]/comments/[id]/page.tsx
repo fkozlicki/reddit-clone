@@ -1,13 +1,12 @@
-import Comment from '@/components/Comment/Comment';
-import CommentForm from '@/components/forms/CommentForm/CommentForm';
 import CommentsSection from '@/components/CommentsSection/CommentsSection';
 import CommunityAbout from '@/components/CommunityAbout/CommunityAbout';
 import Post from '@/components/Post/Post';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { prisma } from '@/lib/prisma';
 
 const getPost = async (id: string) => {
-	const post = await prisma?.post.findUnique({
+	const post = await prisma.post.findUnique({
 		where: {
 			id,
 		},

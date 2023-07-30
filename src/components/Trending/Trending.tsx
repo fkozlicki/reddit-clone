@@ -1,6 +1,7 @@
 import { Community } from '@prisma/client';
 import Link from 'next/link';
 import React from 'react';
+import { prisma } from '@/lib/prisma';
 
 interface PostProps {
 	id: string;
@@ -28,7 +29,7 @@ const Post = ({ id, title, content, community }: PostProps) => {
 };
 
 const Trending = async () => {
-	const posts = await prisma?.post.findMany({
+	const posts = await prisma.post.findMany({
 		orderBy: {
 			comments: {
 				_count: 'desc',

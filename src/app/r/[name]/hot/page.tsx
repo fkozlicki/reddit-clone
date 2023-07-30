@@ -2,6 +2,7 @@ import CommunityScreen from '@/components/CommunityScreen/CommunityScreen';
 import { gql } from '@apollo/client';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { prisma } from '@/lib/prisma';
 
 const COMMUNITY_HOT_POSTS_QUERY = (communityName: string) => gql`
 	query ($offset: Int, $limit: Int) {
@@ -32,7 +33,7 @@ const COMMUNITY_HOT_POSTS_QUERY = (communityName: string) => gql`
 `;
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
-	const community = await prisma?.community.findUnique({
+	const community = await prisma.community.findUnique({
 		where: {
 			name,
 		},

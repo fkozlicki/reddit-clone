@@ -1,10 +1,10 @@
 import Feed from '@/components/Feed/Feed';
-import FeedFilter from '@/components/FeedFilter/FeedFilter';
 import Grid from '@/components/Grid/Grid';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { gql } from '@apollo/client';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { prisma } from '@/lib/prisma';
 
 const USER_POSTS = (name: string) => gql`
 	query($offset: Int, $limit: Int) {
@@ -31,7 +31,7 @@ const USER_POSTS = (name: string) => gql`
 `;
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
-	const user = await prisma?.user.findUnique({
+	const user = await prisma.user.findUnique({
 		where: {
 			name,
 		},

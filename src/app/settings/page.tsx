@@ -3,6 +3,7 @@ import React from 'react';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { notFound, redirect } from 'next/navigation';
 import UserSettings from '@/components/UserSettings/UserSettings';
+import { prisma } from '@/lib/prisma';
 
 const page = async () => {
 	const session = await getServerSession(authOptions);
@@ -11,7 +12,7 @@ const page = async () => {
 		redirect('/');
 	}
 
-	const user = await prisma?.user.findUnique({
+	const user = await prisma.user.findUnique({
 		where: {
 			id: session.user.id,
 		},
