@@ -24,13 +24,7 @@ export const builder = new SchemaBuilder<{
 	},
 });
 
-builder.queryType({
-	fields: (t) => ({
-		ok: t.boolean({
-			resolve: () => true,
-		}),
-	}),
-});
+builder.queryType({});
 
 builder.mutationType({});
 
