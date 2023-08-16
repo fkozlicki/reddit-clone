@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,6 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import { gql, useMutation } from '@apollo/client';
 import { InitialComment } from '../../CommentsSection/CommentsSection';
+import Spinner from '@/components/Spinner/Spinner';
+import { useModalsContext } from '@/contexts/ModalsContext';
 
 const commentSchema = z.object({
 	content: z.string().min(1),
@@ -57,7 +59,11 @@ const CommentForm = ({
 			reset();
 			updateComments(createComment);
 		},
+		onError(error) {
+			console.error(error);
+		},
 	});
+	const [, dispatch] = useModalsContext();
 
 	const onSubmit = (values: CommentValues) => {
 		createComment({
@@ -69,11 +75,16 @@ const CommentForm = ({
 		});
 	};
 
+	const openSignIn = (event: FormEvent) => {
+		event.preventDefault();
+		dispatch({ type: 'openSignIn' });
+	};
+
 	return (
 		<>
-			{!replyToId && (
+			{session && !replyToId && (
 				<div className="mb-1 text-xs">
-					Comment as <span className="text-primary">{session?.user.name}</span>
+					Comment as <span className="text-primary">{session.user.name}</span>
 				</div>
 			)}
 			<form
@@ -91,14 +102,13 @@ const CommentForm = ({
 				></textarea>
 				<div className="bg-background-post-side flex justify-end p-1">
 					<Button
-						text="Comment"
-						fontSize="text-xs"
-						width="w-auto"
 						filled
-						height="h-6"
 						disabled={!isValid || loading}
-						loading={loading}
-					/>
+						classNames="text-xs w-auto h-6"
+						onClick={!session ? openSignIn : undefined}
+					>
+						{loading ? <Spinner /> : 'Comment'}
+					</Button>
 				</div>
 			</form>
 		</>
