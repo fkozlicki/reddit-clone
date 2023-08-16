@@ -96,7 +96,11 @@ const Feed = ({ query }: FeedProps) => {
 				)}
 			<div ref={ref}>
 				{loading && <p>Loading...</p>}
-				{!hasMoreData && <p className="text-center mb-4">No more posts</p>}
+				{!hasMoreData && (
+					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
+						No more posts
+					</div>
+				)}
 			</div>
 		</div>
 	);
