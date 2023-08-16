@@ -2,8 +2,8 @@ import { getServerSession } from 'next-auth';
 import React from 'react';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { notFound, redirect } from 'next/navigation';
-import UserSettings from '@/components/UserSettings/UserSettings';
 import { prisma } from '@/lib/prisma';
+import SettingBox from '@/components/SettingBox/SettingBox';
 
 const page = async () => {
 	const session = await getServerSession(authOptions);
@@ -30,7 +30,29 @@ const page = async () => {
 				User settings
 			</div>
 			<div className="max-w-[1200px] m-auto">
-				<UserSettings name={name} displayName={displayName} about={about} />
+				<div className="max-w-[700px] mr-auto">
+					<SettingBox
+						initialValue={name}
+						name="name"
+						label="Name"
+						maxLength={30}
+					/>
+					<div className="h-5" />
+					<SettingBox
+						initialValue={displayName}
+						name="displayName"
+						label="Display name (optional)"
+						maxLength={30}
+					/>
+					<div className="h-5" />
+					<SettingBox
+						initialValue={about}
+						name="about"
+						label="About (optional)"
+						textarea
+						maxLength={200}
+					/>
+				</div>
 			</div>
 		</div>
 	);
