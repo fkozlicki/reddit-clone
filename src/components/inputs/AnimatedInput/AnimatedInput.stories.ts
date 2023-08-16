@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 import AnimatedInput from './AnimatedInput';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof AnimatedInput> = {
-	title: 'AnimatedInput',
+	title: 'inputs/AnimatedInput',
 	component: AnimatedInput,
 	tags: ['autodocs'],
 };

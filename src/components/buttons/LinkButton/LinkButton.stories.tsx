@@ -14,7 +14,12 @@ type Story = StoryObj<typeof LinkButton>;
 
 export const Default: Story = {
 	args: {
-		href: '/',
+		text: 'LinkButton',
+	},
+};
+
+export const WithIcon: Story = {
+	args: {
 		icon: <StarIcon width={20} />,
 		text: 'LinkButton',
 	},

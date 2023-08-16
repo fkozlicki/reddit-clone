@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import HomeSidebar from './Sidebar';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof HomeSidebar> = {
 	title: 'HomeSidebar',

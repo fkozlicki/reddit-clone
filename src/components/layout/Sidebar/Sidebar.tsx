@@ -54,12 +54,13 @@ const Sidebar = () => {
 					part in conversations.
 				</p>
 				<Button
-					text="Join Reddit"
+					onClick={openSignIn}
 					color="orange"
 					filled
-					height="h-[40px]"
-					onClick={openSignIn}
-				/>
+					classNames="h-[40px] w-full"
+				>
+					Join Reddit
+				</Button>
 			</div>
 		</div>
 	);

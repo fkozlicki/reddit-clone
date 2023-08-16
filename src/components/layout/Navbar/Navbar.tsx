@@ -35,12 +35,13 @@ const Navbar = () => {
 			<div className="w-2 h-full" />
 			{!session && (
 				<Button
-					text="LOG IN"
-					width="w-[120px]"
+					onClick={openModal}
+					classNames="w-[120px]"
 					color="orange"
 					filled
-					onClick={openModal}
-				/>
+				>
+					Log in
+				</Button>
 			)}
 			{session && <UserDropdown userName={session.user.name} />}
 			{!session && signIn && (

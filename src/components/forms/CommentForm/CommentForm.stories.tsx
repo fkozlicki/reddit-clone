@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommentForm, { CreateCommentMutation } from './CommentForm';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof CommentForm> = {
 	title: 'Forms/CommentForm',

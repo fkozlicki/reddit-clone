@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CreatePostForm from './PostForm';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof CreatePostForm> = {
 	title: 'Forms/CreatePostForm',

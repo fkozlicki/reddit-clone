@@ -17,4 +17,7 @@ export const Default: Story = {
 			appDirectory: true,
 		},
 	},
+	args: {
+		name: 'MyFirstCommunity',
+	},
 };

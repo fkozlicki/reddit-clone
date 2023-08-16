@@ -13,36 +13,27 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
 	args: {
-		text: 'Button',
+		children: 'Button',
 	},
 };
 
 export const Filled: Story = {
 	args: {
-		text: 'Button',
+		children: 'Button',
 		filled: true,
 	},
 };
 
 export const Orange: Story = {
 	args: {
-		text: 'Button',
+		children: 'Button',
 		color: 'orange',
 	},
 };
 
 export const White: Story = {
 	args: {
-		text: 'Button',
+		children: 'Button',
 		color: 'white',
-	},
-};
-
-export const FixedWidth: Story = {
-	args: {
-		text: 'Button',
-		color: 'orange',
-		filled: true,
-		width: 'w-[120px]',
 	},
 };

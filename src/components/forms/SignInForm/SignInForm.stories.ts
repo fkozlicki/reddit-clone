@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import SignInForm from './SignInForm';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof SignInForm> = {
 	title: 'Forms/SignInForm',

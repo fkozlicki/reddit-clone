@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CreateCommunityForm, { CreateCommunityMutation } from './CommunityForm';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof CreateCommunityForm> = {
 	title: 'Forms/CreateCommunityForm',

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Search from './Search';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof Search> = {
 	title: 'Search',
