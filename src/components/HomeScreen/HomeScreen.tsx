@@ -9,6 +9,8 @@ import CreatePost from '../CreatePost/CreatePost';
 import { DocumentNode } from 'graphql';
 import PremiumCTA from '../PremiumCTA/PremiumCTA';
 import HomeCTA from '../HomeCTA/HomeCTA';
+import VoteSection from '../VoteSection/VoteSection';
+import PostSkeleton from '../PostSkeleton/PostSkeleton';
 
 interface HomeScreenProps {
 	query: DocumentNode;

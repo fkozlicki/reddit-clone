@@ -11,6 +11,7 @@ import {
 } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import Post from '../Post/Post';
+import PostSkeleton from '../PostSkeleton/PostSkeleton';
 
 type PostsQueryResponse = {
 	posts: (PrismaPost & {
@@ -94,8 +95,19 @@ const Feed = ({ query }: FeedProps) => {
 					)
 				)}
 			<div ref={ref}>
-				{loading && <p>Loading...</p>}
-				{!hasMoreData && (
+				{loading &&
+					Array.from({ length: 3 }).map((_, index) => (
+						<>
+							<PostSkeleton key={index} />
+							<div className="h-6" />
+						</>
+					))}
+				{data && data.posts.length === 0 && (
+					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
+						No posts
+					</div>
+				)}
+				{data && data.posts.length > 0 && !hasMoreData && (
 					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
 						No more posts
 					</div>
