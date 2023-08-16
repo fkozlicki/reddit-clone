@@ -7,9 +7,9 @@ import { z } from 'zod';
 import Spinner from '../../Spinner/Spinner';
 
 const descriptionSchema = z.object({
-	name: z.string().min(1),
-	description: z.string().nullable(),
+	description: z.string().max(200).nullable(),
 });
+type DescriptionValues = z.infer<typeof descriptionSchema>;
 
 const CHANGE_DESCRIPTION_MUTATION = gql`
 	mutation ($name: String!, $description: String) {
@@ -24,7 +24,10 @@ type ChangeDescriptionResponse = {
 		description: string | null;
 	};
 };
-type ChangeDescriptionValues = z.infer<typeof descriptionSchema>;
+type ChangeDescriptionVariables = {
+	name: string;
+	description: string | null;
+};
 
 interface CommunityDescriptionFormProps {
 	communityName: string;
@@ -37,21 +40,23 @@ const CommunityDescriptionForm = ({
 	initialDescription,
 	updateDescription,
 }: CommunityDescriptionFormProps) => {
+	const [charactersRemaining, setCharactersRemaining] = useState<number>(
+		200 - (initialDescription?.length ?? 0)
+	);
 	const [descriptionInputOpen, setDescriptionInputOpen] =
 		useState<boolean>(false);
 	const description = useClickAway<HTMLFormElement>(() => {
 		setDescriptionInputOpen(false);
 	});
-	const { handleSubmit, register } = useForm<ChangeDescriptionValues>({
+	const { handleSubmit, register, watch } = useForm<DescriptionValues>({
 		resolver: zodResolver(descriptionSchema),
 		defaultValues: {
-			name: communityName,
 			description: initialDescription,
 		},
 	});
 	const [changeDescription, { loading }] = useMutation<
 		ChangeDescriptionResponse,
-		ChangeDescriptionValues
+		ChangeDescriptionVariables
 	>(CHANGE_DESCRIPTION_MUTATION, {
 		onCompleted({ updateCommunity: { description } }) {
 			updateDescription(description);
@@ -59,10 +64,10 @@ const CommunityDescriptionForm = ({
 		},
 	});
 
-	const onSubmit = ({ description, name }: ChangeDescriptionValues) => {
+	const onSubmit = ({ description }: DescriptionValues) => {
 		changeDescription({
 			variables: {
-				name,
+				name: communityName,
 				description,
 			},
 		});
@@ -88,14 +93,23 @@ const CommunityDescriptionForm = ({
 			{descriptionInputOpen ? (
 				<form ref={description} onSubmit={handleSubmit(onSubmit)}>
 					<input
-						{...register('description')}
+						{...register('description', {
+							onChange() {
+								setCharactersRemaining(
+									200 - (watch('description')?.length ?? 0)
+								);
+							},
+						})}
 						autoFocus
 						type="text"
 						className="w-full outline-none text-sm mb-2"
 						placeholder="Tell us about your community"
+						maxLength={200}
 					/>
 					<div className="flex justify-between text-xs">
-						<div className="text-text-gray">characters remaining</div>
+						<div className="text-text-gray">
+							{charactersRemaining} characters remaining
+						</div>
 						<div className="flex items-center gap-2">
 							<button
 								onClick={closeDescriptionInput}
