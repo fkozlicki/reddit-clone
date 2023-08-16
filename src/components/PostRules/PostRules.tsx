@@ -2,7 +2,7 @@ import React from 'react';
 
 const PostRules = () => {
 	return (
-		<div className="bg-background-primary p-3 rounded">
+		<div className="bg-background-primary p-3 rounded border border-border-input">
 			<div className="">Posting to Reddit</div>
 			<div className="w-full h-px bg-border-input my-2"></div>
 			{rules.map((rule, index) => (
