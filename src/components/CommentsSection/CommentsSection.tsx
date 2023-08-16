@@ -4,7 +4,6 @@ import { CommentVote, Comment as PrismaComment, User } from '@prisma/client';
 import React, { useState } from 'react';
 import Comment from '../Comment/Comment';
 import CommentForm from '../forms/CommentForm/CommentForm';
-import { useSession } from 'next-auth/react';
 
 export type InitialComment = PrismaComment & {
 	author: User;
@@ -19,7 +18,6 @@ interface CommentsSectionProps {
 
 const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 	const [comments, setComments] = useState<InitialComment[]>(initialComments);
-	const { data: session } = useSession();
 
 	const updateComments = (newComment: InitialComment) => {
 		setComments((prev) => [newComment, ...prev]);
@@ -27,25 +25,25 @@ const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 
 	return (
 		<div className="bg-background-primary py-5 px-4 flex-1">
-			{session && (
-				<>
-					<div className="mx-8">
-						<CommentForm postId={postId} updateComments={updateComments} />
-					</div>
-					<div className="w-full h-5" />
-				</>
+			<div className="mx-8">
+				<CommentForm postId={postId} updateComments={updateComments} />
+			</div>
+			<div className="w-full h-5" />
+			{comments.length > 0 ? (
+				comments.map((comment) => (
+					<Comment
+						id={comment.id}
+						votes={comment.votes}
+						authorName={comment.author.name}
+						content={comment.content}
+						createdAt={comment.createdAt}
+						key={comment.id}
+						initialReplies={comment.replies}
+					/>
+				))
+			) : (
+				<div className="text-center">No comments yet.</div>
 			)}
-			{comments.map((comment) => (
-				<Comment
-					id={comment.id}
-					votes={comment.votes}
-					authorName={comment.author.name}
-					content={comment.content}
-					createdAt={comment.createdAt}
-					key={comment.id}
-					initialReplies={comment.replies}
-				/>
-			))}
 		</div>
 	);
 };
