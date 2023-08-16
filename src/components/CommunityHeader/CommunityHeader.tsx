@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import React from 'react';
 import CommunityMembershipButton from '../CommunityMembershipButton/CommunityMembershipButton';
@@ -22,7 +20,7 @@ const CommunityHeader = ({ name }: CommunityHeaderProps) => {
 							<div className="text-2xl font-bold">{name}</div>
 							<div className="text-sm text-text-gray">r/{name}</div>
 						</div>
-						<CommunityMembershipButton name={name} />
+						<CommunityMembershipButton name={name} classNames="w-24" />
 					</div>
 				</div>
 			</div>

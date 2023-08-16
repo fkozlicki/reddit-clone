@@ -8,7 +8,9 @@ const PremiumCTA = () => {
 				<div className="font-medium">Reddit Premium</div>
 				<p>The best Reddit experience, with monthly Coins</p>
 			</div>
-			<Button text="Try Now" color="orange" filled />
+			<Button color="orange" filled classNames="w-full">
+				Try Now
+			</Button>
 		</div>
 	);
 };

@@ -42,16 +42,20 @@ const HomeCTA = () => {
 					</p>
 					<div className="w-full h-px my-4 bg-border-input" />
 					<Button
-						text="Create Post"
 						filled
 						href={session ? '/submit' : undefined}
 						onClick={!session ? openSignIn : undefined}
-					/>
+						classNames="w-full"
+					>
+						Create Post
+					</Button>
 					<div className="w-full h-3" />
 					<Button
-						text="Create Community"
+						classNames="w-full"
 						onClick={session ? openCreateCommunityModal : openSignIn}
-					/>
+					>
+						Create Community
+					</Button>
 				</div>
 			</div>
 			{createCommunityModalOpen && (

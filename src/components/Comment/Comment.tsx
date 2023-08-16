@@ -78,8 +78,7 @@ const Comment = ({
 							shape="square"
 							text="Reply"
 							icon={<ChatBubbleLeftIcon width={18} />}
-							color="text-text-gray"
-							fontSize="text-xs"
+							classNames="text-text-gray text-xs"
 							onClick={session ? toggleReplyFormOpen : openSignIn}
 						/>
 					</div>

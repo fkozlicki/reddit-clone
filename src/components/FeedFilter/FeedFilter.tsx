@@ -26,9 +26,11 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 						icon={<StarIcon width={20} />}
 						text="Best"
 						selected={highlighted === 'best'}
+						classNames="font-bold"
 					/>
 				)}
 				<IconButton
+					classNames="font-bold"
 					href={`${prefix ? `/${prefix}` : ''}/hot`}
 					shape="circle"
 					icon={<FireIcon width={20} />}
@@ -36,6 +38,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					selected={highlighted === 'hot'}
 				/>
 				<IconButton
+					classNames="font-bold"
 					href={`${prefix ? `/${prefix}` : ''}/new`}
 					shape="circle"
 					icon={<BoltIcon width={20} />}
@@ -43,6 +46,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					selected={highlighted === 'new'}
 				/>
 				<IconButton
+					classNames="font-bold"
 					href={`${prefix ? `/${prefix}` : ''}/top`}
 					shape="circle"
 					icon={<BarsArrowUpIcon width={20} />}

@@ -47,13 +47,13 @@ const SignInForm = ({ closeModal }: SignInForm) => {
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<AnimatedInput label="Email" register={register('email')} />
 					<Button
-						text="Sign In"
 						color="orange"
 						filled
-						width="w-[300px]"
-						height="h-[40px]"
+						classNames="w-[300px] h-[40px]"
 						type="submit"
-					/>
+					>
+						Sign In
+					</Button>
 				</form>
 			</div>
 			<button

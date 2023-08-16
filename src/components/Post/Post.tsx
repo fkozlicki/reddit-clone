@@ -88,31 +88,28 @@ const Post = ({
 						/>
 					</div>
 					<IconButton
+						classNames="text-text-gray text-[12px] font-bold"
 						shape="square"
 						icon={<ChatBubbleLeftIcon width={20} />}
 						text={`${comments.length} Comments`}
-						color="text-text-gray"
-						fontSize="text-[12px]"
 						href={`/r/${communityName}/comments/${id}`}
 					/>
 					<IconButton
+						classNames="text-text-gray text-[12px] font-bold"
 						shape="square"
 						icon={<ShareIcon width={20} />}
 						text="Share"
-						color="text-text-gray"
-						fontSize="text-[12px]"
 					/>
 					<IconButton
+						classNames="text-text-gray text-[12px] font-bold"
 						shape="square"
 						icon={<BookmarkIcon width={20} />}
 						text="Save"
-						color="text-text-gray"
-						fontSize="text-[12px]"
 					/>
 					<IconButton
+						classNames="text-text-gray font-bold"
 						shape="square"
 						icon={<EllipsisHorizontalIcon width={20} />}
-						color="text-text-gray"
 					/>
 				</div>
 			</div>

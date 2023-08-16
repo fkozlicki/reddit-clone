@@ -85,24 +85,25 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			<Input
 				placeholder="Title"
 				register={register('title')}
-				fontSize="text-sm"
+				classNames="text-sm"
 			/>
 			<div className="w-full h-4" />
 			<Input
 				placeholder="Text"
 				register={register('content')}
-				fontSize="text-sm"
+				classNames="text-sm"
 				textarea
 			/>
 			<div className="w-full h-4" />
 			<div className="flex justify-end">
 				<Button
-					text="Post"
 					type="submit"
-					width="w-auto"
+					classNames="w-auto"
 					filled
 					disabled={!isValid || loading}
-				/>
+				>
+					Post
+				</Button>
 			</div>
 		</form>
 	);

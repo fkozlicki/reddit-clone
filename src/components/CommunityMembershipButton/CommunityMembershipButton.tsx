@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import Button from '../buttons/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import Spinner from '../Spinner/Spinner';
 
 const JOIN_COMMUNITY_MUTATION = gql`
 	mutation ($name: String!) {
@@ -23,7 +24,7 @@ const LEAVE_COMMUNITY_MUTATION = gql`
 	}
 `;
 
-const COMMUNITY_QUERY = gql`
+export const COMMUNITY_QUERY = gql`
 	query ($name: String!) {
 		community(name: $name) {
 			members {
@@ -51,12 +52,12 @@ type CommunityQueryVariables = {
 
 interface CommunityMembershipButtonProps {
 	name: string;
-	width?: string;
+	classNames?: string;
 }
 
 const CommunityMembershipButton = ({
 	name,
-	width,
+	classNames,
 }: CommunityMembershipButtonProps) => {
 	const [, dispatch] = useModalsContext();
 	const [isMember, setIsMember] = useState<boolean>(false);
@@ -106,21 +107,21 @@ const CommunityMembershipButton = ({
 		<Button
 			onMouseEnter={() => setText('Leave')}
 			onMouseLeave={() => setText('Joined')}
-			text={text}
-			width={width ?? 'w-24'}
 			onClick={session ? () => leaveCommunity() : openSignIn}
-			loading={leaveLoading}
 			disabled={leaveLoading}
-		/>
+			classNames={classNames}
+		>
+			{leaveLoading ? <Spinner /> : text}
+		</Button>
 	) : (
 		<Button
-			text="Join"
 			filled
-			width={width ?? 'w-24'}
-			loading={joinLoading}
 			disabled={joinLoading}
 			onClick={session ? () => joinCommunity() : openSignIn}
-		/>
+			classNames={classNames}
+		>
+			{joinLoading ? <Spinner /> : 'Join'}
+		</Button>
 	);
 };
 

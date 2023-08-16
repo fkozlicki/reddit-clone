@@ -35,7 +35,7 @@ type CommentVoteMutationResponse = {
 	makeCommentVote: CommentVote;
 };
 
-const voteMutation = gql`
+export const voteMutation = gql`
 	mutation ($value: Int!, $postId: String!) {
 		makeVote(value: $value, postId: $postId) {
 			id
@@ -46,7 +46,7 @@ const voteMutation = gql`
 	}
 `;
 
-const commentVoteMutation = gql`
+export const commentVoteMutation = gql`
 	mutation ($value: Int!, $commentId: String!) {
 		makeCommentVote(value: $value, commentId: $commentId) {
 			id
@@ -113,8 +113,9 @@ const VoteSection = (props: VoteSectionProps) => {
 			}`}
 		>
 			<button
+				aria-label="Up Vote"
 				onClick={session ? () => handleVote(1) : openSignIn}
-				className="rounded-sm hover:bg-button-hover group p-px"
+				className="rounded-sm hover:bg-button-hover group p-px outline-none"
 			>
 				<ArrowUpCircleIcon
 					className={`w-6 group-hover:text-danger ${
@@ -124,8 +125,9 @@ const VoteSection = (props: VoteSectionProps) => {
 			</button>
 			<div className="text-[12px] font-semibold">{karma}</div>
 			<button
+				aria-label="Down Vote"
 				onClick={session ? () => handleVote(-1) : openSignIn}
-				className="rounded-sm hover:bg-button-hover group p-px"
+				className="rounded-sm hover:bg-button-hover group p-px outline-none"
 			>
 				<ArrowDownCircleIcon
 					className={`w-6 group-hover:text-primary ${

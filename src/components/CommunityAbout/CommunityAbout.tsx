@@ -145,13 +145,15 @@ const CommunityAbout = ({
 				{cta &&
 					(cta === 'Create Post' ? (
 						<Button
-							text="Create Post"
 							filled
 							href={session ? `/r/${name}/submit` : undefined}
 							onClick={!session ? openSignIn : undefined}
-						/>
+							classNames="w-full"
+						>
+							Create Post
+						</Button>
 					) : (
-						<CommunityMembershipButton name={name} width="w-full" />
+						<CommunityMembershipButton name={name} classNames="w-full" />
 					))}
 			</div>
 		</div>

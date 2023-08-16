@@ -10,6 +10,7 @@ import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Input from '../../inputs/Input/Input';
+import Spinner from '@/components/Spinner/Spinner';
 
 interface CreateCommunityFormProps {
 	closeModal: () => void;
@@ -97,7 +98,7 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 						setRemainingCharacters(21 - watch('name').length);
 					},
 				})}
-				fontSize="text-sm"
+				classNames="text-sm"
 				maxLength={21}
 			/>
 			<div className="h-2" />
@@ -113,20 +114,12 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 				<div className="text-xs text-danger">{errors.name.message}</div>
 			)}
 			<div className="flex items-center justify-end p-4 gap-2">
-				<Button
-					text="Cancel"
-					width="w-auto"
-					onClick={closeModal}
-					type="button"
-				/>
-				<Button
-					text="Create Community"
-					filled
-					width="w-auto"
-					type="submit"
-					disabled={loading}
-					loading={loading}
-				/>
+				<Button onClick={closeModal} type="button" classNames="w-auto">
+					Cancel
+				</Button>
+				<Button filled classNames="w-auto" type="submit" disabled={loading}>
+					{loading ? <Spinner /> : 'Create Community'}
+				</Button>
 			</div>
 		</form>
 	);
