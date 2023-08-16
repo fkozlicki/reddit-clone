@@ -7,43 +7,33 @@ interface IconButtonProps {
 	href?: string;
 	onClick?: () => void;
 	text?: string;
-	fontSize?: string;
-	color?: string;
 	selected?: boolean;
+	classNames?: string;
 }
 
 const IconButton = ({
 	icon,
 	text,
 	shape,
-	color,
 	href,
 	onClick,
-	fontSize = 'text-sm',
 	selected,
+	classNames,
 }: IconButtonProps) => {
-	const shapeClass =
+	const _shape =
 		shape === 'circle' ? 'px-2 py-[6px] rounded-full' : 'p-2 rounded';
+	const _selected = selected ? 'bg-border-input text-primary' : '';
+	const className = `flex items-center gap-1 bg-background-primary hover:bg-border-input outline-none ${_shape} ${_selected} ${classNames}`;
 
 	return href ? (
-		<Link
-			href={href}
-			className={`flex items-center gap-1 bg-background-primary hover:bg-border-input ${shapeClass} ${
-				color ?? ''
-			} ${selected ? 'bg-border-input text-primary' : ''}`}
-		>
+		<Link href={href} className={className}>
 			{icon}
-			{text && <span className={`${fontSize} font-bold`}>{text}</span>}
+			{text && text}
 		</Link>
 	) : (
-		<button
-			onClick={onClick}
-			className={`flex items-center gap-1 bg-background-primary hover:bg-border-input ${shapeClass} ${
-				color ?? ''
-			} ${selected ? 'bg-border-input text-primary' : ''}`}
-		>
+		<button onClick={onClick} className={className}>
 			{icon}
-			{text && <span className={`${fontSize} font-bold`}>{text}</span>}
+			{text && text}
 		</button>
 	);
 };
