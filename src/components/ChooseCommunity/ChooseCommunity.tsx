@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { Community } from '@prisma/client';
 import { useClickAway } from '@/hooks/useClickAway';
+import Spinner from '../Spinner/Spinner';
 
 export const UserQuery = gql`
 	query {
@@ -54,10 +55,14 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 		>
 			<div
 				onClick={toggleDropdown}
-				className="flex items-center justify-between p-2 mb-2"
+				className="flex items-center justify-between p-2 mb-2 border border-border-input rounded"
 			>
 				<div className="flex gap-2">
-					<div className="w-5 h-5 bg-black rounded-full"></div>
+					{community ? (
+						<div className="w-5 h-5 bg-black rounded-full" />
+					) : (
+						<div className="w-5 h-5 border border-border-post-hover border-dashed rounded-full" />
+					)}
 					<div className="text-sm">
 						{community?.name ?? 'Choose a community'}
 					</div>
@@ -65,9 +70,17 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 				<ChevronDownIcon width={16} />
 			</div>
 			{dropdownOpen && (
-				<div className="absolute top-full left-0 bg-background-primary w-full p-2 shadow">
-					{loading && <div>Loading communities...</div>}
-					{error && <div>Could not load communities</div>}
+				<div className="absolute top-full left-0 bg-background-primary w-full p-2 drop-shadow-md">
+					{loading && (
+						<div className="h-full grid place-items-center">
+							<Spinner />
+						</div>
+					)}
+					{error && (
+						<div className="h-full grid place-items-center">
+							Couldn&apos;t load communities
+						</div>
+					)}
 					{data && (
 						<>
 							<div className="text-[10px] font-bold uppercase text-text-gray mb-2">
