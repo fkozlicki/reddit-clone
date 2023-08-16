@@ -67,10 +67,8 @@ const PostFilter = builder.prismaWhere('Post', {
 	},
 });
 
-const PostSort = builder.prismaOrderBy('Post', {
-	fields: {
-		createdAt: true,
-	},
+const PostSort = builder.enumType('PostSort', {
+	values: ['hot', 'top', 'new'],
 });
 
 builder.queryField('posts', (t) =>
@@ -100,7 +98,23 @@ builder.queryField('posts', (t) =>
 				skip: offset,
 				take: limit,
 				where: filter ?? undefined,
-				orderBy: sort ?? undefined,
+				orderBy: sort
+					? sort === 'hot'
+						? {
+								comments: {
+									_count: 'desc',
+								},
+						  }
+						: sort === 'top'
+						? {
+								votes: {
+									_count: 'desc',
+								},
+						  }
+						: {
+								createdAt: 'desc',
+						  }
+					: undefined,
 			});
 
 			return posts;

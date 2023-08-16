@@ -6,9 +6,9 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
 
-const USER_POSTS = (name: string) => gql`
+const COMMUNITY_POSTS_HOT = (name: string) => gql`
 	query($offset: Int, $limit: Int) {
-		posts(offset: $offset, limit: $limit, filter: {author: {name: ${`"${name}"`}}}) {
+		posts(offset: $offset, limit: $limit, filter: {author: {name: ${`"${name}"`}}}, sort: hot) {
 			id
 			title
 			content
@@ -47,7 +47,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 				<div className="max-w-[976px] m-auto">{name} Profile</div>
 			</div>
 			<Grid
-				left={<Feed query={USER_POSTS(name)} />}
+				left={<Feed query={COMMUNITY_POSTS_HOT(name)} />}
 				right={
 					<div className="bg-background-primary p-3 rounded">
 						<div>{user.name}</div>

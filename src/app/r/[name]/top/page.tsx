@@ -10,6 +10,7 @@ const COMMUNITY_TOP_POSTS_QUERY = (communityName: string) => gql`
 			offset: $offset
 			limit: $limit
 			filter: { community: { name: ${`"${communityName}"`} }  }
+			sort: top
 		) {
 			id
 			title

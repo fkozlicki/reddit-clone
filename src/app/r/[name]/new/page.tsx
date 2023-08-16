@@ -10,7 +10,7 @@ const COMMUNITY_NEW_POSTS_QUERY = (communityName: string) => gql`
 			offset: $offset
 			limit: $limit
 			filter: { community: { name: ${`"${communityName}"`} } }
-			sort: { createdAt: Desc }
+			sort: new
 		) {
 			id
 			title

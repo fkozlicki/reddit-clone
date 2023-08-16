@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import HomeScreen from '@/components/HomeScreen/HomeScreen';
 
 const NEW_POSTS_QUERY = gql`
-	query ($offset: Int, $limit: Int) {
-		posts(offset: $offset, limit: $limit, sort: { createdAt: Desc }) {
+	query newPosts($offset: Int, $limit: Int) {
+		posts(offset: $offset, limit: $limit, sort: new) {
 			id
 			title
 			content

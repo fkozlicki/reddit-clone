@@ -35,14 +35,13 @@ const Feed = ({ query }: FeedProps) => {
 		PostsQueryResponse,
 		PostsQueryValues
 	>(query, {
-		fetchPolicy: 'network-only',
 		notifyOnNetworkStatusChange: true,
 		onError(error) {
 			console.error(error);
 		},
 		variables: {
 			offset: 0,
-			limit: 2,
+			limit: 10,
 		},
 	});
 	const [ref, entry] = useIntersectionObserver<HTMLDivElement>();
@@ -52,7 +51,7 @@ const Feed = ({ query }: FeedProps) => {
 			fetchMore({
 				variables: {
 					offset: data.posts.length,
-					limit: 2,
+					limit: 10,
 				},
 				updateQuery: (prev, { fetchMoreResult }) => {
 					if (!fetchMoreResult) return prev;

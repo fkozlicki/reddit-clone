@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
 import HomeScreen from '@/components/HomeScreen/HomeScreen';
 
-const NEW_POSTS_QUERY = gql`
-	query ($offset: Int, $limit: Int) {
-		posts(offset: $offset, limit: $limit) {
+const HOT_POSTS_QUERY = gql`
+	query hotPosts($offset: Int, $limit: Int) {
+		posts(offset: $offset, limit: $limit, sort: hot) {
 			id
 			title
 			content
@@ -26,5 +26,5 @@ const NEW_POSTS_QUERY = gql`
 `;
 
 export default function Hot() {
-	return <HomeScreen query={NEW_POSTS_QUERY} highlighted="hot" />;
+	return <HomeScreen query={HOT_POSTS_QUERY} highlighted="hot" />;
 }
