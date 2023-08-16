@@ -5,7 +5,7 @@ import React from 'react';
 import { prisma } from '@/lib/prisma';
 
 const COMMUNITY_TOP_POSTS_QUERY = (communityName: string) => gql`
-	query ($offset: Int, $limit: Int) {
+	query topPosts($offset: Int, $limit: Int) {
 		posts(
 			offset: $offset
 			limit: $limit
