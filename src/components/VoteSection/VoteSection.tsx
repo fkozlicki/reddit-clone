@@ -74,6 +74,7 @@ const VoteSection = (props: VoteSectionProps) => {
 		onError() {
 			toast("Couldn't vote");
 		},
+		refetchQueries: ['bestPosts', 'hotPosts', 'topPosts', 'newPosts'],
 	});
 
 	useEffect(() => {
