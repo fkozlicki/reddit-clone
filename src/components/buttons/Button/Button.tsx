@@ -1,35 +1,28 @@
-import Spinner from '@/components/Spinner/Spinner';
 import Link from 'next/link';
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, MouseEventHandler } from 'react';
 
 interface ButtonProps {
-	text: string;
+	children: JSX.Element | string;
 	href?: string;
-	onClick?: () => void;
+	classNames?: string;
+	onClick?: MouseEventHandler<HTMLButtonElement>;
 	onMouseEnter?: () => void;
 	onMouseLeave?: () => void;
-	width?: string;
 	filled?: boolean;
 	color?: 'orange' | 'white';
-	height?: string;
 	type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 	disabled?: boolean;
-	fontSize?: string;
-	loading?: boolean;
 }
 
 const Button = ({
-	width,
-	text,
+	children,
+	href,
+	classNames,
 	filled,
 	color,
-	height,
 	onClick,
 	type,
-	href,
 	disabled,
-	fontSize,
-	loading,
 	onMouseEnter,
 	onMouseLeave,
 }: ButtonProps) => {
@@ -51,13 +44,9 @@ const Button = ({
 			href={href}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
-			className={`${width ?? 'w-full'} flex items-center justify-center ${
-				height ?? 'min-h-[32px]'
-			} ${border} ${background} px-4 py-1 rounded-full ${
-				fontSize ?? 'text-sm'
-			} font-bold min-h-8 whitespace-nowrap`}
+			className={`flex items-center justify-center ${border} ${background} px-4 py-1 rounded-full font-bold min-h-8 whitespace-nowrap w-full ${classNames}`}
 		>
-			{text}
+			{children}
 		</Link>
 	) : (
 		<button
@@ -66,13 +55,9 @@ const Button = ({
 			onClick={onClick}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
-			className={`${width ?? 'w-full'} ${
-				height ?? 'min-h-[32px]'
-			} ${border} ${background} ${
-				fontSize ?? 'text-sm'
-			} px-4 py-1 rounded-full text-sm font-bold min-h-8 whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed flex justify-center items-center`}
+			className={`${border} ${background} px-4 py-1 rounded-full text-sm font-bold min-h-8 whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed flex justify-center items-center ${classNames}`}
 		>
-			{loading ? <Spinner /> : text}
+			{children}
 		</button>
 	);
 };
