@@ -1,7 +1,7 @@
 'use client';
 
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { DocumentNode, gql, useQuery } from '@apollo/client';
+import { DocumentNode, useQuery } from '@apollo/client';
 import {
 	Comment,
 	Community,
@@ -95,13 +95,13 @@ const Feed = ({ query }: FeedProps) => {
 					)
 				)}
 			<div ref={ref}>
-				{loading &&
-					Array.from({ length: 3 }).map((_, index) => (
-						<>
+				{loading && (
+					<div className="flex flex-col gap-6">
+						{Array.from({ length: 3 }).map((_, index) => (
 							<PostSkeleton key={index} />
-							<div className="h-6" />
-						</>
-					))}
+						))}
+					</div>
+				)}
 				{data && data.posts.length === 0 && (
 					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
 						No posts

@@ -1,5 +1,4 @@
 import Feed from '@/components/Feed/Feed';
-import HomeCTA from '@/components/HomeCTA/HomeCTA';
 import { gql } from '@apollo/client';
 import React from 'react';
 

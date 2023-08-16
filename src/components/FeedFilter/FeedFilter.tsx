@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import IconButton from '../buttons/IconButton/IconButton';
 import {
