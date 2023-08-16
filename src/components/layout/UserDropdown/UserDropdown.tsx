@@ -48,6 +48,7 @@ const UserDropdown = ({ userName }: UserDropdownProps) => {
 	return (
 		<div ref={dropdown} className="relative w-max">
 			<button
+				aria-label="User Dropdown"
 				onClick={toggleDropdown}
 				className={`px-2 py-1 flex items-center border hover:border-border-input rounded w-[175px] justify-between ${
 					open

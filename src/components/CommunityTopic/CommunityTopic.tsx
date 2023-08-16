@@ -18,7 +18,7 @@ type TopicsQueryResponse = {
 	topics: Topic[];
 };
 
-const TopicsQuery = gql`
+export const TopicsQuery = gql`
 	query {
 		topics {
 			id

@@ -23,7 +23,6 @@ const Search = () => {
 					className="placeholder:text-sm placeholder:text-gray-600 bg-transparent outline-none text-sm w-full"
 				/>
 			</div>
-			{/* <div className="w-full h-12 bg-background-primary absolute top-full left-0"></div> */}
 		</div>
 	);
 };
