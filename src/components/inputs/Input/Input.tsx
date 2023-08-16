@@ -5,40 +5,29 @@ interface InputProps {
 	register: UseFormRegisterReturn;
 	placeholder: string;
 	textarea?: boolean;
-	fontSize?: string;
-	border?: 'gray' | 'primary';
 	maxLength?: number;
+	classNames?: string;
 }
 
 const Input = ({
 	textarea,
 	register,
 	placeholder,
-	fontSize,
 	maxLength,
-	border = 'gray',
+	classNames,
 }: InputProps) => {
-	const _border =
-		border === 'primary'
-			? 'border-primary'
-			: 'border-border-input focus:border-black';
-
 	return textarea ? (
 		<textarea
 			{...register}
 			placeholder={placeholder}
-			className={`w-full resize-y outline-none border ${_border} rounded py-2 px-3 min-h-[150px] ${
-				fontSize ?? ''
-			}`}
+			className={`w-full resize-y outline-none border border-border-input focus:border-black rounded py-2 px-3 min-h-[150px] ${classNames}`}
 			maxLength={maxLength}
 		></textarea>
 	) : (
 		<input
 			{...register}
 			type="text"
-			className={`w-full outline-none border ${_border} rounded py-2 px-3 ${
-				fontSize ?? ''
-			}`}
+			className={`w-full outline-none border border-border-input focus:border-black rounded py-2 px-3 ${classNames}`}
 			placeholder={placeholder}
 			maxLength={maxLength}
 		/>
