@@ -1,3 +1,5 @@
+'use client';
+
 import { useModalsContext } from '@/contexts/ModalsContext';
 import { gql, useMutation } from '@apollo/client';
 import {

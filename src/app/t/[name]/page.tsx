@@ -39,7 +39,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 					<Feed query={TOP_POSTS_QUERY(name)} />
 				</div>
 				<div className="w-[312px] hidden lg:block flex-shrink-0">
-					<HomeCTA />
+					<div>Most popular communities in this topic</div>
 				</div>
 			</div>
 		</div>
