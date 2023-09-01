@@ -121,3 +121,28 @@ builder.queryField('posts', (t) =>
 		},
 	})
 );
+
+builder.queryField('post', (t) =>
+	t.prismaField({
+		type: 'Post',
+		args: {
+			id: t.arg.string({
+				required: true,
+			}),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			const post = await ctx.prisma.post.findUnique({
+				...query,
+				where: {
+					id: args.id,
+				},
+			});
+
+			if (!post) {
+				throw new Error('There is not post with id ' + args.id);
+			}
+
+			return post;
+		},
+	})
+);
