@@ -1,36 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { Community } from '@prisma/client';
 import { useClickAway } from '@/hooks/useClickAway';
 import Spinner from '../Spinner/Spinner';
-
-export const UserQuery = gql`
-	query {
-		user {
-			communities {
-				id
-				name
-				members {
-					id
-				}
-			}
-		}
-	}
-`;
-
-type UserQueryResponse = {
-	user: {
-		communities: {
-			id: string;
-			name: string;
-			members: [];
-		}[];
-	};
-};
+import useUserCommunities from '@/hooks/query/useUserCommunities';
 
 interface ChooseCommunityProps {
 	community?: Community;
@@ -39,7 +15,7 @@ interface ChooseCommunityProps {
 const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 	const { push } = useRouter();
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const { data, loading, error } = useQuery<UserQueryResponse>(UserQuery);
+	const { data, loading, error } = useUserCommunities();
 	const dropdown = useClickAway<HTMLDivElement>(() => {
 		setDropdownOpen(false);
 	});

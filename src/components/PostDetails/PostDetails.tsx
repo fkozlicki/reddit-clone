@@ -4,60 +4,15 @@ import React from 'react';
 import CommentsSection from '../CommentsSection/CommentsSection';
 import CommunityAbout from '../CommunityAbout/CommunityAbout';
 import Post from '../Post/Post';
-import { gql, useQuery } from '@apollo/client';
 import PostSkeleton from '../PostSkeleton/PostSkeleton';
-
-const POST_QUERY = gql`
-	query ($id: String!) {
-		post(id: $id) {
-			id
-			title
-			createdAt
-			content
-			comments {
-				id
-				content
-				createdAt
-				author {
-					name
-				}
-				votes {
-					userId
-					value
-				}
-				replies {
-					author {
-						name
-					}
-					content
-					createdAt
-					id
-					votes {
-						userId
-						value
-					}
-				}
-			}
-			votes {
-				userId
-				value
-			}
-			author {
-				name
-			}
-			community {
-				name
-			}
-		}
-	}
-`;
+import usePost from '@/hooks/query/usePost';
 
 interface PostDetailsProps {
 	id: string;
 }
 
 const PostDetails = ({ id }: PostDetailsProps) => {
-	const { data, loading, error } = useQuery(POST_QUERY, {
+	const { data, loading, error } = usePost({
 		variables: {
 			id,
 		},
@@ -92,7 +47,7 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 					communityName={post.community.name}
 					createdAt={post.createdAt}
 					content={post.content}
-					comments={post.comments}
+					commentsCount={post.comments.length}
 					votes={post.votes}
 				/>
 				<div className="w-full h-5" />

@@ -6,20 +6,11 @@ import Link from 'next/link';
 import LinkButton from '../../buttons/LinkButton/LinkButton';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import { gql, useQuery } from '@apollo/client';
-import { Topic } from '@prisma/client';
-
-const TOPICS_QUERY = gql`
-	query {
-		topics {
-			name
-		}
-	}
-`;
+import useTopics from '@/hooks/query/useTopics';
 
 const Sidebar = () => {
 	const [, dispatch] = useModalsContext();
-	const { data } = useQuery<{ topics: Topic[] }>(TOPICS_QUERY);
+	const { data } = useTopics();
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });

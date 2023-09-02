@@ -3,46 +3,14 @@
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
 import Button from '../buttons/Button/Button';
-import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
-import { Community, Topic } from '@prisma/client';
 import CommunityTopic from '../CommunityTopic/CommunityTopic';
 import { formatDate } from '@/utils/formatDate';
 import { useSession } from 'next-auth/react';
 import CommunityDescriptionForm from '../forms/CommunityDescriptionForm/CommunityDescriptionForm';
 import CommunityMembershipButton from '../CommunityMembershipButton/CommunityMembershipButton';
 import { useModalsContext } from '@/contexts/ModalsContext';
-
-export const CommunityQuery = gql`
-	query ($name: String!) {
-		community(name: $name) {
-			name
-			description
-			createdAt
-			members {
-				id
-			}
-			moderators {
-				id
-			}
-			topic {
-				id
-				name
-			}
-		}
-	}
-`;
-
-type CommunityQueryResponse = {
-	community: Community & {
-		moderators: { id: string }[];
-		members: { id: string }[];
-		topic: Topic | null;
-	};
-};
-type CommunityQueryValues = {
-	name: string;
-};
+import useCommunity from '@/hooks/query/useCommunity';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -62,10 +30,7 @@ const CommunityAbout = ({
 	const [, dispatch] = useModalsContext();
 	const params = useParams();
 	const name = params.name as string;
-	const { data, loading, error } = useQuery<
-		CommunityQueryResponse,
-		CommunityQueryValues
-	>(CommunityQuery, {
+	const { data, loading, error } = useCommunity({
 		variables: {
 			name,
 		},

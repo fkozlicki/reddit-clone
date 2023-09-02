@@ -12,30 +12,17 @@ import {
 } from '@heroicons/react/24/outline';
 import { signOut } from 'next-auth/react';
 import { useClickAway } from '@/hooks/useClickAway';
-import { gql, useQuery } from '@apollo/client';
-import { Topic } from '@prisma/client';
+import useTopics from '@/hooks/query/useTopics';
 
 interface UserDropdownProps {
 	userName: string;
 }
 
-const TOPICS_QUERY = gql`
-	query {
-		topics {
-			name
-		}
-	}
-`;
-
-type TopicsQueryResponse = {
-	topics: Topic[];
-};
-
 const UserDropdown = ({ userName }: UserDropdownProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [topicsOpen, setTopicsOpen] = useState<boolean>(false);
 	const dropdown = useClickAway<HTMLDivElement>(() => setOpen(false));
-	const { data } = useQuery<TopicsQueryResponse>(TOPICS_QUERY);
+	const { data } = useTopics();
 
 	const toggleDropdown = () => {
 		setOpen((prev) => !prev);

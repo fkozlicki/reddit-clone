@@ -1,5 +1,6 @@
+import useTopics from '@/hooks/query/useTopics';
 import { useClickAway } from '@/hooks/useClickAway';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Community, Topic } from '@prisma/client';
 import { useParams } from 'next/navigation';
@@ -14,18 +15,6 @@ type AddTopicRespnse = {
 		topic: Topic;
 	};
 };
-type TopicsQueryResponse = {
-	topics: Topic[];
-};
-
-export const TopicsQuery = gql`
-	query {
-		topics {
-			id
-			name
-		}
-	}
-`;
 
 const AddTopicMutation = gql`
 	mutation ($name: String!, $topicId: String!) {
@@ -58,7 +47,7 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 			setTopic(data.updateCommunity.topic.name);
 		},
 	});
-	const { data } = useQuery<TopicsQueryResponse>(TopicsQuery);
+	const { data } = useTopics();
 
 	const handleAddTopic = (topicId: string) => {
 		setTopicsDropdownOpen(false);

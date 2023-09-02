@@ -1,12 +1,12 @@
 'use client';
 
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { User } from '@prisma/client';
+import { gql, useMutation } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import Button from '../buttons/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import Spinner from '../Spinner/Spinner';
+import useCommunityMembers from '@/hooks/query/useCommunityMembers';
 
 const JOIN_COMMUNITY_MUTATION = gql`
 	mutation ($name: String!) {
@@ -24,29 +24,10 @@ const LEAVE_COMMUNITY_MUTATION = gql`
 	}
 `;
 
-export const COMMUNITY_QUERY = gql`
-	query ($name: String!) {
-		community(name: $name) {
-			members {
-				id
-			}
-		}
-	}
-`;
-
 type CommunityMutationResponse = {
 	name: string;
 };
 type CommunityMutationVariables = {
-	name: string;
-};
-
-type CommunityQueryResponse = {
-	community: {
-		members: User[];
-	};
-};
-type CommunityQueryVariables = {
 	name: string;
 };
 
@@ -62,15 +43,12 @@ const CommunityMembershipButton = ({
 	const [, dispatch] = useModalsContext();
 	const [isMember, setIsMember] = useState<boolean>(false);
 	const { data: session } = useSession();
-	const { data } = useQuery<CommunityQueryResponse, CommunityQueryVariables>(
-		COMMUNITY_QUERY,
-		{
-			variables: { name },
-			onCompleted({ community: { members } }) {
-				setIsMember(members.some(({ id }) => id === session?.user.id));
-			},
-		}
-	);
+	const { data } = useCommunityMembers({
+		variables: { name },
+		onCompleted({ community: { members } }) {
+			setIsMember(members.some(({ id }) => id === session?.user.id));
+		},
+	});
 	const [text, setText] = useState<string>('Joined');
 	const [leaveCommunity, { loading: leaveLoading }] = useMutation<
 		CommunityMutationResponse,
