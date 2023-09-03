@@ -1,41 +1,21 @@
 'use client';
 
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { DocumentNode, useQuery } from '@apollo/client';
-import {
-	Comment,
-	Community,
-	Post as PrismaPost,
-	User,
-	Vote,
-} from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import Post from '../Post/Post';
 import PostSkeleton from '../PostSkeleton/PostSkeleton';
-
-type PostsQueryResponse = {
-	posts: (PrismaPost & {
-		comments: Comment[];
-		votes: Vote[];
-		community: Community;
-		author: User;
-	})[];
-};
-type PostsQueryValues = {
-	offset: number;
-	limit: number;
-};
+import usePosts, { FeedType } from '@/hooks/query/usePosts';
 
 interface FeedProps {
-	query: DocumentNode;
+	type: FeedType;
+	communityName?: string;
+	topicName?: string;
+	authorName?: string;
 }
 
-const Feed = ({ query }: FeedProps) => {
+const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 	const [hasMoreData, setHasMoreData] = useState<boolean>(true);
-	const { data, fetchMore, loading } = useQuery<
-		PostsQueryResponse,
-		PostsQueryValues
-	>(query, {
+	const { data, fetchMore, loading } = usePosts({
 		notifyOnNetworkStatusChange: true,
 		onError(error) {
 			console.error(error);
@@ -43,6 +23,21 @@ const Feed = ({ query }: FeedProps) => {
 		variables: {
 			offset: 0,
 			limit: 10,
+			sort:
+				type === 'hot' || type === 'best'
+					? 'hot'
+					: type === 'new'
+					? 'new'
+					: type === 'top'
+					? 'top'
+					: undefined,
+			filter: communityName
+				? { community: { name: communityName } }
+				: topicName
+				? { community: { topic: { name: topicName } } }
+				: authorName
+				? { author: { name: authorName } }
+				: undefined,
 		},
 	});
 	const [ref, entry] = useIntersectionObserver<HTMLDivElement>();
@@ -89,7 +84,7 @@ const Feed = ({ query }: FeedProps) => {
 							title={title}
 							createdAt={createdAt}
 							votes={votes}
-							comments={comments}
+							commentsCount={comments.length}
 							communityName={community.name}
 						/>
 					)
