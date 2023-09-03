@@ -1,25 +1,24 @@
 'use client';
 
-import { CommentVote, Comment as PrismaComment, User } from '@prisma/client';
 import React, { useState } from 'react';
 import Comment from '../Comment/Comment';
 import CommentForm from '../forms/CommentForm/CommentForm';
-
-export type InitialComment = PrismaComment & {
-	author: User;
-	votes: CommentVote[];
-	replies: Omit<InitialComment, 'replies'>[];
-};
+import { PostComment } from '@/hooks/query/usePost';
 
 interface CommentsSectionProps {
-	initialComments: InitialComment[];
+	initialComments: PostComment[];
 	postId: string;
 }
 
 const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
-	const [comments, setComments] = useState<InitialComment[]>(initialComments);
+	const [comments, setComments] =
+		useState<(PostComment | Omit<PostComment, 'replies' | 'votes'>)[]>(
+			initialComments
+		);
 
-	const updateComments = (newComment: InitialComment) => {
+	const updateComments = (
+		newComment: PostComment | Omit<PostComment, 'replies' | 'votes'>
+	) => {
 		setComments((prev) => [newComment, ...prev]);
 	};
 
@@ -33,12 +32,12 @@ const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 				comments.map((comment) => (
 					<Comment
 						id={comment.id}
-						votes={comment.votes}
+						votes={'votes' in comment ? comment.votes : undefined}
 						authorName={comment.author.name}
 						content={comment.content}
 						createdAt={comment.createdAt}
 						key={comment.id}
-						initialReplies={comment.replies}
+						initialReplies={'replies' in comment ? comment.replies : undefined}
 					/>
 				))
 			) : (
