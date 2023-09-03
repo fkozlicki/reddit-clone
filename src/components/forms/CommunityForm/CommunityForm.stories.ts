@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CreateCommunityForm, { CreateCommunityMutation } from './CommunityForm';
+import CreateCommunityForm from './CommunityForm';
 import '../../../app/globals.css';
+import { CREATE_COMMUNITY_MUTATION } from '@/hooks/mutation/useCreateCommunity';
 
 const meta: Meta<typeof CreateCommunityForm> = {
 	title: 'Forms/CreateCommunityForm',
@@ -20,7 +21,7 @@ export const Default: Story = {
 			mocks: [
 				{
 					request: {
-						query: CreateCommunityMutation,
+						query: CREATE_COMMUNITY_MUTATION,
 					},
 					result: {
 						data: {

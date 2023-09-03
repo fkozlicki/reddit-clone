@@ -13,7 +13,7 @@ type CommunityQueryVariables = {
 	name: string;
 };
 
-export const COMMUNITY_QUERY = gql`
+export const COMMUNITY_MEMBERS_QUERY = gql`
 	query ($name: String!) {
 		community(name: $name) {
 			members {
@@ -27,7 +27,7 @@ export default function useCommunityMembers(
 	options: QueryHookOptions<CommunityQueryResponse, CommunityQueryVariables>
 ) {
 	return useQuery<CommunityQueryResponse, CommunityQueryVariables>(
-		COMMUNITY_QUERY,
+		COMMUNITY_MEMBERS_QUERY,
 		options
 	);
 }

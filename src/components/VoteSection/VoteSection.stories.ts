@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
-import VoteSection, { voteMutation } from './VoteSection';
+import VoteSection from './VoteSection';
 import '../../app/globals.css';
 import { userEvent, within } from '@storybook/testing-library';
+import { POST_VOTE_MUTATION } from '@/hooks/mutation/useVote';
 
 const meta: Meta<typeof VoteSection> = {
 	title: 'VoteSection',
@@ -36,7 +37,7 @@ export const UpVoted: Story = {
 			mocks: [
 				{
 					request: {
-						query: voteMutation,
+						query: POST_VOTE_MUTATION,
 						variables: {
 							value: 1,
 							postId: '1',
@@ -88,7 +89,7 @@ export const DownVoted: Story = {
 			mocks: [
 				{
 					request: {
-						query: voteMutation,
+						query: POST_VOTE_MUTATION,
 						variables: {
 							value: -1,
 							postId: '1',

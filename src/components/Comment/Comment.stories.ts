@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import Comment from './Comment';
 import '../../app/globals.css';
 import { userEvent, within } from '@storybook/testing-library';
-import { commentVoteMutation } from '../VoteSection/VoteSection';
+import { COMMENT_VOTE_MUTATION } from '@/hooks/mutation/useVote';
 
 const meta: Meta<typeof Comment> = {
 	title: 'Comment',
@@ -59,7 +59,7 @@ export const UpVoted: Story = {
 			mocks: [
 				{
 					request: {
-						query: commentVoteMutation,
+						query: COMMENT_VOTE_MUTATION,
 						variables: {
 							value: 1,
 							commentId: '1',
@@ -102,7 +102,7 @@ export const DownVoted: Story = {
 			mocks: [
 				{
 					request: {
-						query: commentVoteMutation,
+						query: COMMENT_VOTE_MUTATION,
 						variables: {
 							value: -1,
 							commentId: '1',

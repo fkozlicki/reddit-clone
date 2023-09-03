@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CommunityMembershipButton, {
-	COMMUNITY_QUERY,
-} from './CommunityMembershipButton';
+import CommunityMembershipButton from './CommunityMembershipButton';
 import '../../app/globals.css';
+import { COMMUNITY_MEMBERS_QUERY } from '@/hooks/query/useCommunityMembers';
 
 const meta: Meta<typeof CommunityMembershipButton> = {
 	title: 'CommunityMembershipButton',
@@ -31,7 +30,7 @@ export const Default: Story = {
 			mocks: [
 				{
 					request: {
-						query: COMMUNITY_QUERY,
+						query: COMMUNITY_MEMBERS_QUERY,
 						variables: { name: 'MyFirstCommunity' },
 					},
 					result: {
@@ -75,7 +74,7 @@ export const Joined: Story = {
 			mocks: [
 				{
 					request: {
-						query: COMMUNITY_QUERY,
+						query: COMMUNITY_MEMBERS_QUERY,
 						variables: { name: 'MyFirstCommunity' },
 					},
 					result: {

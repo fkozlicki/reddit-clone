@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import ChooseCommunity, { UserQuery } from './ChooseCommunity';
+import ChooseCommunity from './ChooseCommunity';
 import '../../app/globals.css';
+import { USER_COMMUNITIES_QUERY } from '@/hooks/query/useUserCommunities';
 
 const meta: Meta<typeof ChooseCommunity> = {
 	title: 'ChooseCommunity',
@@ -29,7 +30,7 @@ export const Default: Story = {
 				{
 					delay: 600,
 					request: {
-						query: UserQuery,
+						query: USER_COMMUNITIES_QUERY,
 					},
 					result: {
 						data: {
@@ -73,7 +74,7 @@ export const Selected: Story = {
 				{
 					delay: 600,
 					request: {
-						query: UserQuery,
+						query: USER_COMMUNITIES_QUERY,
 					},
 					result: {
 						data: {

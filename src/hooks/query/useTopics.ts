@@ -5,7 +5,7 @@ type TopicsQueryResponse = {
 	topics: Topic[];
 };
 
-const TOPICS_QUERY = gql`
+export const TOPICS_QUERY = gql`
 	query {
 		topics {
 			id

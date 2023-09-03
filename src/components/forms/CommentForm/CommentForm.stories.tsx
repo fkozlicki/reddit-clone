@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CommentForm, { CreateCommentMutation } from './CommentForm';
+import CommentForm from './CommentForm';
 import '../../../app/globals.css';
+import { CREATE_COMMENT_MUTATION } from '@/hooks/mutation/useCreateComment';
 
 const meta: Meta<typeof CommentForm> = {
 	title: 'Forms/CommentForm',
@@ -29,7 +30,7 @@ export const Default: Story = {
 			mocks: [
 				{
 					request: {
-						query: CreateCommentMutation,
+						query: CREATE_COMMENT_MUTATION,
 					},
 					result: {
 						data: {

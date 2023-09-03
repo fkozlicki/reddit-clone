@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CommunityAbout, { CommunityQuery } from './CommunityAbout';
+import CommunityAbout from './CommunityAbout';
 import '../../app/globals.css';
-import { TopicsQuery } from '../CommunityTopic/CommunityTopic';
+import { COMMUNITY_QUERY } from '@/hooks/query/useCommunity';
+import { TOPICS_QUERY } from '@/hooks/query/useTopics';
 
 const meta: Meta<typeof CommunityAbout> = {
 	title: 'CommunityAbout',
@@ -31,7 +32,7 @@ export const Default: Story = {
 			mocks: [
 				{
 					request: {
-						query: CommunityQuery,
+						query: COMMUNITY_QUERY,
 					},
 					result: {
 						data: {
@@ -66,7 +67,7 @@ export const WithHeader: Story = {
 			mocks: [
 				{
 					request: {
-						query: CommunityQuery,
+						query: COMMUNITY_QUERY,
 					},
 					result: {
 						data: {
@@ -101,7 +102,7 @@ export const CtaJoin: Story = {
 			mocks: [
 				{
 					request: {
-						query: CommunityQuery,
+						query: COMMUNITY_QUERY,
 					},
 					result: {
 						data: {
@@ -136,7 +137,7 @@ export const CtaCreatePost: Story = {
 			mocks: [
 				{
 					request: {
-						query: CommunityQuery,
+						query: COMMUNITY_QUERY,
 					},
 					result: {
 						data: {
@@ -183,7 +184,7 @@ export const Editable: Story = {
 			mocks: [
 				{
 					request: {
-						query: CommunityQuery,
+						query: COMMUNITY_QUERY,
 					},
 					result: {
 						data: {
@@ -206,7 +207,7 @@ export const Editable: Story = {
 				},
 				{
 					request: {
-						query: TopicsQuery,
+						query: TOPICS_QUERY,
 					},
 					result: {
 						data: {

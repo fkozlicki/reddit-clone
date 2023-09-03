@@ -1,9 +1,4 @@
-import {
-	QueryFunctionOptions,
-	QueryHookOptions,
-	gql,
-	useQuery,
-} from '@apollo/client';
+import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { Community, Topic } from '@prisma/client';
 
 type CommunityQueryResponse = {
@@ -18,7 +13,7 @@ type CommunityQueryVariables = {
 	name: string;
 };
 
-export const CommunityQuery = gql`
+export const COMMUNITY_QUERY = gql`
 	query ($name: String!) {
 		community(name: $name) {
 			name
@@ -42,7 +37,7 @@ export default function useCommunity(
 	options: QueryHookOptions<CommunityQueryResponse, CommunityQueryVariables>
 ) {
 	return useQuery<CommunityQueryResponse, CommunityQueryVariables>(
-		CommunityQuery,
+		COMMUNITY_QUERY,
 		options
 	);
 }

@@ -13,7 +13,7 @@ type UserQueryResponse = {
 	};
 };
 
-export const UserQuery = gql`
+export const USER_COMMUNITIES_QUERY = gql`
 	query {
 		user {
 			communities {
@@ -28,5 +28,5 @@ export const UserQuery = gql`
 `;
 
 export default function useUserCommunities() {
-	return useQuery<UserQueryResponse>(UserQuery);
+	return useQuery<UserQueryResponse>(USER_COMMUNITIES_QUERY);
 }
