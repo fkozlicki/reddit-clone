@@ -2,19 +2,19 @@ import React from 'react';
 import Grid from '../Grid/Grid';
 import CommunityHeader from '../CommunityHeader/CommunityHeader';
 import FeedFilter, { FeedFilterProps } from '../FeedFilter/FeedFilter';
-import { DocumentNode } from 'graphql';
 import Feed from '../Feed/Feed';
 import CommunityAbout from '../CommunityAbout/CommunityAbout';
+import { FeedType } from '@/hooks/query/usePosts';
 
 interface CommunityScreenProps {
-	query: DocumentNode;
 	name: string;
+	feedType: FeedType;
 	highlighted: FeedFilterProps['highlighted'];
 }
 
 const CommunityScreen = ({
 	name,
-	query,
+	feedType,
 	highlighted,
 }: CommunityScreenProps) => {
 	return (
@@ -24,7 +24,7 @@ const CommunityScreen = ({
 				left={
 					<>
 						<FeedFilter highlighted={highlighted} prefix={`r/${name}`} />
-						<Feed query={query} />
+						<Feed type={feedType} communityName={name} />
 					</>
 				}
 				right={

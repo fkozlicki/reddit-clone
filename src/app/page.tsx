@@ -26,5 +26,5 @@ const POSTS_QUERY = gql`
 `;
 
 export default function Home() {
-	return <HomeScreen query={POSTS_QUERY} highlighted="best" />;
+	return <HomeScreen feedType="best" highlighted="best" />;
 }

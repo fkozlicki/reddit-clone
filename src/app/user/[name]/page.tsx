@@ -47,7 +47,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 				<div className="max-w-[976px] m-auto">{name} Profile</div>
 			</div>
 			<Grid
-				left={<Feed query={COMMUNITY_POSTS_HOT(name)} />}
+				left={<Feed type="hot" authorName={name} />}
 				right={
 					<div className="bg-background-primary p-3 rounded">
 						<div>{user.name}</div>

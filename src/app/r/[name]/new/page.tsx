@@ -1,37 +1,7 @@
 import CommunityScreen from '@/components/CommunityScreen/CommunityScreen';
-import { gql } from '@apollo/client';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
-
-const COMMUNITY_NEW_POSTS_QUERY = (communityName: string) => gql`
-	query newPosts($offset: Int, $limit: Int) {
-		posts(
-			offset: $offset
-			limit: $limit
-			filter: { community: { name: ${`"${communityName}"`} } }
-			sort: new
-		) {
-			id
-			title
-			content
-			createdAt
-			comments {
-				id
-			}
-			votes {
-				userId
-				value
-			}
-			author {
-				name
-			}
-			community {
-				name
-			}
-		}
-	}
-`;
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const community = await prisma.community.findUnique({
@@ -47,13 +17,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 		return notFound();
 	}
 
-	return (
-		<CommunityScreen
-			name={name}
-			query={COMMUNITY_NEW_POSTS_QUERY(name)}
-			highlighted="new"
-		/>
-	);
+	return <CommunityScreen name={name} feedType="new" highlighted="new" />;
 };
 
 export default page;

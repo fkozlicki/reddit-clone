@@ -11,13 +11,14 @@ import PremiumCTA from '../PremiumCTA/PremiumCTA';
 import HomeCTA from '../HomeCTA/HomeCTA';
 import VoteSection from '../VoteSection/VoteSection';
 import PostSkeleton from '../PostSkeleton/PostSkeleton';
+import { FeedType } from '@/hooks/query/usePosts';
 
 interface HomeScreenProps {
-	query: DocumentNode;
+	feedType: FeedType;
 	highlighted: FeedFilterProps['highlighted'];
 }
 
-const HomeScreen = async ({ query, highlighted }: HomeScreenProps) => {
+const HomeScreen = async ({ feedType, highlighted }: HomeScreenProps) => {
 	const session = await getServerSession(authOptions);
 
 	return (
@@ -31,7 +32,7 @@ const HomeScreen = async ({ query, highlighted }: HomeScreenProps) => {
 							<div className="text-sm font-medium mb-2">Popular posts</div>
 						)}
 						<FeedFilter best highlighted={highlighted} />
-						<Feed query={query} />
+						<Feed type={feedType} />
 					</>
 				}
 				right={
