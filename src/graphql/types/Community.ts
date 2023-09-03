@@ -119,7 +119,7 @@ builder.mutationField('updateCommunity', (t) =>
 	})
 );
 
-builder.mutationField('joinCommunity', (t) =>
+builder.mutationField('changeMembership', (t) =>
 	t.prismaField({
 		type: 'Community',
 		args: {
@@ -132,61 +132,50 @@ builder.mutationField('joinCommunity', (t) =>
 
 			const { name } = args;
 
-			const community = await ctx.prisma.community.update({
-				...query,
+			const community = await ctx.prisma.community.findUnique({
 				where: {
 					name,
 				},
-				data: {
-					members: {
-						connect: {
-							id: ctx.session.user.id,
-						},
-					},
+				include: {
+					members: true,
 				},
 			});
 
 			if (!community) {
-				throw new Error('Couldnt update community.');
+				throw new Error('Couldnt find community');
 			}
 
-			return community;
-		},
-	})
-);
+			const isMember = community.members.some(
+				(member) => member.id === ctx.session!.user.id
+			);
 
-builder.mutationField('leaveCommunity', (t) =>
-	t.prismaField({
-		type: 'Community',
-		args: {
-			name: t.arg.string({ required: true }),
-		},
-		resolve: async (query, _parent, args, ctx) => {
-			if (!ctx.session) {
-				throw new Error('You have to be logged in.');
-			}
-
-			const { name } = args;
-
-			const community = await ctx.prisma.community.update({
-				...query,
-				where: {
-					name,
-				},
-				data: {
-					members: {
+			const operation = isMember
+				? {
 						disconnect: {
 							id: ctx.session.user.id,
 						},
-					},
+				  }
+				: {
+						connect: {
+							id: ctx.session.user.id,
+						},
+				  };
+
+			const updated = await ctx.prisma.community.update({
+				...query,
+				where: {
+					name,
+				},
+				data: {
+					members: operation,
 				},
 			});
 
-			if (!community) {
+			if (!updated) {
 				throw new Error('Couldnt update community.');
 			}
 
-			return community;
+			return updated;
 		},
 	})
 );
