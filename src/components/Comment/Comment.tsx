@@ -5,20 +5,19 @@ import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import IconButton from '../buttons/IconButton/IconButton';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import VoteSection from '../VoteSection/VoteSection';
-import { CommentVote } from '@prisma/client';
 import { useSession } from 'next-auth/react';
-import { InitialComment } from '../CommentsSection/CommentsSection';
 import CommentForm from '../forms/CommentForm/CommentForm';
 import { useParams } from 'next/navigation';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import { CommentReply, PostVote } from '@/hooks/query/usePost';
 
 interface CommentProps {
 	id: string;
 	authorName: string | null;
 	createdAt: Date;
 	content: string;
-	votes: CommentVote[];
-	initialReplies?: Omit<InitialComment, 'replies'>[];
+	votes?: PostVote[];
+	initialReplies?: CommentReply[];
 }
 
 const Comment = ({
@@ -34,11 +33,11 @@ const Comment = ({
 	const { data: session } = useSession();
 	const [replies, setReplies] = useState(initialReplies || []);
 	const [replyFormOpen, setReplyFormOpen] = useState(false);
-	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
-	const userVote = votes.find((vote) => vote.userId === session?.user.id);
+	const karma = votes?.reduce((acc, vote) => acc + vote.value, 0);
+	const userVote = votes?.find((vote) => vote.userId === session?.user.id);
 	const postId = params.id as string;
 
-	const updateReplies = (reply: InitialComment) => {
+	const updateReplies = (reply: CommentReply) => {
 		setReplies((prev) => [reply, ...prev]);
 	};
 
@@ -71,7 +70,7 @@ const Comment = ({
 							type="comment"
 							commentId={id}
 							direction="row"
-							initialKarma={karma}
+							initialKarma={karma ?? 0}
 							initialVote={userVote}
 						/>
 						<IconButton
@@ -88,7 +87,7 @@ const Comment = ({
 						<div className="mb-2">
 							<CommentForm
 								postId={postId}
-								updateComments={updateReplies}
+								updateReplies={updateReplies}
 								replyToId={id}
 							/>
 						</div>
