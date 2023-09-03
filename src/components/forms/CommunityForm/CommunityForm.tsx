@@ -6,23 +6,15 @@ import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Input from '../../inputs/Input/Input';
 import Spinner from '@/components/Spinner/Spinner';
+import useCreateCommunity from '@/hooks/mutation/useCreateCommunity';
 
 interface CreateCommunityFormProps {
 	closeModal: () => void;
 }
-
-export const CreateCommunityMutation = gql`
-	mutation ($name: String!) {
-		createCommunity(name: $name) {
-			name
-		}
-	}
-`;
 
 const createCommunitySchema = z.object({
 	name: z
@@ -35,11 +27,6 @@ const createCommunitySchema = z.object({
 });
 
 type CreateCommunityValues = z.infer<typeof createCommunitySchema>;
-type CreateCommunityResponse = {
-	createCommunity: {
-		name: string;
-	};
-};
 
 const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 	const { push } = useRouter();
@@ -57,10 +44,7 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 		reValidateMode: 'onChange',
 		mode: 'onSubmit',
 	});
-	const [createCommunity, { loading }] = useMutation<
-		CreateCommunityResponse,
-		CreateCommunityValues
-	>(CreateCommunityMutation, {
+	const [createCommunity, { loading }] = useCreateCommunity({
 		onCompleted: ({ createCommunity: { name } }) => {
 			toast('Community created successfuly', {
 				icon: '✅',

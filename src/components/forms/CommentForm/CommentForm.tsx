@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
-import { gql, useMutation } from '@apollo/client';
-import { InitialComment } from '../../CommentsSection/CommentsSection';
 import Spinner from '@/components/Spinner/Spinner';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import { PostComment } from '@/hooks/query/usePost';
+import useCreateComment from '@/hooks/mutation/useCreateComment';
+import { Comment } from '@prisma/client';
 
 const commentSchema = z.object({
 	content: z.string().min(1),
@@ -17,32 +18,20 @@ const commentSchema = z.object({
 
 type CommentValues = z.infer<typeof commentSchema>;
 
-export const CreateCommentMutation = gql`
-	mutation ($postId: String!, $content: String!, $replyToId: String) {
-		createComment(postId: $postId, content: $content, replyToId: $replyToId) {
-			id
-			content
-			createdAt
-			author {
-				name
-			}
-			votes {
-				id
-			}
-		}
-	}
-`;
-
 interface CommentFormProps {
-	postId: string;
-	updateComments: (newComment: InitialComment) => void;
+	postId: Comment['postId'];
+	updateComments?: (
+		newComment: PostComment | Omit<PostComment, 'replies' | 'votes'>
+	) => void;
+	updateReplies?: (newReply: any) => void;
 	replyToId?: string;
 }
 
 const CommentForm = ({
 	postId,
-	updateComments,
 	replyToId,
+	updateComments,
+	updateReplies,
 }: CommentFormProps) => {
 	const { data: session } = useSession();
 	const [focus, setFocus] = useState(false);
@@ -54,10 +43,12 @@ const CommentForm = ({
 	} = useForm<CommentValues>({
 		resolver: zodResolver(commentSchema),
 	});
-	const [createComment, { loading }] = useMutation(CreateCommentMutation, {
+	const [createComment, { loading }] = useCreateComment({
 		onCompleted({ createComment }) {
 			reset();
-			updateComments(createComment);
+
+			updateComments && updateComments(createComment);
+			updateReplies && updateReplies(createComment);
 		},
 		onError(error) {
 			console.error(error);
@@ -70,7 +61,7 @@ const CommentForm = ({
 			variables: {
 				postId,
 				content: values.content,
-				replyToId,
+				replyToId: replyToId ?? null,
 			},
 		});
 	};

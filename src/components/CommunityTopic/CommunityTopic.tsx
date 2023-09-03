@@ -1,31 +1,9 @@
+import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import useTopics from '@/hooks/query/useTopics';
 import { useClickAway } from '@/hooks/useClickAway';
-import { gql, useMutation } from '@apollo/client';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import { Community, Topic } from '@prisma/client';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
-
-type AddTopicValues = {
-	name: string;
-	topicId: string;
-};
-type AddTopicRespnse = {
-	updateCommunity: Community & {
-		topic: Topic;
-	};
-};
-
-const AddTopicMutation = gql`
-	mutation ($name: String!, $topicId: String!) {
-		updateCommunity(name: $name, topicId: $topicId) {
-			name
-			topic {
-				name
-			}
-		}
-	}
-`;
 
 interface CommunityTopicProps {
 	initialTopic?: string;
@@ -39,12 +17,13 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 		setTopicsDropdownOpen(false);
 	});
 	const [topic, setTopic] = useState<string | undefined>(initialTopic);
-	const [changeTopic, { loading }] = useMutation<
-		AddTopicRespnse,
-		AddTopicValues
-	>(AddTopicMutation, {
-		onCompleted(data) {
-			setTopic(data.updateCommunity.topic.name);
+	const [changeTopic, { loading }] = useUpdateCommunity({
+		onCompleted({
+			updateCommunity: {
+				topic: { name },
+			},
+		}) {
+			setTopic(name);
 		},
 	});
 	const { data } = useTopics();

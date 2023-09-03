@@ -5,25 +5,14 @@ import Button from '../../buttons/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import Input from '../../inputs/Input/Input';
+import useCreatePost from '@/hooks/mutation/useCreatePost';
 
 interface PostFormProps {
 	communityId?: string;
 }
-
-type CreatePostValues = z.infer<typeof createPostSchema>;
-
-type CreatePostResponse = {
-	createPost: {
-		id: string;
-		community: {
-			name: string;
-		};
-	};
-};
 
 const createPostSchema = z.object({
 	communityId: z.string().min(1),
@@ -31,16 +20,7 @@ const createPostSchema = z.object({
 	content: z.string().min(1),
 });
 
-const createPostMutation = gql`
-	mutation ($title: String!, $content: String!, $communityId: String!) {
-		createPost(title: $title, content: $content, communityId: $communityId) {
-			id
-			community {
-				name
-			}
-		}
-	}
-`;
+type CreatePostValues = z.infer<typeof createPostSchema>;
 
 const PostForm = ({ communityId }: PostFormProps) => {
 	const { push } = useRouter();
@@ -55,10 +35,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			communityId,
 		},
 	});
-	const [createPost, { loading }] = useMutation<
-		CreatePostResponse,
-		CreatePostValues
-	>(createPostMutation, {
+	const [createPost, { loading }] = useCreatePost({
 		onCompleted({
 			createPost: {
 				id,

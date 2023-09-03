@@ -1,33 +1,15 @@
 import { useClickAway } from '@/hooks/useClickAway';
-import { gql, useMutation } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Spinner from '../../Spinner/Spinner';
+import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 
 const descriptionSchema = z.object({
 	description: z.string().max(200).nullable(),
 });
 type DescriptionValues = z.infer<typeof descriptionSchema>;
-
-const CHANGE_DESCRIPTION_MUTATION = gql`
-	mutation ($name: String!, $description: String) {
-		updateCommunity(name: $name, description: $description) {
-			description
-		}
-	}
-`;
-
-type ChangeDescriptionResponse = {
-	updateCommunity: {
-		description: string | null;
-	};
-};
-type ChangeDescriptionVariables = {
-	name: string;
-	description: string | null;
-};
 
 interface CommunityDescriptionFormProps {
 	communityName: string;
@@ -54,10 +36,7 @@ const CommunityDescriptionForm = ({
 			description: initialDescription,
 		},
 	});
-	const [changeDescription, { loading }] = useMutation<
-		ChangeDescriptionResponse,
-		ChangeDescriptionVariables
-	>(CHANGE_DESCRIPTION_MUTATION, {
+	const [changeDescription, { loading }] = useUpdateCommunity({
 		onCompleted({ updateCommunity: { description } }) {
 			updateDescription(description);
 			setDescriptionInputOpen(false);

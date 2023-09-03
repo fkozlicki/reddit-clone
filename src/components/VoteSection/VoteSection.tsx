@@ -1,12 +1,12 @@
 'use client';
 
 import { useModalsContext } from '@/contexts/ModalsContext';
-import { gql, useMutation } from '@apollo/client';
+import useVote from '@/hooks/mutation/useVote';
+import { PostVote } from '@/hooks/query/usePost';
 import {
 	ArrowDownCircleIcon,
 	ArrowUpCircleIcon,
 } from '@heroicons/react/24/outline';
-import { CommentVote, Vote } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -14,63 +14,16 @@ import { toast } from 'react-hot-toast';
 type VoteSectionProps = {
 	direction: 'row' | 'column';
 	initialKarma: number;
-} & (
-	| { type: 'post'; postId: string; initialVote?: Vote }
-	| { type: 'comment'; commentId: string; initialVote?: CommentVote }
-);
-
-type VoteMutationValues = {
-	value: 1 | -1;
-	postId: string;
-};
-
-type CommentVoteMutationValues = {
-	value: 1 | -1;
-	commentId: string;
-};
-
-type VoteMutationResponse = {
-	makeVote: Vote;
-};
-
-type CommentVoteMutationResponse = {
-	makeCommentVote: CommentVote;
-};
-
-export const voteMutation = gql`
-	mutation ($value: Int!, $postId: String!) {
-		makeVote(value: $value, postId: $postId) {
-			id
-			value
-			userId
-			postId
-		}
-	}
-`;
-
-export const commentVoteMutation = gql`
-	mutation ($value: Int!, $commentId: String!) {
-		makeCommentVote(value: $value, commentId: $commentId) {
-			id
-			value
-			userId
-			commentId
-		}
-	}
-`;
+	initialVote?: PostVote;
+} & ({ type: 'post'; postId: string } | { type: 'comment'; commentId: string });
 
 const VoteSection = (props: VoteSectionProps) => {
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
 	const { direction, initialKarma, type, initialVote } = props;
-	const [userVote, setUserVote] = useState<Vote | CommentVote | undefined>(
-		initialVote
-	);
+	const [userVote, setUserVote] = useState<PostVote | undefined>(initialVote);
 	const [karma, setKarma] = useState(initialKarma);
-	const [vote] = useMutation<
-		VoteMutationResponse | CommentVoteMutationResponse,
-		VoteMutationValues | CommentVoteMutationValues
-	>(type === 'post' ? voteMutation : commentVoteMutation, {
+	const [vote] = useVote(type, {
 		onError() {
 			toast("Couldn't vote");
 		},

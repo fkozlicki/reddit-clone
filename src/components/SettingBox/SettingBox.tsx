@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import Input from '../inputs/Input/Input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-hot-toast';
+import useUpdateUser from '@/hooks/mutation/useUpdateUser';
 
 const settingsSchema = z.object({
 	name: z.string().min(3),
@@ -15,16 +15,6 @@ const settingsSchema = z.object({
 });
 
 type SettingsValues = z.infer<typeof settingsSchema>;
-
-const UPDATE_USER_MUTATION = gql`
-	mutation ($name: String, $displayName: String, $about: String) {
-		updateUser(name: $name, displayName: $displayName, about: $about) {
-			name
-			displayName
-			about
-		}
-	}
-`;
 
 interface SettingBoxProps {
 	name: keyof SettingsValues;
@@ -51,7 +41,7 @@ const SettingBox = ({
 			[name]: initialValue,
 		},
 	});
-	const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
+	const [updateUser] = useUpdateUser({
 		onCompleted(data) {
 			toast('Changes saved', {
 				icon: '✅',
@@ -60,16 +50,23 @@ const SettingBox = ({
 		},
 	});
 
-	const handleUpdate = (prop: keyof SettingsValues) => {
+	const handleUpdate = () => {
 		if (defaultValue === watch(name)) {
 			return;
 		}
 
-		handleSubmit((variables) => {
+		handleSubmit(({ name, displayName, about }) => {
+			const variables =
+				name === 'name'
+					? {
+							name,
+					  }
+					: name === 'displayName'
+					? { displayName }
+					: { about };
+
 			updateUser({
-				variables: {
-					[name]: variables[prop],
-				},
+				variables,
 			});
 		})();
 	};
@@ -84,7 +81,7 @@ const SettingBox = ({
 			<Input
 				placeholder={label}
 				register={register(name, {
-					onBlur: () => handleUpdate(name),
+					onBlur: () => handleUpdate(),
 					onChange: () => {
 						setRemainingCharacters(maxLength - (watch(name)?.length ?? 0));
 					},
