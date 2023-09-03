@@ -19,7 +19,7 @@ export const Default: Story = {
 		authorName: 'John',
 		createdAt: new Date(),
 		votes: [],
-		comments: [],
 		communityName: 'essa',
+		commentsCount: 2,
 	},
 };

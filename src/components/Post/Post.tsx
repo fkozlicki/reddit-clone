@@ -7,12 +7,13 @@ import {
 	EllipsisHorizontalIcon,
 	ShareIcon,
 } from '@heroicons/react/24/outline';
-import { Comment, Community, User, Vote } from '@prisma/client';
+import { Community, User, Vote } from '@prisma/client';
 import IconButton from '../buttons/IconButton/IconButton';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import VoteSection from '../VoteSection/VoteSection';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
+import { PostVote } from '@/hooks/query/usePost';
 
 interface PostProps {
 	id: string;
@@ -20,8 +21,8 @@ interface PostProps {
 	content: string;
 	authorName: User['name'];
 	createdAt: Date;
-	votes: Vote[];
-	comments: Comment[];
+	votes: PostVote[];
+	commentsCount: number;
 	communityName: Community['name'];
 	search?: string;
 }
@@ -34,10 +35,9 @@ const Post = ({
 	authorName,
 	createdAt,
 	communityName,
-	comments,
+	commentsCount,
 }: PostProps) => {
 	const { data: session } = useSession();
-
 	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
 	const userVote = votes.find((vote) => vote.userId === session?.user.id);
 
@@ -91,7 +91,7 @@ const Post = ({
 						classNames="text-text-gray text-[12px] font-bold"
 						shape="square"
 						icon={<ChatBubbleLeftIcon width={20} />}
-						text={`${comments.length} Comments`}
+						text={`${commentsCount} Comments`}
 						href={`/r/${communityName}/comments/${id}`}
 					/>
 					<IconButton
