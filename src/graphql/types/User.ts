@@ -58,13 +58,14 @@ builder.mutationField('updateUser', (t) =>
 			name: t.arg.string(),
 			displayName: t.arg.string(),
 			about: t.arg.string(),
+			image: t.arg.string(),
 		},
 		resolve: async (query, _parent, args, ctx) => {
 			if (!ctx.session) {
 				throw new Error('You have to be logged in');
 			}
 
-			const { displayName, about } = args;
+			const { displayName, about, image, name } = args;
 
 			const user = await ctx.prisma.user.update({
 				...query,
@@ -72,9 +73,10 @@ builder.mutationField('updateUser', (t) =>
 					id: ctx.session.user.id,
 				},
 				data: {
-					name: args.name ?? undefined,
+					name: name ?? undefined,
 					displayName,
 					about,
+					image,
 				},
 			});
 
