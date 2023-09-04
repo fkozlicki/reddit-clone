@@ -9,6 +9,7 @@ import SignInForm from '../../forms/SignInForm/SignInForm';
 import UserDropdown from '../UserDropdown/UserDropdown';
 import Link from 'next/link';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import Logo from '@/components/Logo/Logo';
 
 const Navbar = () => {
 	const { data: session } = useSession();
@@ -23,11 +24,8 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="flex justify-between items-center px-4 h-12 border-b border-b-border-input bg-background-primary z-50">
-			<Link href="/" className="inline-flex items-center justify-start gap-2">
-				<Image src="/logo-icon.svg" alt="reddit logo" width={32} height={32} />
-				<Image src="/logo-sign.svg" alt="reddit logo" width={57} height={18} />
-			</Link>
+		<div className="flex justify-between items-center px-4 h-12 border-b border-input bg-primary z-50">
+			<Logo />
 			<div className="w-2 h-full" />
 			<div className="flex-1 max-w-[690px]">
 				<Search />
@@ -43,7 +41,9 @@ const Navbar = () => {
 					Log in
 				</Button>
 			)}
-			{session && <UserDropdown userName={session.user.name} />}
+			{session && (
+				<UserDropdown userName={session.user.name} image={session.user.image} />
+			)}
 			{!session && signIn && (
 				<div className="absolute w-screen h-screen bg-black/50 top-0 left-0 flex items-center justify-center z-50">
 					<SignInForm closeModal={closeModal} />

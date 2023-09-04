@@ -77,7 +77,7 @@ const SettingBox = ({
 
 	return (
 		<div>
-			<div className="mb-2">{label}</div>
+			<div className="mb-2 text-primary">{label}</div>
 			<Input
 				placeholder={label}
 				register={register(name, {
@@ -94,7 +94,7 @@ const SettingBox = ({
 			<div className="h-3" />
 			<div
 				className={`text-xs ${
-					remainingCharacters === 0 ? 'text-danger' : 'text-text-gray'
+					remainingCharacters === 0 ? 'text-red-600' : 'text-primary'
 				}`}
 			>
 				{remainingCharacters} characters remaining

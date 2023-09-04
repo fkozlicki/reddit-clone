@@ -67,7 +67,7 @@ const CommunityDescriptionForm = ({
 	return (
 		<div
 			onClick={openDescriptionInput}
-			className="p-2 border border-border-input mb-2 rounded hover:border-primary cursor-pointer"
+			className="p-2 border border-input mb-2 rounded hover:border-primary cursor-pointer"
 		>
 			{descriptionInputOpen ? (
 				<form ref={description} onSubmit={handleSubmit(onSubmit)}>
@@ -86,7 +86,7 @@ const CommunityDescriptionForm = ({
 						maxLength={200}
 					/>
 					<div className="flex justify-between text-xs">
-						<div className="text-text-gray">
+						<div className="text-primary">
 							{charactersRemaining} characters remaining
 						</div>
 						<div className="flex items-center gap-2">

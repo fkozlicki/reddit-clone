@@ -31,18 +31,18 @@ const SignInForm = ({ closeModal }: SignInForm) => {
 	};
 
 	return (
-		<div className="w-[400px] p-12 border rounded-xl flex justify-center relative bg-background-primary">
+		<div className="w-[400px] p-12 border rounded-xl flex justify-center relative bg-primary">
 			<div className="mt-16">
-				<div className="text-xl font-medium mb-12">Sign In</div>
+				<div className="text-xl font-medium mb-12 text-primary">Sign In</div>
 				<AuthButton
 					image={googleImage}
 					text="Continue with Google"
 					onClick={() => signIn('google')}
 				/>
 				<div className="my-6 flex items-center">
-					<div className="h-px bg-border-input w-full" />
-					<div className="px-4 text-sm text-text-gray font-medium">OR</div>
-					<div className="h-px bg-border-input w-full" />
+					<div className="border-b border-input w-full" />
+					<div className="px-4 text-sm text-primary font-medium">OR</div>
+					<div className="border-b border-input w-full" />
 				</div>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<AnimatedInput label="Email" register={register('email')} />

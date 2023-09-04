@@ -62,8 +62,8 @@ const CommunityAbout = ({
 	const { name: communityName, createdAt, members, topic } = data.community;
 
 	return (
-		<div className="rounded border border-border-post bg-background-primary relative">
-			<div className="bg-blue-500 p-3 rounded-t">
+		<div className="rounded border border-post bg-primary relative">
+			<div className="bg-[#0079d3] p-3 rounded-t">
 				{withHeader && (
 					<div className="flex justify-between items-center">
 						<div className="text-sm font-bold text-white">About Community</div>
@@ -77,7 +77,7 @@ const CommunityAbout = ({
 				{withName && (
 					<div className="flex items-center gap-3 mb-4">
 						<div className="w-10 h-10 bg-black rounded-full"></div>
-						<div>r/{communityName}</div>
+						<div className="text-primary">r/{communityName}</div>
 					</div>
 				)}
 				{editable && isModerator ? (
@@ -87,24 +87,24 @@ const CommunityAbout = ({
 						initialDescription={description}
 					/>
 				) : (
-					<div className="text-sm mb-2">{description}</div>
+					<div className="text-sm mb-2 text-primary">{description}</div>
 				)}
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-4 text-primary">
 					<CalendarDaysIcon width={20} />
-					<span className="text-text-gray text-sm">
+					<span className="text-sm">
 						Created {formatDate(new Date(createdAt))}
 					</span>
 				</div>
-				<div className="w-full h-px bg-border-input my-4" />
-				<div>
+				<div className="w-full h-px border-b border-input my-4" />
+				<div className="text-primary">
 					<div>{members.length}</div>
-					<div className="text-xs text-text-gray">Memebers</div>
+					<div className="text-xs">Memebers</div>
 				</div>
-				<div className="w-full h-px bg-border-input my-4" />
+				<div className="w-full h-px border-b border-input my-4" />
 				{editable && isModerator && (
 					<>
 						<CommunityTopic initialTopic={topic?.name} />
-						<div className="w-full h-px bg-border-input my-4" />
+						<div className="w-full h-px border-b border-input my-4" />
 					</>
 				)}
 				{cta &&

@@ -22,7 +22,7 @@ const HomeScreen = async ({ feedType, highlighted }: HomeScreenProps) => {
 	const session = await getServerSession(authOptions);
 
 	return (
-		<div className="flex-1 bg-background-feed min-h-[calc(100vh-48px)]">
+		<div className="flex-1 bg-secondary min-h-[calc(100vh-48px)]">
 			{!session && <Trending />}
 			<Grid
 				left={

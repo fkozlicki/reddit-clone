@@ -21,9 +21,9 @@ const IconButton = ({
 	classNames,
 }: IconButtonProps) => {
 	const _shape =
-		shape === 'circle' ? 'px-2 py-[6px] rounded-full' : 'p-2 rounded';
-	const _selected = selected ? 'bg-border-input text-primary' : '';
-	const className = `flex items-center gap-1 bg-background-primary hover:bg-border-input outline-none ${_shape} ${_selected} ${classNames}`;
+		shape === 'circle' ? 'px-4 py-[6px] rounded-full' : 'p-2 rounded';
+	const _selected = selected ? 'bg-primary-hover' : '';
+	const className = `flex items-center gap-1 bg-primary hover:bg-primary-hover text-primary outline-none ${_shape} ${_selected} ${classNames}`;
 
 	return href ? (
 		<Link href={href} className={className}>

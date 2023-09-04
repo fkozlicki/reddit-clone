@@ -71,23 +71,23 @@ const VoteSection = (props: VoteSectionProps) => {
 			<button
 				aria-label="Up Vote"
 				onClick={session ? () => handleVote(1) : openSignIn}
-				className="rounded-sm hover:bg-button-hover group p-px outline-none"
+				className="rounded-sm group p-px outline-none hover:bg-primary-hover"
 			>
 				<ArrowUpCircleIcon
-					className={`w-6 group-hover:text-danger ${
-						userVote?.value === 1 ? 'text-danger' : 'text-text-gray'
+					className={`w-6 group-hover:text-red-600 ${
+						userVote?.value === 1 ? 'text-red-600' : 'text-primary'
 					}`}
 				/>
 			</button>
-			<div className="text-[12px] font-semibold">{karma}</div>
+			<div className="text-[12px] font-semibold text-primary">{karma}</div>
 			<button
 				aria-label="Down Vote"
 				onClick={session ? () => handleVote(-1) : openSignIn}
-				className="rounded-sm hover:bg-button-hover group p-px outline-none"
+				className="rounded-sm group p-px outline-none hover:bg-primary-hover"
 			>
 				<ArrowDownCircleIcon
-					className={`w-6 group-hover:text-primary ${
-						userVote?.value === -1 ? 'text-primary' : 'text-text-gray'
+					className={`w-6 group-hover:text-blue-600 ${
+						userVote?.value === -1 ? 'text-blue-600' : 'text-primary'
 					}`}
 				/>
 			</button>

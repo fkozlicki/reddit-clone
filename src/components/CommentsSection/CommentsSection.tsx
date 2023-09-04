@@ -23,7 +23,7 @@ const CommentsSection = ({ initialComments, postId }: CommentsSectionProps) => {
 	};
 
 	return (
-		<div className="bg-background-primary py-5 px-4 flex-1">
+		<div className="bg-primary py-5 px-4 flex-1 border border-post rounded">
 			<div className="mx-8">
 				<CommentForm postId={postId} updateComments={updateComments} />
 			</div>

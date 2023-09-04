@@ -53,18 +53,18 @@ const Comment = ({
 		<div className="flex gap-2">
 			<div className="flex flex-col items-center">
 				<div className="w-6 h-6 bg-black rounded-full"></div>
-				<div className="w-px flex-1 bg-border-post"></div>
+				<div className="w-0.5 flex-1 bg-gray-600"></div>
 			</div>
 			<div className="flex-1">
 				<div className="mb-2">
-					<div className="flex items-center">
+					<div className="flex items-center  text-primary">
 						<div className="text-xs">{authorName}</div>
-						<div className="text-text-gray mx-1">·</div>
-						<div className="text-xs text-text-gray">
+						<div className="text-primary mx-1">·</div>
+						<div className="text-xs text-primary">
 							{calculateEllapsedTime(new Date(createdAt))}
 						</div>
 					</div>
-					<div className="mb-2">{content}</div>
+					<div className="mb-2 text-primary">{content}</div>
 					<div className="flex items-center gap-1">
 						<VoteSection
 							type="comment"
@@ -77,7 +77,7 @@ const Comment = ({
 							shape="square"
 							text="Reply"
 							icon={<ChatBubbleLeftIcon width={18} />}
-							classNames="text-text-gray text-xs"
+							classNames="text-primary text-xs"
 							onClick={session ? toggleReplyFormOpen : openSignIn}
 						/>
 					</div>

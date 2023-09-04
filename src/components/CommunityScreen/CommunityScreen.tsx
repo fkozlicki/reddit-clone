@@ -18,7 +18,7 @@ const CommunityScreen = ({
 	highlighted,
 }: CommunityScreenProps) => {
 	return (
-		<div className="flex-1 min-h-[calc(100vh-48px)] bg-background-feed">
+		<div className="flex-1 min-h-[calc(100vh-48px)] ">
 			<CommunityHeader name={name} />
 			<Grid
 				left={

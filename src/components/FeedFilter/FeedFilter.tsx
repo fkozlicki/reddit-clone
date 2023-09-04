@@ -15,7 +15,7 @@ export interface FeedFilterProps {
 
 const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 	return (
-		<div className="bg-background-primary p-3 rounded border border-border-post mb-6">
+		<div className="bg-primary p-3 rounded border border-post mb-6">
 			<div className="flex gap-2">
 				{best && (
 					<IconButton

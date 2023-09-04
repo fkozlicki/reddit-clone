@@ -66,15 +66,15 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="p-3 w-[400px] bg-background-primary rounded"
+			className="p-3 w-[400px] bg-primary rounded"
 		>
-			<div className="flex justify-between items-center mb-8">
+			<div className="flex justify-between items-center mb-8 text-primary">
 				<div className="font-medium">Create a community</div>
 				<button onClick={closeModal}>
 					<XMarkIcon width={20} />
 				</button>
 			</div>
-			<div className="mb-4 font-medium">Name</div>
+			<div className="mb-4 font-medium text-primary">Name</div>
 			<Input
 				placeholder="/r"
 				register={register('name', {
@@ -88,14 +88,14 @@ const CreateCommunityForm = ({ closeModal }: CreateCommunityFormProps) => {
 			<div className="h-2" />
 			<div
 				className={`text-xs ${
-					remainingCharacters === 0 ? 'text-danger' : 'text-text-gray'
+					remainingCharacters === 0 ? 'text-red-600' : 'text-primary'
 				}`}
 			>
 				{remainingCharacters} remaining characters
 			</div>
 			<div className="h-1" />
 			{errors.name && (
-				<div className="text-xs text-danger">{errors.name.message}</div>
+				<div className="text-xs text-red-600">{errors.name.message}</div>
 			)}
 			<div className="flex items-center justify-end p-4 gap-2">
 				<Button onClick={closeModal} type="button" classNames="w-auto">

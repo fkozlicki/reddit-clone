@@ -55,10 +55,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="bg-background-primary p-3 rounded"
-		>
+		<form onSubmit={handleSubmit(onSubmit)} className="bg-primary p-3 rounded">
 			<Input
 				placeholder="Title"
 				register={register('title')}

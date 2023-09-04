@@ -19,12 +19,12 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 	}
 
 	return (
-		<div className="flex-1 min-h-[calc(100vh-48px)] bg-background-feed">
+		<div className="flex-1 min-h-[calc(100vh-48px)] ">
 			<Grid
 				left={
 					<>
 						<div className="mb-4 font-medium">Create a post</div>
-						<div className="w-full h-px bg-background-primary my-4" />
+						<div className="w-full h-px bg-primary my-4" />
 						<ChooseCommunity community={community} />
 						<PostForm communityId={community.id} />
 					</>

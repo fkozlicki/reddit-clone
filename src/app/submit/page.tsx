@@ -15,11 +15,11 @@ export default async function Submit() {
 	}
 
 	return (
-		<div className="flex-1 min-h-[calc(100vh-48px)] bg-background-feed">
+		<div className="flex-1 min-h-[calc(100vh-48px)] ">
 			<div className="flex justify-center gap-6 pt-6">
 				<div className="w-full lg:w-auto lg:min-w-[640px]">
-					<div className="mb-4 font-medium">Create a post</div>
-					<div className="w-full h-px bg-background-primary my-4" />
+					<div className="mb-4 font-medium text-primary">Create a post</div>
+					<div className="w-full h-px bg-primary my-4" />
 					<ChooseCommunity />
 					<PostForm />
 				</div>

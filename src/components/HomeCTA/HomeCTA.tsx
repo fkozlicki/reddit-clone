@@ -29,14 +29,14 @@ const HomeCTA = () => {
 
 	return (
 		<>
-			<div className="w-[312px] border border-border-post rounded bg-background-primary">
+			<div className="w-[312px] border border-post rounded bg-primary">
 				<Image src={ctaImage} alt="" />
 				<div className="px-3 pb-3">
 					<div className="flex gap-4 -mt-3 mb-4">
 						<Image src={alienImage} alt="" width={40} />
-						<div className="mt-8">Home</div>
+						<div className="mt-8 text-primary">Home</div>
 					</div>
-					<p className="px-3 text-[15px]">
+					<p className="px-3 text-[15px] text-primary">
 						Your personal Reddit frontpage. Come here to check in with your
 						favorite communities.
 					</p>

@@ -98,12 +98,12 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 					</div>
 				)}
 				{data && data.posts.length === 0 && (
-					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
+					<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
 						No posts
 					</div>
 				)}
 				{data && data.posts.length > 0 && !hasMoreData && (
-					<div className="text-center mb-4 bg-background-primary p-3 border border-border-post rounded">
+					<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
 						No more posts
 					</div>
 				)}

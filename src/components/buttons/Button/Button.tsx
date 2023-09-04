@@ -32,7 +32,7 @@ const Button = ({
 			: 'text-orange hover:bg-orange/[0.04] border-orange',
 		white: 'text-black hover:bg-black/[0.04] border-none',
 		primary: filled
-			? 'bg-primary text-white hover:bg-primary/90'
+			? 'bg-button text-primary-inverse hover:bg-primary/90'
 			: 'text-primary hover:bg-primary/[0.04] border-primary',
 	};
 

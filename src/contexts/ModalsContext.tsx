@@ -31,10 +31,9 @@ const modalsReducer = (state: ModalsState, action: ModalAction) => {
 	return state;
 };
 
-export const ModalsContext = createContext<ModalsContext>([
-	initialState,
-	() => null,
-]);
+const ModalsContext = createContext<ModalsContext>([initialState, () => null]);
+
+export const useModalsContext = (): ModalsContext => useContext(ModalsContext);
 
 const ModalsProvider = ({ children }: { children: ReactNode }) => {
 	const [state, dispatch] = useReducer<
@@ -49,5 +48,3 @@ const ModalsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default ModalsProvider;
-
-export const useModalsContext = (): ModalsContext => useContext(ModalsContext);

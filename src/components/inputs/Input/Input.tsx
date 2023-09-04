@@ -20,14 +20,14 @@ const Input = ({
 		<textarea
 			{...register}
 			placeholder={placeholder}
-			className={`w-full resize-y outline-none border border-border-input focus:border-black rounded py-2 px-3 min-h-[150px] ${classNames}`}
+			className={`w-full resize-y outline-none border border-input bg-input rounded py-2 px-3 min-h-[150px] text-primary ${classNames}`}
 			maxLength={maxLength}
 		></textarea>
 	) : (
 		<input
 			{...register}
 			type="text"
-			className={`w-full outline-none border border-border-input focus:border-black rounded py-2 px-3 ${classNames}`}
+			className={`w-full outline-none border border-input bg-input rounded py-2 px-3 text-primary ${classNames}`}
 			placeholder={placeholder}
 			maxLength={maxLength}
 		/>

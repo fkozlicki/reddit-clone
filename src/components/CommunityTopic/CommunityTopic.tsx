@@ -44,16 +44,16 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 
 	return (
 		<div>
-			<div className="font-medium">Community topic</div>
+			<div className="font-medium text-primary">Community topic</div>
 			<div ref={topicsDropdown} className="relative">
 				<button
 					onClick={toggleTopicsDropdown}
 					className="flex items-center gap-2 hover:text-primary"
 				>
 					{loading ? (
-						<div>Loading...</div>
+						<div className="text-primary">Loading...</div>
 					) : (
-						<div className="flex items-center gap-1">
+						<div className="flex items-center gap-1 text-primary">
 							<div>{topic ?? 'Add topic'}</div>
 							<ChevronDownIcon width={16} />
 						</div>
@@ -61,12 +61,12 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 				</button>
 				{topicsDropdownOpen &&
 					(data ? (
-						<div className="absolute bg-background-primary top-full left-0 z-30 w-full shadow rounded overflow-hidden">
+						<div className="absolute bg-primary top-full left-0 z-30 w-full shadow rounded overflow-hidden">
 							{data.topics.map(({ id, name }, index) => (
 								<div
 									onClick={() => handleAddTopic(id)}
 									key={index}
-									className="p-2 hover:bg-primary hover:text-white text-sm font-medium cursor-pointer"
+									className="p-2 hover:bg-primary-hover text-primary text-sm font-medium cursor-pointer"
 								>
 									{name}
 								</div>

@@ -12,18 +12,18 @@ const LinkButton = ({ href, icon, text, onClick }: LinkButtonProps) => {
 	return href ? (
 		<Link
 			href={href}
-			className="flex px-5 py-2 hover:bg-button-hover gap-2 w-full"
+			className="flex px-5 py-2 gap-2 w-full bg-primary hover:bg-primary-hover"
 		>
 			{icon}
-			<span className="text-sm">{text}</span>
+			<span className="text-sm text-primary">{text}</span>
 		</Link>
 	) : (
 		<button
 			onClick={onClick}
-			className="flex px-5 py-2 hover:bg-button-hover gap-2 w-full"
+			className="flex px-5 py-2 gap-2 w-full bg-primary hover:bg-primary-hover"
 		>
 			{icon}
-			<span className="text-sm">{text}</span>
+			<span className="text-sm text-primary">{text}</span>
 		</button>
 	);
 };

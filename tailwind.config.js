@@ -8,19 +8,25 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				primary: '#0079d3',
-				orange: '#ff4500',
-				success: 'green',
-				danger: 'red',
-				'background-primary': '#fff',
-				'background-feed': '#dae0e6',
-				'background-input': '#f6f7f8',
-				'background-post-side': '#f8f9fa',
-				'border-input': '#edeff1',
-				'border-post': '#ccc',
-				'border-post-hover': '#898989',
-				'button-hover': '#1a1a1b1a',
-				'text-gray': '#878a8c',
+				button: 'var(--color-bg-button)',
+			},
+			textColor: {
+				primary: 'var(--color-text-primary)',
+				'primary-inverse': 'var(--color-text-primary-inverse)',
+			},
+			backgroundColor: {
+				primary: 'var(--color-bg-primary)',
+				'primary-hover': 'var(--color-bg-primary-hover)',
+				secondary: 'var(--color-bg-secondary)',
+				input: 'var(--color-bg-input)',
+				details: 'var(--color-bg-details)',
+				'post-side': 'var(--color-bg-post-side)',
+				orange: 'var(--color-bg-orange)',
+			},
+			borderColor: {
+				input: 'var(--color-border-input)',
+				post: 'var(--color-border-post)',
+				'post-hover': 'var(--color-border-post-hover)',
 			},
 		},
 	},

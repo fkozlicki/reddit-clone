@@ -4,6 +4,7 @@ import { authOptions } from '../api/auth/[...nextauth]/route';
 import { notFound, redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import SettingBox from '@/components/SettingBox/SettingBox';
+import UploadImage from '@/components/UploadImage/UploadImage';
 
 const page = async () => {
 	const session = await getServerSession(authOptions);
@@ -22,11 +23,11 @@ const page = async () => {
 		return notFound();
 	}
 
-	const { name, displayName, about } = user;
+	const { name, displayName, about, image } = user;
 
 	return (
 		<div className="m-auto w-full">
-			<div className="p-5 font-medium text-lg max-w-[1200px] m-auto border-b border-border-input mb-12">
+			<div className="p-5 font-medium text-lg max-w-[1200px] m-auto border-b border-input mb-12 text-primary">
 				User settings
 			</div>
 			<div className="max-w-[1200px] m-auto">
@@ -52,6 +53,8 @@ const page = async () => {
 						textarea
 						maxLength={200}
 					/>
+					<div className="h-5"></div>
+					<UploadImage image={image} />
 				</div>
 			</div>
 		</div>

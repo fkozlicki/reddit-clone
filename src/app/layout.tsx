@@ -8,6 +8,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { ReactNode } from 'react';
 import ModalsProvider from '@/contexts/ModalsContext';
+import ThemeProvider from '@/contexts/ThemeContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,22 +27,28 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<Providers>
-				<ModalsProvider>
-					<body className={inter.className}>
-						<Toaster position="top-center" />
-						<div className="fixed w-full top-0 z-20">
-							<Navbar />
-						</div>
-						<main className={`flex pt-12 ${!session && 'pl-[270px]'}`}>
-							{!session && (
-								<div className="hidden xl:block fixed top-12 left-0">
-									<Sidebar />
-								</div>
-							)}
-							{children}
-						</main>
-					</body>
-				</ModalsProvider>
+				<ThemeProvider>
+					<ModalsProvider>
+						<body className={inter.className}>
+							<Toaster position="top-center" />
+							<div className="fixed w-full top-0 z-20">
+								<Navbar />
+							</div>
+							<main
+								className={`flex pt-12 ${
+									!session && 'pl-[270px]'
+								} bg-secondary`}
+							>
+								{!session && (
+									<div className="hidden xl:block fixed top-12 left-0">
+										<Sidebar />
+									</div>
+								)}
+								{children}
+							</main>
+						</body>
+					</ModalsProvider>
+				</ThemeProvider>
 			</Providers>
 		</html>
 	);

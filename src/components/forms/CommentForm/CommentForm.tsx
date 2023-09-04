@@ -74,14 +74,14 @@ const CommentForm = ({
 	return (
 		<>
 			{session && !replyToId && (
-				<div className="mb-1 text-xs">
-					Comment as <span className="text-primary">{session.user.name}</span>
+				<div className="mb-1 text-xs text-primary">
+					Comment as <span className="text-blue-400">{session.user.name}</span>
 				</div>
 			)}
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className={`border ${
-					focus ? 'border-black' : 'border-border-input'
+					focus ? 'border-focus' : 'border-input'
 				} flex flex-col rounded overflow-hidden`}
 			>
 				<textarea
@@ -89,9 +89,9 @@ const CommentForm = ({
 					onFocus={() => setFocus(true)}
 					onBlur={() => setFocus(false)}
 					placeholder="What are your thoughts?"
-					className={`w-full resize-y outline-none text-sm min-h-[125px] m-0 py-2 px-3`}
+					className={`w-full resize-y outline-none text-sm min-h-[125px] m-0 py-2 px-3 bg-primary`}
 				></textarea>
-				<div className="bg-background-post-side flex justify-end p-1">
+				<div className="bg-post-side flex justify-end p-1">
 					<Button
 						filled
 						disabled={!isValid || loading}

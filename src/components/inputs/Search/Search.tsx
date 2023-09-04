@@ -7,12 +7,12 @@ const Search = () => {
 	const [focus, setFocus] = useState<boolean>(false);
 
 	const roundedBottom = focus ? 'rounded-b-none' : '';
-	const border = focus ? 'border-primary' : 'border-gray-200';
+	const border = focus ? 'border-button' : 'border-input';
 
 	return (
 		<div className="relative">
 			<div
-				className={`bg-gray-100 w-full flex h-10 border rounded-3xl hover:border-primary pl-[15px] ${roundedBottom} ${border}`}
+				className={`bg-input w-full flex h-10 border rounded-3xl hover:border-button pl-[15px] ${roundedBottom} ${border}`}
 			>
 				<MagnifyingGlassIcon width={24} className="text-gray-500 mr-2" />
 				<input

@@ -25,28 +25,25 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 	};
 
 	return (
-		<div
-			ref={dropdown}
-			className="relative w-[275px] bg-background-primary rounded"
-		>
+		<div ref={dropdown} className="relative w-[275px] bg-primary rounded">
 			<div
 				onClick={toggleDropdown}
-				className="flex items-center justify-between p-2 mb-2 border border-border-input rounded"
+				className="flex items-center justify-between p-2 mb-2 border border-input rounded"
 			>
 				<div className="flex gap-2">
 					{community ? (
 						<div className="w-5 h-5 bg-black rounded-full" />
 					) : (
-						<div className="w-5 h-5 border border-border-post-hover border-dashed rounded-full" />
+						<div className="w-5 h-5 border post-hover border-dashed rounded-full" />
 					)}
-					<div className="text-sm">
+					<div className="text-sm text-primary">
 						{community?.name ?? 'Choose a community'}
 					</div>
 				</div>
-				<ChevronDownIcon width={16} />
+				<ChevronDownIcon width={16} className="text-primary cursor-pointer" />
 			</div>
 			{dropdownOpen && (
-				<div className="absolute top-full left-0 bg-background-primary w-full p-2 drop-shadow-md">
+				<div className="absolute top-full left-0 bg-primary w-full p-2 drop-shadow-md">
 					{loading && (
 						<div className="h-full grid place-items-center">
 							<Spinner />
@@ -59,7 +56,7 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 					)}
 					{data && (
 						<>
-							<div className="text-[10px] font-bold uppercase text-text-gray mb-2">
+							<div className="text-[10px] font-bold uppercase text-primary mb-2">
 								Your communities
 							</div>
 							{data.user.communities.map(({ id, name, members }) => (
@@ -70,8 +67,8 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 								>
 									<div className="w-8 h-8 bg-black rounded-full items-center"></div>
 									<div>
-										<div className="text-sm">{name}</div>
-										<div className="text-xs text-text-gray">
+										<div className="text-sm text-primary">{name}</div>
+										<div className="text-xs text-primary">
 											{members.length} members
 										</div>
 									</div>
