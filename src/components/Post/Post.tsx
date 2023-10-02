@@ -42,7 +42,7 @@ const Post = ({
 	const userVote = votes.find((vote) => vote.userId === session?.user.id);
 
 	return (
-		<div className="w-full flex border-post border rounded hover:post-hover cursor-pointer overflow-hidden bg-primary">
+		<div className="w-full flex border-post border rounded hover:border-post-hover cursor-pointer overflow-hidden bg-primary">
 			<div className="bg-post-side p-2 hidden sm:block">
 				<VoteSection
 					type="post"
