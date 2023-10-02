@@ -6,9 +6,11 @@ type CommunityMutationVariables = {
 };
 
 type CommunityMutationResponse = {
-	members: {
-		id: User['id'];
-	}[];
+	changeMembership: {
+		members: {
+			id: User['id'];
+		}[];
+	};
 };
 
 const CHANGE_MEMBERSHIP_MUTATION = gql`
