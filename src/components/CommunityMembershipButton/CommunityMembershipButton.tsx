@@ -25,7 +25,7 @@ const CommunityMembershipButton = ({
 		variables: {
 			name,
 		},
-		onCompleted({ members }) {
+		onCompleted({ changeMembership: { members } }) {
 			setIsMember(members.some((member) => member.id === session?.user.id));
 		},
 	});
