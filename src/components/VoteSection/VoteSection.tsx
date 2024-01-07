@@ -10,6 +10,7 @@ import {
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Button from '../ui/Button/Button';
 
 type VoteSectionProps = {
 	direction: 'row' | 'column';
@@ -68,29 +69,38 @@ const VoteSection = (props: VoteSectionProps) => {
 				direction === 'column' ? 'flex-col' : ''
 			}`}
 		>
-			<button
+			<Button
 				aria-label="Up Vote"
+				variant="secondary"
+				shape="square"
+				size="small"
 				onClick={session ? () => handleVote(1) : openSignIn}
-				className="rounded-sm group p-px outline-none hover:bg-primary-hover"
-			>
-				<ArrowUpCircleIcon
-					className={`w-6 group-hover:text-red-600 ${
-						userVote?.value === 1 ? 'text-red-600' : 'text-primary'
-					}`}
-				/>
-			</button>
+				className="group"
+				icon={
+					<ArrowUpCircleIcon
+						className={`w-6 group-hover:text-red-600 ${
+							userVote?.value === 1 ? 'text-red-600' : 'text-primary'
+						}`}
+					/>
+				}
+			/>
+
 			<div className="text-[12px] font-semibold text-primary">{karma}</div>
-			<button
+			<Button
 				aria-label="Down Vote"
+				variant="secondary"
+				shape="square"
+				size="small"
 				onClick={session ? () => handleVote(-1) : openSignIn}
-				className="rounded-sm group p-px outline-none hover:bg-primary-hover"
-			>
-				<ArrowDownCircleIcon
-					className={`w-6 group-hover:text-blue-600 ${
-						userVote?.value === -1 ? 'text-blue-600' : 'text-primary'
-					}`}
-				/>
-			</button>
+				className="group"
+				icon={
+					<ArrowDownCircleIcon
+						className={`w-6 group-hover:text-blue-600 ${
+							userVote?.value === -1 ? 'text-blue-600' : 'text-primary'
+						}`}
+					/>
+				}
+			/>
 		</div>
 	);
 };

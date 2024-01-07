@@ -25,14 +25,14 @@ const CreatePost = () => {
 				<Button
 					size="large"
 					variant="secondary"
-					icon={<PhotoIcon width="1em" />}
-					className="rounded"
+					shape="square"
+					icon={<PhotoIcon width={18} />}
 				/>
 				<Button
 					size="large"
 					variant="secondary"
-					icon={<LinkIcon width="1em" />}
-					className="rounded"
+					icon={<LinkIcon width={18} />}
+					shape="square"
 				/>
 			</div>
 		</div>

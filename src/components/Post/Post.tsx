@@ -92,31 +92,34 @@ const Post = ({
 					<Link className="flex" href={`/r/${communityName}/comments/${id}`}>
 						<Button
 							variant="secondary"
-							icon={<ChatBubbleLeftIcon width={20} />}
-							className="rounded"
+							icon={<ChatBubbleLeftIcon width={18} />}
+							shape="square"
+							className="text-xs"
 						>
-							{commentsCount} Comments
+							{commentsCount} Comment{commentsCount > 1 && 's'}
 						</Button>
 					</Link>
 					<Button
 						variant="secondary"
-						icon={<ShareIcon width={20} />}
-						className="rounded"
+						icon={<ShareIcon width={18} />}
+						shape="square"
+						className="text-xs"
 					>
 						Share
 					</Button>
 					<Button
 						variant="secondary"
-						className="rounded"
-						icon={<BookmarkIcon width={20} />}
+						shape="square"
+						className="text-xs"
+						icon={<BookmarkIcon width={18} />}
 					>
 						Save
 					</Button>
 					<Button
 						variant="secondary"
-						className="rounded"
-						size="large"
-						icon={<EllipsisHorizontalIcon width={20} />}
+						shape="square"
+						className="text-xs"
+						icon={<EllipsisHorizontalIcon width={18} />}
 					/>
 				</div>
 			</div>

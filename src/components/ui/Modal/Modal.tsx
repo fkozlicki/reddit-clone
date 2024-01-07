@@ -13,7 +13,7 @@ interface ModalProps
 		VariantProps<typeof modal> {
 	open: boolean;
 	onClose: () => void;
-	onOk: () => void;
+	onOk?: () => void;
 	title: string;
 	footer?: boolean;
 }
@@ -39,12 +39,12 @@ const Modal = ({
 				<div className="flex items-center justify-between mb-6">
 					<div>{title}</div>
 					<Button
-						size="large"
 						variant="secondary"
 						onClick={onClose}
-						icon={<XMarkIcon width="1em" height="1em" />}
+						icon={<XMarkIcon width={18} />}
 						aria-label="Close"
-						className="rounded"
+						shape="square"
+						size="small"
 					/>
 				</div>
 				<div>{children}</div>

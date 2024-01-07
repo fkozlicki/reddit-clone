@@ -92,14 +92,14 @@ const CommunityDescriptionForm = ({
 							<Button
 								variant="secondary"
 								size="small"
-								className="rounded"
+								shape="square"
 								onClick={closeDescriptionInput}
 							>
 								Cancel
 							</Button>
 							<Button
 								disabled={loading}
-								className="rounded"
+								shape="square"
 								variant="secondary"
 								size="small"
 							>
