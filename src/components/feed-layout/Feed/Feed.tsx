@@ -4,7 +4,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import React, { useEffect, useState } from 'react';
 import usePosts, { FeedType } from '@/hooks/query/usePosts';
 import Post from '@/components/shared/Post/Post';
-import PostSkeleton from '@/components/post/PostSkeleton/PostSkeleton';
+import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
 
 interface FeedProps {
 	type: FeedType;

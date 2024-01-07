@@ -5,7 +5,7 @@ import CommentsSection from '../CommentsSection/CommentsSection';
 import Post from '../../shared/Post/Post';
 import usePost from '@/hooks/query/usePost';
 import CommunityAbout from '../CommunityAbout/CommunityAbout';
-import PostSkeleton from '@/components/post/PostSkeleton/PostSkeleton';
+import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
 
 interface PostDetailsProps {
 	id: string;
