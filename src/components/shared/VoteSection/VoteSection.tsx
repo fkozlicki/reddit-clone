@@ -26,7 +26,7 @@ const VoteSection = (props: VoteSectionProps) => {
 	const [karma, setKarma] = useState(initialKarma);
 	const [vote] = useVote(type, {
 		onError() {
-			toast("Couldn't vote");
+			toast.error("Couldn't vote");
 		},
 		refetchQueries: ['bestPosts', 'hotPosts', 'topPosts', 'newPosts'],
 	});

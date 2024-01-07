@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 
 interface AvatarProps {
-	url: User['image'];
+	url?: User['image'];
 	alt?: string;
 	size: number;
 }

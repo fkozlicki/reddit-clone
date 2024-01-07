@@ -58,7 +58,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		<form onSubmit={handleSubmit(onSubmit)} className="bg-primary p-3 rounded">
 			<TextField
 				placeholder="Title"
-				{...register('title')}
+				register={register('title')}
 				className="w-full mb-4"
 			/>
 			<TextField
