@@ -4,7 +4,7 @@ import React, { HTMLAttributes, InputHTMLAttributes } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 const textField = cva(
-	'border border-input bg-input rounded py-2 px-3 text-primary outline-none'
+	'border border-input bg-input rounded py-2 px-3 text-primary outline-none text-sm'
 );
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
