@@ -12,7 +12,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 export function generateName() {
-	var name1 = [
+	const name1 = [
 		'abandoned',
 		'able',
 		'absolute',
@@ -2867,7 +2867,7 @@ export function generateName() {
 		'Lieuwe',
 	];
 
-	var name =
+	const name =
 		capFirst(name1[getRandomInt(0, name1.length + 1)]) +
 		'-' +
 		capFirst(name2[getRandomInt(0, name2.length + 1)]);
