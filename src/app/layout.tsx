@@ -46,6 +46,7 @@ export default async function RootLayout({
 								)}
 								{children}
 							</main>
+							<div id="portal" />
 						</body>
 					</ModalsProvider>
 				</ThemeProvider>
