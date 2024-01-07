@@ -7,8 +7,8 @@ export default function Comments({
 	params: { id: string };
 }) {
 	return (
-		<div className="flex-1 bg-black/60 min-h-[calc(100vh-48px)]">
-			<div className="max-w-[1300px] m-auto sm:p-6 min-h-full flex bg-details">
+		<div className="bg-black/60">
+			<div className="max-w-7xl m-auto sm:p-6 h-full flex bg-details min-h-[calc(100vh-48px)]">
 				<PostDetails id={id} />
 			</div>
 		</div>

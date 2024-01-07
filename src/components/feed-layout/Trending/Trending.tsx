@@ -47,14 +47,12 @@ const Trending = async () => {
 	}
 
 	return (
-		<div className="mb-4 max-w-[1020px] m-auto pt-4 px-10 sm:px-6">
-			<div>
-				<div className="text-sm font-medium mb-2">Trending today</div>
-				<div className="flex gap-3 overflow-hidden flex-wrap h-44">
-					{posts.map((post, index) => (
-						<Post key={index} {...post} />
-					))}
-				</div>
+		<div className="max-w-[976px] lg:mx-auto mb-4">
+			<div className="text-sm font-medium mb-2">Trending today</div>
+			<div className="flex gap-3 overflow-hidden flex-wrap h-44">
+				{posts.map((post, index) => (
+					<Post key={index} {...post} />
+				))}
 			</div>
 		</div>
 	);

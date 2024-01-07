@@ -15,12 +15,16 @@ import {
 	SunIcon,
 	UserIcon,
 } from '@heroicons/react/24/outline';
-import { signOut, useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import AuthModal from '../AuthModal/AuthModal';
 
-const Navbar = () => {
-	const { data: session } = useSession();
+interface NavbarProps {
+	session: Session | null;
+}
+
+const Navbar = ({ session }: NavbarProps) => {
 	const [{ signIn }, dispatch] = useModalsContext();
 	const { theme, changeTheme } = useThemeContext();
 

@@ -9,6 +9,7 @@ import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { ReactNode } from 'react';
 import ModalsProvider from '@/contexts/ModalsContext';
 import ThemeProvider from '@/contexts/ThemeContext';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,19 +33,19 @@ export default async function RootLayout({
 						<body className={inter.className}>
 							<Toaster position="top-center" />
 							<div className="fixed w-full top-0 z-20">
-								<Navbar />
+								<Navbar session={session} />
 							</div>
 							<main
-								className={`pt-12 min-h-screen ${
-									!session ? 'pl-[270px] flex' : ''
-								} bg-secondary`}
+								className={cn('pt-12 min-h-screen bg-secondary', {
+									'xl:pl-[270px] flex': !session,
+								})}
 							>
 								{!session && (
 									<div className="hidden xl:block fixed top-12 left-0">
 										<Sidebar />
 									</div>
 								)}
-								<div className="px-4 py-6 flex-1">{children}</div>
+								<div className="flex-1">{children}</div>
 							</main>
 							<div id="portal" />
 						</body>
