@@ -1,33 +1,35 @@
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { HTMLAttributes, ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
-const button = cva(
-	'border rounded-full relative disabled:cursor-not-allowed inline-flex items-center gap-1 justify-center',
-	{
-		variants: {
-			variant: {
-				default:
-					'hover:bg-blue-50 hover:border-blue-100 disabled:hover:bg-gray-50 disabled:hover:border-gray-100',
-				primary:
-					'bg-blue-600/90 hover:bg-blue-600 text-white disabled:hover:bg-blue-400 disabled:hover:border-blue-400 border-0',
-				secondary: 'hover:bg-gray-200 border-0',
-			},
-			size: {
-				small: 'py-[2px] px-2 text-xs min-w-[18px]',
-				medium: 'py-1 px-3 text-sm min-w-[24px]',
-				large: 'py-2 px-5 min-w-[34px]',
-			},
+const button = cva('border relative disabled:cursor-not-allowed font-medium', {
+	variants: {
+		variant: {
+			default:
+				'hover:bg-blue-50 hover:border-blue-100 disabled:hover:bg-gray-50 disabled:hover:border-gray-100',
+			primary:
+				'bg-blue-600/90 hover:bg-blue-600 text-white disabled:hover:bg-blue-400 disabled:hover:border-blue-400 border-0',
+			secondary: 'hover:bg-gray-200 border-0',
 		},
-		defaultVariants: {
-			variant: 'default',
-			size: 'medium',
+		size: {
+			small: 'text-xs h-6 min-w-[24px] px-2',
+			medium: 'py-1 px-3 text-sm h-8 min-w-[32px]',
+			large: 'py-[10px] px-5 text-sm h-10 min-w-[40px]',
 		},
-	}
-);
+		shape: {
+			circle: 'rounded-full',
+			square: 'rounded',
+		},
+	},
+	defaultVariants: {
+		variant: 'default',
+		size: 'medium',
+		shape: 'circle',
+	},
+});
 
 interface ButtonProps
-	extends HTMLAttributes<HTMLButtonElement>,
+	extends ButtonHTMLAttributes<HTMLButtonElement>,
 		VariantProps<typeof button> {
 	loading?: boolean;
 	disabled?: boolean;
@@ -36,8 +38,9 @@ interface ButtonProps
 
 const Button = ({
 	className,
-	variant,
-	size,
+	variant = 'default',
+	size = 'medium',
+	shape = 'circle',
 	children,
 	loading,
 	disabled,
@@ -46,16 +49,32 @@ const Button = ({
 }: ButtonProps) => {
 	return (
 		<button
-			className={cn(button({ variant, size, className }), {
-				'px-0': icon && !children,
-			})}
+			className={cn(
+				button({ variant, size, shape }),
+				{ 'px-0': !children },
+				className
+			)}
 			disabled={disabled}
 			{...props}
 		>
-			{icon && icon}
-			{children && (
-				<span className={cn('', { invisible: loading })}>{children}</span>
-			)}
+			<div
+				className={cn('contents', {
+					invisible: loading,
+				})}
+			>
+				{icon && (
+					<span
+						className={cn('inline-block align-middle', {
+							'mr-1': children,
+						})}
+					>
+						{icon}
+					</span>
+				)}
+				{children && (
+					<span className="inline-block align-middle">{children}</span>
+				)}
+			</div>
 			{loading && (
 				<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 					<svg
