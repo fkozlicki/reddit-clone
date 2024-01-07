@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,15 +17,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -51,13 +47,13 @@ model User {
   emailVerified        DateTime?
   image                String?
   accounts             Account[]
+  comments             Comment[]
+  commentVotes         CommentVote[]
+  posts                Post[]
   sessions             Session[]
   votes                Vote[]
-  commentVotes         CommentVote[]
-  comments             Comment[]
   communities          Community[]   @relation("members")
   moderatedCommunities Community[]   @relation("moderators")
-  posts                Post[]
 }
 
 model VerificationToken {
@@ -73,56 +69,56 @@ model Post {
   title       String
   content     String
   createdAt   DateTime  @default(now())
-  votes       Vote[]
-  comments    Comment[]
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String
+  comments    Comment[]
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  votes       Vote[]
 }
 
 model Vote {
   id     String @id @default(cuid())
   value  Int
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
   id        String        @id @default(cuid())
   content   String
   createdAt DateTime      @default(now())
-  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
-  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
-  votes     CommentVote[]
-  replies   Comment[]     @relation("ReplyTo")
-  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   replyToId String?
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
+  replies   Comment[]     @relation("ReplyTo")
+  votes     CommentVote[]
 }
 
 model CommentVote {
   id        String  @id @default(cuid())
   value     Int
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Community {
   id          String   @id @default(cuid())
   name        String   @unique
   createdAt   DateTime @default(now())
+  description String?
+  topicId     String?
+  topic       Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  posts       Post[]
   members     User[]   @relation("members")
   moderators  User[]   @relation("moderators")
-  posts       Post[]
-  description String?
-  topic       Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  topicId     String?
 }
 
 model Topic {
