@@ -1,11 +1,9 @@
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { getServerSession } from 'next-auth';
-import React from 'react';
-import { authOptions } from '../api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
 import ChooseCommunity from '@/components/ChooseCommunity/ChooseCommunity';
-import PostForm from '@/components/forms/PostForm/PostForm';
 import PostRules from '@/components/PostRules/PostRules';
+import PostForm from '@/components/forms/PostForm/PostForm';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Submit() {
 	const session = await getServerSession(authOptions);
