@@ -35,8 +35,8 @@ export default async function RootLayout({
 								<Navbar />
 							</div>
 							<main
-								className={`flex pt-12 ${
-									!session && 'pl-[270px]'
+								className={`pt-12 min-h-screen ${
+									!session ? 'pl-[270px] flex' : ''
 								} bg-secondary`}
 							>
 								{!session && (
@@ -44,7 +44,7 @@ export default async function RootLayout({
 										<Sidebar />
 									</div>
 								)}
-								{children}
+								<div className="px-4 py-6 flex-1">{children}</div>
 							</main>
 							<div id="portal" />
 						</body>

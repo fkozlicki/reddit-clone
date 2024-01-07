@@ -1,5 +1,5 @@
-import HomeScreen from '@/components/HomeScreen/HomeScreen';
+import FeedView from '@/components/views/FeedView';
 
 export default function Best() {
-	return <HomeScreen feedType="best" highlighted="best" />;
+	return <FeedView feedType="best" highlighted="best" />;
 }

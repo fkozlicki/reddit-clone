@@ -1,4 +1,4 @@
-import Feed from '@/components/Feed/Feed';
+import Feed from '@/components/feed-layout/Feed/Feed';
 import React from 'react';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {

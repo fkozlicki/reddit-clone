@@ -1,7 +1,7 @@
-import CommunityScreen from '@/components/CommunityScreen/CommunityScreen';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import CommunityView from '@/components/views/CommunityView';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const community = await prisma.community.findUnique({
@@ -17,7 +17,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 		return notFound();
 	}
 
-	return <CommunityScreen name={name} feedType="new" highlighted="new" />;
+	return <CommunityView name={name} feedType="new" highlighted="new" />;
 };
 
 export default page;

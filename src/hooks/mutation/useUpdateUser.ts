@@ -1,7 +1,7 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import { User } from '@prisma/client';
 
-type UpdateUserVariables =
+export type UpdateUserVariables =
 	| {
 			name: User['name'];
 	  }

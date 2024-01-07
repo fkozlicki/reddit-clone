@@ -9,16 +9,31 @@ const textField = cva(
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 	register?: UseFormRegisterReturn;
+	remaining?: number;
 }
 
-const TextField = ({ className, register, ...props }: TextFieldProps) => {
+const TextField = ({
+	className,
+	register,
+	remaining,
+	...props
+}: TextFieldProps) => {
 	return (
-		<input
-			type="text"
-			className={cn(textField({ className }))}
-			{...register}
-			{...props}
-		/>
+		<>
+			<input
+				type="text"
+				className={cn(textField({ className }))}
+				{...register}
+				{...props}
+			/>
+			{typeof remaining === 'number' && (
+				<div
+					className={cn('text-xs mt-1', { 'text-red-600': remaining === 0 })}
+				>
+					{remaining} characters remaining
+				</div>
+			)}
+		</>
 	);
 };
 

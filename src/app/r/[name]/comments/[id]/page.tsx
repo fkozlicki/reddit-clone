@@ -1,4 +1,4 @@
-import PostDetails from '@/components/PostDetails/PostDetails';
+import PostDetails from '@/components/community/PostDetails/PostDetails';
 import React from 'react';
 
 export default function Comments({

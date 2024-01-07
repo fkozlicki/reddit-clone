@@ -16,6 +16,10 @@ interface ModalProps
 	onOk?: () => void;
 	title: string;
 	footer?: boolean;
+	okProps?: {
+		loading?: boolean;
+		disabled?: boolean;
+	};
 }
 
 const Modal = ({
@@ -26,6 +30,7 @@ const Modal = ({
 	title,
 	className,
 	footer = true,
+	okProps,
 }: ModalProps) => {
 	const content = useClickAway<HTMLDivElement>(onClose);
 
@@ -51,7 +56,7 @@ const Modal = ({
 				{footer && (
 					<div className="flex gap-2 justify-end">
 						<Button onClick={onClose}>Cancel</Button>
-						<Button onClick={onOk} variant="primary">
+						<Button onClick={onOk} variant="primary" {...okProps}>
 							OK
 						</Button>
 					</div>

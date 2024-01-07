@@ -1,7 +1,7 @@
-import CommunityScreen from '@/components/CommunityScreen/CommunityScreen';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import CommunityView from '@/components/views/CommunityView';
 
 const Community = async ({
 	params: { name },
@@ -18,7 +18,7 @@ const Community = async ({
 		return notFound();
 	}
 
-	return <CommunityScreen name={name} feedType="hot" highlighted="hot" />;
+	return <CommunityView name={name} feedType="hot" highlighted="hot" />;
 };
 
 export default Community;

@@ -1,5 +1,5 @@
-import HomeScreen from '@/components/HomeScreen/HomeScreen';
+import FeedView from '@/components/views/FeedView';
 
 export default function Top() {
-	return <HomeScreen feedType="top" highlighted="top" />;
+	return <FeedView feedType="top" highlighted="top" />;
 }

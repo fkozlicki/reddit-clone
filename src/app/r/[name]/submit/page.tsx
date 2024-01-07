@@ -1,11 +1,11 @@
-import ChooseCommunity from '@/components/ChooseCommunity/ChooseCommunity';
-import CommunityAbout from '@/components/CommunityAbout/CommunityAbout';
-import PostForm from '@/components/forms/PostForm/PostForm';
-import Grid from '@/components/Grid/Grid';
-import PostRules from '@/components/PostRules/PostRules';
+import ChooseCommunity from '@/components/submit/ChooseCommunity/ChooseCommunity';
+import PostForm from '@/components/submit/PostForm/PostForm';
+import PostRules from '@/components/submit/PostRules/PostRules';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import Grid from '@/components/ui/Grid/Grid';
+import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const community = await prisma.community.findUnique({

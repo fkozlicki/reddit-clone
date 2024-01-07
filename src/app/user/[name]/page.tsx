@@ -1,9 +1,9 @@
-import Feed from '@/components/Feed/Feed';
-import Grid from '@/components/Grid/Grid';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import Grid from '@/components/ui/Grid/Grid';
+import Feed from '@/components/feed-layout/Feed/Feed';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const user = await prisma.user.findUnique({

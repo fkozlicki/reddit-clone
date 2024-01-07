@@ -1,5 +1,5 @@
-import HomeScreen from '@/components/HomeScreen/HomeScreen';
+import FeedView from '@/components/views/FeedView';
 
 export default async function New() {
-	return <HomeScreen feedType="new" highlighted="new" />;
+	return <FeedView feedType="new" highlighted="new" />;
 }

@@ -74,6 +74,7 @@ const UploadImage = ({ image }: UploadImageProps) => {
 						alt="profileImage"
 						width={128}
 						height={128}
+						priority={true}
 					/>
 				) : (
 					<div className="w-32 h-32 bg-black"></div>

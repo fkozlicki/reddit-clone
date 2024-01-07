@@ -1,6 +1,6 @@
-import ChooseCommunity from '@/components/ChooseCommunity/ChooseCommunity';
-import PostRules from '@/components/PostRules/PostRules';
-import PostForm from '@/components/forms/PostForm/PostForm';
+import ChooseCommunity from '@/components/submit/ChooseCommunity/ChooseCommunity';
+import PostRules from '@/components/submit/PostRules/PostRules';
+import PostForm from '@/components/submit/PostForm/PostForm';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '../api/auth/[...nextauth]/route';

@@ -1,7 +1,6 @@
 'use client';
 
-import AuthModal from '@/components/AuthModal/AuthModal';
-import Logo from '@/components/Logo/Logo';
+import Logo from '@/components/layout/Logo/Logo';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
@@ -18,6 +17,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import AuthModal from '../AuthModal/AuthModal';
 
 const Navbar = () => {
 	const { data: session } = useSession();

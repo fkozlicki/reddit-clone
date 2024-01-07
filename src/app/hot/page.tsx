@@ -1,5 +1,5 @@
-import HomeScreen from '@/components/HomeScreen/HomeScreen';
+import FeedView from '@/components/views/FeedView';
 
 export default function Hot() {
-	return <HomeScreen feedType="hot" highlighted="hot" />;
+	return <FeedView feedType="hot" highlighted="hot" />;
 }
