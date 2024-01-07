@@ -6,7 +6,7 @@ import useUpdateUser, {
 import { User } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import UploadImage from '../UploadImage/UploadImage';
+import UploadImage from '../settings/UploadImage/UploadImage';
 import Label from '../ui/Label/Label';
 import TextField from '../ui/TextField/TextField';
 import toast from 'react-hot-toast';

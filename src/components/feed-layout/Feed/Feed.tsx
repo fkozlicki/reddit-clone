@@ -3,7 +3,7 @@
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import React, { useEffect, useState } from 'react';
 import usePosts, { FeedType } from '@/hooks/query/usePosts';
-import Post from '@/components/post/Post/Post';
+import Post from '@/components/shared/Post/Post';
 import PostSkeleton from '@/components/post/PostSkeleton/PostSkeleton';
 
 interface FeedProps {

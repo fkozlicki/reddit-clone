@@ -1,7 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { FeedType } from '@/hooks/query/usePosts';
 import { getServerSession } from 'next-auth';
-import Trending from '../Trending/Trending';
+import Trending from '../feed-layout/Trending/Trending';
 import CreatePost from '../feed-layout/CreatePost/CreatePost';
 import FeedFilter, {
 	FeedFilterProps,
