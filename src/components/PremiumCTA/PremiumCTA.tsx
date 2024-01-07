@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '@/components/ui/Button/Button';
 
 const PremiumCTA = () => {
 	return (
@@ -10,7 +10,7 @@ const PremiumCTA = () => {
 					The best Reddit experience, with monthly Coins
 				</p>
 			</div>
-			<Button color="orange" filled classNames="w-full">
+			<Button variant="primary" className="w-full">
 				Try Now
 			</Button>
 		</div>

@@ -2,8 +2,8 @@
 
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
-import Button from '../buttons/Button/Button';
-import { useParams } from 'next/navigation';
+import Button from '@/components/ui/Button/Button';
+import { useParams, useRouter } from 'next/navigation';
 import CommunityTopic from '../CommunityTopic/CommunityTopic';
 import { formatDate } from '@/utils/formatDate';
 import { useSession } from 'next-auth/react';
@@ -11,6 +11,7 @@ import CommunityDescriptionForm from '../forms/CommunityDescriptionForm/Communit
 import CommunityMembershipButton from '../CommunityMembershipButton/CommunityMembershipButton';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useCommunity from '@/hooks/query/useCommunity';
+import Link from 'next/link';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -25,6 +26,7 @@ const CommunityAbout = ({
 	cta,
 	editable,
 }: CommunityAboutProps) => {
+	const { push } = useRouter();
 	const [description, setDescription] = useState<string | null>(null);
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
@@ -110,15 +112,14 @@ const CommunityAbout = ({
 				{cta &&
 					(cta === 'Create Post' ? (
 						<Button
-							filled
-							href={session ? `/r/${name}/submit` : undefined}
-							onClick={!session ? openSignIn : undefined}
-							classNames="w-full"
+							variant="primary"
+							onClick={!session ? openSignIn : () => push(`/r/${name}/submit`)}
+							className="w-full"
 						>
 							Create Post
 						</Button>
 					) : (
-						<CommunityMembershipButton name={name} classNames="w-full" />
+						<CommunityMembershipButton name={name} wide />
 					))}
 			</div>
 		</div>

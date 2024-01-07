@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import Button from '../../buttons/Button/Button';
+import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
-import LinkButton from '../../buttons/LinkButton/LinkButton';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useTopics from '@/hooks/query/useTopics';
@@ -32,12 +31,15 @@ const Sidebar = () => {
 					topics
 				</div>
 				{data?.topics.map(({ name }, index) => (
-					<LinkButton
-						key={index}
-						href={`/t/${name}`}
-						icon={<StarIcon width={20} className="text-primary" />}
-						text={name}
-					/>
+					<Link key={index} href={`/t/${name}`}>
+						<Button
+							className="w-full rounded-none justify-start"
+							variant="secondary"
+							icon={<StarIcon width={20} />}
+						>
+							{name}
+						</Button>
+					</Link>
 				))}
 			</div>
 			<div className="w-full h-px px-6">
@@ -50,9 +52,9 @@ const Sidebar = () => {
 				</p>
 				<Button
 					onClick={openSignIn}
-					color="orange"
-					filled
-					classNames="h-[40px] w-full"
+					className="w-full"
+					variant="primary"
+					size="large"
 				>
 					Join Reddit
 				</Button>

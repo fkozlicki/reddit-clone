@@ -1,11 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import IconButton from '../buttons/IconButton/IconButton';
+import Button from '@/components/ui/Button/Button';
 import { LinkIcon, PhotoIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import Avatar from '../ui/Avatar/Avatar';
+import TextField from '../ui/TextField/TextField';
 
 const CreatePost = () => {
 	const { push } = useRouter();
@@ -13,28 +13,27 @@ const CreatePost = () => {
 
 	return (
 		<div className="bg-primary p-2 flex gap-3 items-center border border-post rounded mb-4">
-			{session?.user.image ? (
-				<Image
-					src={session.user.image}
-					alt="profile image"
-					width={40}
-					height={40}
-					className="rounded-full"
-				/>
-			) : (
-				<div className="w-10 h-10 bg-black rounded-full"></div>
-			)}
+			<Avatar url={session?.user.image} alt="avatar" size={38} />
 			<div className="flex-1">
-				<input
+				<TextField
 					onClick={() => push('/submit')}
-					type="text"
-					className="bg-input w-full border border-input rounded outline-none text-sm placeholder:text-sm px-4 py-2 hover:border-button focus:border-button"
 					placeholder="Create Post"
+					className="w-full text-sm hover:border-button focus:border-button"
 				/>
 			</div>
 			<div className="flex">
-				<IconButton icon={<PhotoIcon width={20} />} shape="square" />
-				<IconButton icon={<LinkIcon width={20} />} shape="square" />
+				<Button
+					size="large"
+					variant="secondary"
+					icon={<PhotoIcon width="1em" />}
+					className="rounded"
+				/>
+				<Button
+					size="large"
+					variant="secondary"
+					icon={<LinkIcon width="1em" />}
+					className="rounded"
+				/>
 			</div>
 		</div>
 	);

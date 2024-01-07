@@ -2,20 +2,20 @@
 
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
-import Button from '../buttons/Button/Button';
+import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import Spinner from '../Spinner/Spinner';
 import useCommunityMembers from '@/hooks/query/useCommunityMembers';
 import useChangeMembership from '@/hooks/mutation/useChangeMembership';
+import { cn } from '@/lib/utils';
 
 interface CommunityMembershipButtonProps {
 	name: string;
-	classNames?: string;
+	wide?: boolean;
 }
 
 const CommunityMembershipButton = ({
 	name,
-	classNames,
+	wide,
 }: CommunityMembershipButtonProps) => {
 	const [, dispatch] = useModalsContext();
 	const [isMember, setIsMember] = useState<boolean>(false);
@@ -46,9 +46,10 @@ const CommunityMembershipButton = ({
 			onMouseLeave={() => setText('Joined')}
 			onClick={session ? () => changeMembership() : openSignIn}
 			disabled={leaveLoading}
-			classNames={classNames}
+			loading={leaveLoading}
+			className={cn({ 'w-full': wide })}
 		>
-			{leaveLoading ? <Spinner /> : isMember ? text : 'Join'}
+			{isMember ? text : 'Join'}
 		</Button>
 	);
 };

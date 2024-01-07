@@ -1,10 +1,10 @@
+import Button from '@/components/ui/Button/Button';
+import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import { useClickAway } from '@/hooks/useClickAway';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Spinner from '../../Spinner/Spinner';
-import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 
 const descriptionSchema = z.object({
 	description: z.string().max(200).nullable(),
@@ -71,7 +71,7 @@ const CommunityDescriptionForm = ({
 		>
 			{descriptionInputOpen ? (
 				<form ref={description} onSubmit={handleSubmit(onSubmit)}>
-					<input
+					<textarea
 						{...register('description', {
 							onChange() {
 								setCharactersRemaining(
@@ -80,7 +80,6 @@ const CommunityDescriptionForm = ({
 							},
 						})}
 						autoFocus
-						type="text"
 						className="w-full outline-none text-sm mb-2"
 						placeholder="Tell us about your community"
 						maxLength={200}
@@ -89,20 +88,23 @@ const CommunityDescriptionForm = ({
 						<div className="text-primary">
 							{charactersRemaining} characters remaining
 						</div>
-						<div className="flex items-center gap-2">
-							<button
+						<div className="flex items-center gap-1">
+							<Button
+								variant="secondary"
+								size="small"
+								className="rounded"
 								onClick={closeDescriptionInput}
-								className="font-semibold text-danger"
 							>
 								Cancel
-							</button>
-							<button
+							</Button>
+							<Button
 								disabled={loading}
-								type="submit"
-								className="font-semibold text-primary"
+								className="rounded"
+								variant="secondary"
+								size="small"
 							>
-								{loading ? <Spinner /> : 'Save'}
-							</button>
+								Save
+							</Button>
 						</div>
 					</div>
 				</form>

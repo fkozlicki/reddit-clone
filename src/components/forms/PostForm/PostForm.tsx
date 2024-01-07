@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Button from '../../buttons/Button/Button';
+import Button from '@/components/ui/Button/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -71,10 +71,10 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			<div className="w-full h-4" />
 			<div className="flex justify-end">
 				<Button
-					type="submit"
-					classNames="w-auto"
-					filled
+					variant="primary"
+					className="w-auto"
 					disabled={!isValid || loading}
+					loading={loading}
 				>
 					Post
 				</Button>

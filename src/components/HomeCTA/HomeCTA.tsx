@@ -1,26 +1,28 @@
 'use client';
 
-import Image from 'next/image';
-import React, { useState } from 'react';
-import ctaImage from '../../../public/home-cta.png';
-import alienImage from '../../../public/alien.png';
-import Button from '../buttons/Button/Button';
-import CreateCommunityForm from '../forms/CommunityForm/CommunityForm';
-import { useSession } from 'next-auth/react';
+import CommunityModal from '@/components/CommunityModal/CommunityModal';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useState } from 'react';
+import alienImage from '../../../public/alien.png';
+import ctaImage from '../../../public/home-cta.png';
+import Button from '@/components/ui/Button/Button';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const HomeCTA = () => {
+	const { push } = useRouter();
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
-	const [createCommunityModalOpen, setCreateCommunityModalOpen] =
-		useState(false);
+	const [communityModalOpen, setCommunityModalOpen] = useState(false);
 
-	const openCreateCommunityModal = () => {
-		setCreateCommunityModalOpen(true);
+	const openCommunityModal = () => {
+		setCommunityModalOpen(true);
 	};
 
-	const closeCreateCommunityModal = () => {
-		setCreateCommunityModalOpen(false);
+	const closeCommunityModal = () => {
+		setCommunityModalOpen(false);
 	};
 
 	const openSignIn = () => {
@@ -28,42 +30,35 @@ const HomeCTA = () => {
 	};
 
 	return (
-		<>
-			<div className="w-[312px] border border-post rounded bg-primary">
-				<Image src={ctaImage} alt="" />
-				<div className="px-3 pb-3">
-					<div className="flex gap-4 -mt-3 mb-4">
-						<Image src={alienImage} alt="" width={40} />
-						<div className="mt-8 text-primary">Home</div>
-					</div>
-					<p className="px-3 text-[15px] text-primary">
-						Your personal Reddit frontpage. Come here to check in with your
-						favorite communities.
-					</p>
-					<div className="w-full h-px my-4 bg-border-input" />
-					<Button
-						filled
-						href={session ? '/submit' : undefined}
-						onClick={!session ? openSignIn : undefined}
-						classNames="w-full"
-					>
-						Create Post
-					</Button>
-					<div className="w-full h-3" />
-					<Button
-						classNames="w-full"
-						onClick={session ? openCreateCommunityModal : openSignIn}
-					>
-						Create Community
-					</Button>
+		<div className="w-[312px] border border-post rounded bg-primary">
+			<Image src={ctaImage} alt="" />
+			<div className="px-3 pb-3">
+				<div className="flex gap-4 -mt-3 mb-4">
+					<Image src={alienImage} alt="" width={40} />
+					<div className="mt-8 text-primary">Home</div>
 				</div>
+				<p className="px-3 text-[15px] text-primary">
+					Your personal Reddit frontpage. Come here to check in with your
+					favorite communities.
+				</p>
+				<div className="w-full h-px my-4 bg-border-input" />
+				<Button
+					variant="primary"
+					onClick={!session ? openSignIn : () => push('/submit')}
+					className="w-full"
+				>
+					Create Post
+				</Button>
+				<div className="w-full h-3" />
+				<Button
+					className="w-full"
+					onClick={session ? openCommunityModal : openSignIn}
+				>
+					Create Community
+				</Button>
 			</div>
-			{createCommunityModalOpen && (
-				<div className="fixed h-screen w-screen bg-black/50 flex justify-center items-center top-0 left-0 z-0">
-					<CreateCommunityForm closeModal={closeCreateCommunityModal} />
-				</div>
-			)}
-		</>
+			<CommunityModal open={communityModalOpen} onClose={closeCommunityModal} />
+		</div>
 	);
 };
 

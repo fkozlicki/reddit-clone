@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
-import { Community } from '@prisma/client';
-import { useClickAway } from '@/hooks/useClickAway';
-import Spinner from '../Spinner/Spinner';
 import useUserCommunities from '@/hooks/query/useUserCommunities';
+import { useClickAway } from '@/hooks/useClickAway';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { Community } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface ChooseCommunityProps {
 	community?: Community;
@@ -44,16 +43,6 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 			</div>
 			{dropdownOpen && (
 				<div className="absolute top-full left-0 bg-primary w-full p-2 drop-shadow-md">
-					{loading && (
-						<div className="h-full grid place-items-center">
-							<Spinner />
-						</div>
-					)}
-					{error && (
-						<div className="h-full grid place-items-center">
-							Couldn&apos;t load communities
-						</div>
-					)}
 					{data && (
 						<>
 							<div className="text-[10px] font-bold uppercase text-primary mb-2">

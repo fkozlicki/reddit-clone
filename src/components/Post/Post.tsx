@@ -8,12 +8,12 @@ import {
 	ShareIcon,
 } from '@heroicons/react/24/outline';
 import { Community, User, Vote } from '@prisma/client';
-import IconButton from '../buttons/IconButton/IconButton';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import VoteSection from '../VoteSection/VoteSection';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { PostVote } from '@/hooks/query/usePost';
+import Button from '@/components/ui/Button/Button';
 
 interface PostProps {
 	id: string;
@@ -89,28 +89,33 @@ const Post = ({
 							initialVote={userVote}
 						/>
 					</div>
-					<IconButton
-						classNames="text-primary text-[12px] font-bold"
-						shape="square"
-						icon={<ChatBubbleLeftIcon width={20} />}
-						text={`${commentsCount} Comments`}
-						href={`/r/${communityName}/comments/${id}`}
-					/>
-					<IconButton
-						classNames="text-primary text-[12px] font-bold"
-						shape="square"
+					<Link className="flex" href={`/r/${communityName}/comments/${id}`}>
+						<Button
+							variant="secondary"
+							icon={<ChatBubbleLeftIcon width={20} />}
+							className="rounded"
+						>
+							{commentsCount} Comments
+						</Button>
+					</Link>
+					<Button
+						variant="secondary"
 						icon={<ShareIcon width={20} />}
-						text="Share"
-					/>
-					<IconButton
-						classNames="text-primary text-[12px] font-bold"
-						shape="square"
+						className="rounded"
+					>
+						Share
+					</Button>
+					<Button
+						variant="secondary"
+						className="rounded"
 						icon={<BookmarkIcon width={20} />}
-						text="Save"
-					/>
-					<IconButton
-						classNames="text-primary font-bold"
-						shape="square"
+					>
+						Save
+					</Button>
+					<Button
+						variant="secondary"
+						className="rounded"
+						size="large"
 						icon={<EllipsisHorizontalIcon width={20} />}
 					/>
 				</div>

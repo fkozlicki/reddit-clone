@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import IconButton from '../buttons/IconButton/IconButton';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import VoteSection from '../VoteSection/VoteSection';
 import { useSession } from 'next-auth/react';
@@ -10,6 +9,7 @@ import CommentForm from '../forms/CommentForm/CommentForm';
 import { useParams } from 'next/navigation';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import { CommentReply, PostVote } from '@/hooks/query/usePost';
+import Button from '../ui/Button/Button';
 
 interface CommentProps {
 	id: string;
@@ -73,13 +73,14 @@ const Comment = ({
 							initialKarma={karma ?? 0}
 							initialVote={userVote}
 						/>
-						<IconButton
-							shape="square"
-							text="Reply"
+						<Button
+							variant="secondary"
+							className="rounded"
 							icon={<ChatBubbleLeftIcon width={18} />}
-							classNames="text-primary text-xs"
 							onClick={session ? toggleReplyFormOpen : openSignIn}
-						/>
+						>
+							Reply
+						</Button>
 					</div>
 				</div>
 				<div>

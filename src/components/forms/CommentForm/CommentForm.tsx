@@ -1,16 +1,15 @@
 'use client';
 
-import React, { FormEvent, useState } from 'react';
-import Button from '../../buttons/Button/Button';
+import Button from '@/components/ui/Button/Button';
+import { useModalsContext } from '@/contexts/ModalsContext';
+import useCreateComment from '@/hooks/mutation/useCreateComment';
+import { PostComment } from '@/hooks/query/usePost';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Comment } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSession } from 'next-auth/react';
-import Spinner from '@/components/Spinner/Spinner';
-import { useModalsContext } from '@/contexts/ModalsContext';
-import { PostComment } from '@/hooks/query/usePost';
-import useCreateComment from '@/hooks/mutation/useCreateComment';
-import { Comment } from '@prisma/client';
 
 const commentSchema = z.object({
 	content: z.string().min(1),
@@ -93,12 +92,14 @@ const CommentForm = ({
 				></textarea>
 				<div className="bg-post-side flex justify-end p-1">
 					<Button
-						filled
+						variant="primary"
 						disabled={!isValid || loading}
-						classNames="text-xs w-auto h-6"
+						size="small"
 						onClick={!session ? openSignIn : undefined}
+						loading={loading}
+						className="disabled:bg-gray-400 disabled:hover:bg-gray-400"
 					>
-						{loading ? <Spinner /> : 'Comment'}
+						Comment
 					</Button>
 				</div>
 			</form>
