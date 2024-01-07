@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '@/components/ui/Modal/Modal';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import AnimatedInput from '@/components/inputs/AnimatedInput/AnimatedInput';
 import Button from '@/components/ui/Button/Button';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 interface AuthModalProps {
 	open: boolean;
@@ -20,14 +21,33 @@ const signInSchema = z.object({
 type SignInValues = z.infer<typeof signInSchema>;
 
 const AuthModal = ({ open, onClose }: AuthModalProps) => {
+	const [loading, setLoading] = useState<boolean>(false);
 	const { handleSubmit, register } = useForm<SignInValues>({
 		resolver: zodResolver(signInSchema),
 	});
 
-	const onSubmit = ({ email }: SignInValues) => {
-		signIn('email', {
-			email,
-		});
+	const onSubmit = async ({ email }: SignInValues) => {
+		setLoading(true);
+		try {
+			await signIn('email', {
+				email,
+			});
+			toast.success('Signed in successfully');
+		} catch {
+			toast.error("Couldn't sign in");
+		}
+		setLoading(false);
+	};
+
+	const signInWithGoogle = async () => {
+		setLoading(true);
+		try {
+			await signIn('google');
+			toast.success('Signed in successfully');
+		} catch {
+			toast.error("Couldn't sign in");
+		}
+		setLoading(false);
 	};
 
 	return (
@@ -35,13 +55,12 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 			open={open}
 			onClose={onClose}
 			title="Sign In"
-			onOk={handleSubmit(onSubmit)}
 			className="min-w-[350px] p-6"
 			footer={false}
 		>
 			<div className="mt-16">
 				<Button
-					onClick={() => signIn('google')}
+					onClick={signInWithGoogle}
 					icon={
 						<Image
 							src="/google.svg"
@@ -53,6 +72,8 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 					}
 					size="large"
 					className="w-full"
+					loading={loading}
+					disabled={loading}
 				>
 					Continue with Google
 				</Button>
@@ -61,9 +82,14 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 					<div className="px-4 text-sm text-primary font-medium">OR</div>
 					<div className="border-b border-input w-full" />
 				</div>
-				<form>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<AnimatedInput label="Email" register={register('email')} />
-					<Button variant="primary" className="w-full" size="large">
+					<Button
+						type="submit"
+						variant="primary"
+						className="w-full"
+						size="large"
+					>
 						Sign In
 					</Button>
 				</form>
