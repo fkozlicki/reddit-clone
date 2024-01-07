@@ -2,12 +2,12 @@
 
 import AuthModal from '@/components/AuthModal/AuthModal';
 import Logo from '@/components/Logo/Logo';
-import Button from '@/components/ui/Button/Button';
-import { useModalsContext } from '@/contexts/ModalsContext';
-import { signOut, useSession } from 'next-auth/react';
-import Search from '../../inputs/Search/Search';
-import Dropdown from '@/components/ui/Dropdown/Dropdown';
 import Avatar from '@/components/ui/Avatar/Avatar';
+import Button from '@/components/ui/Button/Button';
+import Dropdown from '@/components/ui/Dropdown/Dropdown';
+import TextField from '@/components/ui/TextField/TextField';
+import { useModalsContext } from '@/contexts/ModalsContext';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import {
 	ArrowRightOnRectangleIcon,
 	ChevronDownIcon,
@@ -16,8 +16,8 @@ import {
 	SunIcon,
 	UserIcon,
 } from '@heroicons/react/24/outline';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useThemeContext } from '@/contexts/ThemeContext';
 
 const Navbar = () => {
 	const { data: session } = useSession();
@@ -41,7 +41,10 @@ const Navbar = () => {
 			<Logo />
 			<div className="w-2 h-full" />
 			<div className="flex-1 max-w-[690px]">
-				<Search />
+				<TextField
+					className="w-full rounded-3xl hover:border-button focus:border-button"
+					placeholder="Search Reddit"
+				/>
 			</div>
 			<div className="w-2 h-full" />
 			{!session && (
