@@ -1,45 +1,38 @@
 'use client';
 
-import React, { useState } from 'react';
+import CommentForm from '@/components/community/CommentForm/CommentForm';
+import VoteSection from '@/components/shared/VoteSection/VoteSection';
+import Button from '@/components/ui/Button/Button';
+import { useModalsContext } from '@/contexts/ModalsContext';
+import { PostComment } from '@/hooks/query/usePost';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
-import { useModalsContext } from '@/contexts/ModalsContext';
-import { CommentReply, PostVote } from '@/hooks/query/usePost';
-import Button from '@/components/ui/Button/Button';
-import CommentForm from '@/components/community/CommentForm/CommentForm';
-import VoteSection from '@/components/shared/VoteSection/VoteSection';
+import { useState } from 'react';
 
 interface CommentProps {
-	id: string;
-	authorName: string | null;
-	createdAt: Date;
-	content: string;
-	votes?: PostVote[];
-	initialReplies?: CommentReply[];
+	comment: PostComment;
 }
 
-const Comment = ({
-	id,
-	authorName,
-	content,
-	createdAt,
-	votes,
-	initialReplies,
-}: CommentProps) => {
+const Comment = ({ comment }: CommentProps) => {
 	const [, dispatch] = useModalsContext();
 	const params = useParams();
 	const { data: session } = useSession();
-	const [replies, setReplies] = useState(initialReplies || []);
 	const [replyFormOpen, setReplyFormOpen] = useState(false);
-	const karma = votes?.reduce((acc, vote) => acc + vote.value, 0);
-	const userVote = votes?.find((vote) => vote.userId === session?.user.id);
+
 	const postId = params.id as string;
 
-	const updateReplies = (reply: CommentReply) => {
-		setReplies((prev) => [reply, ...prev]);
-	};
+	const {
+		author: { name: authorName },
+		createdAt,
+		content,
+		id,
+		votes,
+		replies,
+	} = comment;
+	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
+	const userVote = votes.find((vote) => vote.userId === session?.user.id);
 
 	const toggleReplyFormOpen = () => {
 		setReplyFormOpen((prev) => !prev);
@@ -70,8 +63,9 @@ const Comment = ({
 							type="comment"
 							commentId={id}
 							direction="row"
-							initialKarma={karma ?? 0}
-							initialVote={userVote}
+							karma={karma}
+							vote={userVote}
+							refetch="Post"
 						/>
 						<Button
 							variant="secondary"
@@ -86,24 +80,12 @@ const Comment = ({
 				<div>
 					{replyFormOpen && (
 						<div className="mb-2">
-							<CommentForm
-								postId={postId}
-								updateReplies={updateReplies}
-								replyToId={id}
-							/>
+							<CommentForm postId={postId} replyToId={id} />
 						</div>
 					)}
-					{replies &&
-						replies.map((reply, index) => (
-							<Comment
-								key={index}
-								authorName={reply.author.name}
-								content={reply.content}
-								createdAt={reply.createdAt}
-								id={reply.id}
-								votes={reply.votes}
-							/>
-						))}
+					{replies?.map((reply, index) => (
+						<Comment key={index} comment={reply} />
+					))}
 				</div>
 			</div>
 		</div>

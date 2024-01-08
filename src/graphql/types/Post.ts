@@ -10,7 +10,13 @@ builder.prismaObject('Post', {
 		}),
 		votes: t.relation('votes'),
 		author: t.relation('author'),
-		comments: t.relation('comments'),
+		comments: t.relation('comments', {
+			query: {
+				where: {
+					replyToId: null,
+				},
+			},
+		}),
 		community: t.relation('community'),
 	}),
 });

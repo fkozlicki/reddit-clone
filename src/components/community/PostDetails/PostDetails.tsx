@@ -31,8 +31,12 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 		);
 	}
 
-	if (!data || error) {
+	if (error) {
 		return <div>Couldn`t load data</div>;
+	}
+
+	if (!data) {
+		return <div>404</div>;
 	}
 
 	const post = data.post;
@@ -40,18 +44,9 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 	return (
 		<div className="flex gap-4 justify-center flex-1 min-h-full">
 			<div className="w-full lg:max-w-[750px] flex flex-col">
-				<Post
-					id={post.id}
-					title={post.title}
-					authorName={post.author.name}
-					communityName={post.community.name}
-					createdAt={post.createdAt}
-					content={post.content}
-					commentsCount={post.comments.length}
-					votes={post.votes}
-				/>
+				<Post post={post} refetch="Post" />
 				<div className="w-full h-5" />
-				<CommentsSection postId={post.id} initialComments={post.comments} />
+				<CommentsSection postId={post.id} comments={post.comments} />
 			</div>
 			<div className="w-[312px] hidden lg:block flex-shrink-0">
 				<CommunityAbout withName cta="Join" />

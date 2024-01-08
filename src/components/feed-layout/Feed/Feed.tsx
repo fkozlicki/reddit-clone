@@ -23,14 +23,7 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 		variables: {
 			offset: 0,
 			limit: 10,
-			sort:
-				type === 'hot' || type === 'best'
-					? 'hot'
-					: type === 'new'
-					? 'new'
-					: type === 'top'
-					? 'top'
-					: undefined,
+			sort: type,
 			filter: communityName
 				? { community: { name: communityName } }
 				: topicName
@@ -65,30 +58,9 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 	return (
 		<div className="flex flex-col gap-6">
 			{data &&
-				data.posts.map(
-					({
-						id,
-						author,
-						content,
-						title,
-						createdAt,
-						votes,
-						comments,
-						community,
-					}) => (
-						<Post
-							key={id}
-							id={id}
-							authorName={author.name}
-							content={content}
-							title={title}
-							createdAt={createdAt}
-							votes={votes}
-							commentsCount={comments.length}
-							communityName={community.name}
-						/>
-					)
-				)}
+				data.posts.map((post) => (
+					<Post key={post.id} post={post} refetch="Posts" />
+				))}
 			<div ref={ref}>
 				{loading && (
 					<div className="flex flex-col gap-6">

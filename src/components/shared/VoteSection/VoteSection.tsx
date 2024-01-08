@@ -9,31 +9,29 @@ import {
 	ArrowUpCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 type VoteSectionProps = {
 	direction: 'row' | 'column';
-	initialKarma: number;
-	initialVote?: PostVote;
+	karma: number;
+	vote?: PostVote;
+	refetch: 'Post' | 'Posts';
 } & ({ type: 'post'; postId: string } | { type: 'comment'; commentId: string });
 
-const VoteSection = (props: VoteSectionProps) => {
+const VoteSection = ({
+	direction,
+	karma,
+	refetch,
+	...props
+}: VoteSectionProps) => {
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
-	const { direction, initialKarma, type, initialVote } = props;
-	const [userVote, setUserVote] = useState<PostVote | undefined>(initialVote);
-	const [karma, setKarma] = useState(initialKarma);
-	const [vote] = useVote(type, {
+	const [vote] = useVote(props.type, {
 		onError() {
 			toast.error("Couldn't vote");
 		},
-		refetchQueries: ['bestPosts', 'hotPosts', 'topPosts', 'newPosts'],
+		refetchQueries: [refetch],
 	});
-
-	useEffect(() => {
-		setUserVote(initialVote);
-	}, [initialVote]);
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });
@@ -41,26 +39,13 @@ const VoteSection = (props: VoteSectionProps) => {
 
 	const handleVote = async (value: 1 | -1) => {
 		const variables =
-			type === 'post'
+			props.type === 'post'
 				? { value, postId: props.postId }
 				: { value, commentId: props.commentId };
 
-		const { data } = await vote({
+		vote({
 			variables,
 		});
-		if (data) {
-			if (userVote?.value === value) {
-				setKarma((prev) => prev - userVote.value);
-				setUserVote(undefined);
-			} else {
-				if ('makeVote' in data) {
-					setUserVote(data.makeVote);
-				} else {
-					setUserVote(data.makeCommentVote);
-				}
-				setKarma((prev) => prev + value * (userVote ? 2 : 1));
-			}
-		}
 	};
 
 	return (
@@ -79,7 +64,7 @@ const VoteSection = (props: VoteSectionProps) => {
 				icon={
 					<ArrowUpCircleIcon
 						className={`w-6 group-hover:text-red-600 ${
-							userVote?.value === 1 ? 'text-red-600' : 'text-primary'
+							props.vote?.value === 1 ? 'text-red-600' : 'text-primary'
 						}`}
 					/>
 				}
@@ -96,7 +81,7 @@ const VoteSection = (props: VoteSectionProps) => {
 				icon={
 					<ArrowDownCircleIcon
 						className={`w-6 group-hover:text-blue-600 ${
-							userVote?.value === -1 ? 'text-blue-600' : 'text-primary'
+							props.vote?.value === -1 ? 'text-blue-600' : 'text-primary'
 						}`}
 					/>
 				}

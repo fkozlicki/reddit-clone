@@ -3,12 +3,11 @@
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useCreateComment from '@/hooks/mutation/useCreateComment';
-import { PostComment } from '@/hooks/query/usePost';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Comment } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 const commentSchema = z.object({
@@ -18,20 +17,12 @@ const commentSchema = z.object({
 type CommentValues = z.infer<typeof commentSchema>;
 
 interface CommentFormProps {
-	postId: Comment['postId'];
-	updateComments?: (
-		newComment: PostComment | Omit<PostComment, 'replies' | 'votes'>
-	) => void;
-	updateReplies?: (newReply: any) => void;
+	postId: string;
 	replyToId?: string;
 }
 
-const CommentForm = ({
-	postId,
-	replyToId,
-	updateComments,
-	updateReplies,
-}: CommentFormProps) => {
+const CommentForm = ({ postId, replyToId }: CommentFormProps) => {
+	const [, dispatch] = useModalsContext();
 	const { data: session } = useSession();
 	const [focus, setFocus] = useState(false);
 	const {
@@ -43,17 +34,14 @@ const CommentForm = ({
 		resolver: zodResolver(commentSchema),
 	});
 	const [createComment, { loading }] = useCreateComment({
-		onCompleted({ createComment }) {
+		onCompleted() {
 			reset();
-
-			updateComments && updateComments(createComment);
-			updateReplies && updateReplies(createComment);
 		},
-		onError(error) {
-			console.error(error);
+		onError() {
+			toast.error("Couldn't create comment");
 		},
+		refetchQueries: ['Post'],
 	});
-	const [, dispatch] = useModalsContext();
 
 	const onSubmit = (values: CommentValues) => {
 		createComment({

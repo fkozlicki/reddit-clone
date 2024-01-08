@@ -1,45 +1,38 @@
 'use client';
 
-import React from 'react';
+import VoteSection from '@/components/shared/VoteSection/VoteSection';
+import Button from '@/components/ui/Button/Button';
+import { PostInfo } from '@/hooks/query/usePosts';
+import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import {
 	BookmarkIcon,
 	ChatBubbleLeftIcon,
 	EllipsisHorizontalIcon,
 	ShareIcon,
 } from '@heroicons/react/24/outline';
-import { Community, User, Vote } from '@prisma/client';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import { PostVote } from '@/hooks/query/usePost';
-import Button from '@/components/ui/Button/Button';
-import VoteSection from '@/components/shared/VoteSection/VoteSection';
+import Link from 'next/link';
 
 interface PostProps {
-	id: string;
-	title: string;
-	content: string;
-	authorName: User['name'];
-	createdAt: Date;
-	votes: PostVote[];
-	commentsCount: number;
-	communityName: Community['name'];
-	search?: string;
+	post: PostInfo;
+	refetch: 'Post' | 'Posts';
 }
 
-const Post = ({
-	id,
-	title,
-	content,
-	votes,
-	authorName,
-	createdAt,
-	communityName,
-	commentsCount,
-}: PostProps) => {
+const Post = ({ post, refetch }: PostProps) => {
 	const { data: session } = useSession();
+	const {
+		votes,
+		community: { name: communityName },
+		author: { name: authorName },
+		createdAt,
+		id,
+		title,
+		content,
+		comments,
+	} = post;
 	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
 	const userVote = votes.find((vote) => vote.userId === session?.user.id);
+	const commentsCount = comments.length;
 
 	return (
 		<div className="w-full flex border-post border rounded hover:border-post-hover cursor-pointer overflow-hidden bg-primary">
@@ -48,8 +41,9 @@ const Post = ({
 					type="post"
 					postId={id}
 					direction="column"
-					initialKarma={karma}
-					initialVote={userVote}
+					karma={karma}
+					vote={userVote}
+					refetch={refetch}
 				/>
 			</div>
 			<div className="bg-primary flex-1">
@@ -84,9 +78,10 @@ const Post = ({
 						<VoteSection
 							type="post"
 							postId={id}
-							direction="row"
-							initialKarma={karma}
-							initialVote={userVote}
+							direction="column"
+							karma={karma}
+							vote={userVote}
+							refetch={refetch}
 						/>
 					</div>
 					<Link className="flex" href={`/r/${communityName}/comments/${id}`}>

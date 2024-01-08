@@ -7,16 +7,13 @@ type PostAuthor = {
 	name: User['name'];
 };
 
-export type CommentReply = {
+export type PostComment = {
 	id: Comment['id'];
 	content: Comment['content'];
 	createdAt: Comment['createdAt'];
 	author: PostAuthor;
 	votes: PostVote[];
-};
-
-export type PostComment = CommentReply & {
-	replies: CommentReply[];
+	replies: PostComment[];
 };
 
 type PostQueryResponse = {
@@ -34,8 +31,8 @@ type PostQueryVariables = {
 	id: Post['id'];
 };
 
-const POST_QUERY = gql`
-	query ($id: String!) {
+export const POST_QUERY = gql`
+	query Post($id: String!) {
 		post(id: $id) {
 			id
 			title

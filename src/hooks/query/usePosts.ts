@@ -2,19 +2,21 @@ import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { Comment, Community, Post, User } from '@prisma/client';
 import { PostVote } from './usePost';
 
+export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
+	comments: {
+		id: Comment['id'];
+	}[];
+	votes: PostVote[];
+	author: {
+		name: User['name'];
+	};
+	community: {
+		name: Community['name'];
+	};
+};
+
 type PostsQueryResponse = {
-	posts: (Omit<Post, 'authorId' | 'communityId'> & {
-		comments: {
-			id: Comment['id'];
-		}[];
-		votes: PostVote[];
-		author: {
-			name: User['name'];
-		};
-		community: {
-			name: Community['name'];
-		};
-	})[];
+	posts: PostInfo[];
 };
 
 type PostsQueryVariables = {
@@ -24,10 +26,10 @@ type PostsQueryVariables = {
 	filter?: any;
 };
 
-export type FeedType = 'new' | 'hot' | 'top' | 'best';
+export type FeedType = 'new' | 'hot' | 'top';
 
-const POSTS_QUERY = gql`
-	query ($offset: Int, $limit: Int, $filter: PostFilter, $sort: PostSort) {
+export const POSTS_QUERY = gql`
+	query Posts($offset: Int, $limit: Int, $filter: PostFilter, $sort: PostSort) {
 		posts(offset: $offset, limit: $limit, filter: $filter, sort: $sort) {
 			id
 			title
