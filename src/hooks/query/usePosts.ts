@@ -16,12 +16,21 @@ export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 };
 
 type PostsQueryResponse = {
-	posts: PostInfo[];
+	posts: {
+		pageInfo: {
+			endCursor: string;
+			hasNextPage: boolean;
+		};
+		edges: {
+			cursor: string;
+			node: PostInfo;
+		}[];
+	};
 };
 
 type PostsQueryVariables = {
-	offset: number;
-	limit: number;
+	first?: number;
+	after?: string;
 	sort?: any;
 	filter?: any;
 };
@@ -29,24 +38,33 @@ type PostsQueryVariables = {
 export type FeedType = 'new' | 'hot' | 'top';
 
 export const POSTS_QUERY = gql`
-	query Posts($offset: Int, $limit: Int, $filter: PostFilter, $sort: PostSort) {
-		posts(offset: $offset, limit: $limit, filter: $filter, sort: $sort) {
-			id
-			title
-			content
-			createdAt
-			comments {
-				id
+	query Posts($first: Int, $after: ID, $filter: PostFilter, $sort: PostSort) {
+		posts(first: $first, after: $after, filter: $filter, sort: $sort) {
+			pageInfo {
+				endCursor
+				hasNextPage
 			}
-			votes {
-				userId
-				value
-			}
-			author {
-				name
-			}
-			community {
-				name
+			edges {
+				cursor
+				node {
+					id
+					title
+					content
+					createdAt
+					comments {
+						id
+					}
+					votes {
+						userId
+						value
+					}
+					author {
+						name
+					}
+					community {
+						name
+					}
+				}
 			}
 		}
 	}

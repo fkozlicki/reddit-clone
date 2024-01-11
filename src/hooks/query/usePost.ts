@@ -38,7 +38,7 @@ export const POST_QUERY = gql`
 			title
 			createdAt
 			content
-			comments {
+			comments(where: { replyToId: null }) {
 				id
 				content
 				createdAt

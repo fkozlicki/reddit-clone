@@ -1,5 +1,11 @@
 import { builder } from '../builder';
 
+const CommentWhere = builder.inputType('CommentWhere', {
+	fields: (t) => ({
+		replyToId: t.string({}),
+	}),
+});
+
 builder.prismaObject('Post', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
@@ -11,11 +17,12 @@ builder.prismaObject('Post', {
 		votes: t.relation('votes'),
 		author: t.relation('author'),
 		comments: t.relation('comments', {
-			query: {
-				where: {
-					replyToId: null,
-				},
+			args: {
+				where: t.arg({ type: CommentWhere }),
 			},
+			query: (args) => ({
+				where: { replyToId: args.where?.replyToId },
+			}),
 		}),
 		community: t.relation('community'),
 	}),
@@ -78,17 +85,10 @@ const PostSort = builder.enumType('PostSort', {
 });
 
 builder.queryField('posts', (t) =>
-	t.prismaField({
-		type: ['Post'],
+	t.prismaConnection({
+		type: 'Post',
+		cursor: 'id',
 		args: {
-			offset: t.arg.int({
-				defaultValue: 0,
-				required: true,
-			}),
-			limit: t.arg.int({
-				defaultValue: 5,
-				required: true,
-			}),
 			filter: t.arg({
 				type: PostFilter,
 			}),
@@ -97,12 +97,10 @@ builder.queryField('posts', (t) =>
 			}),
 		},
 		resolve: async (query, _parent, args, ctx) => {
-			const { offset, limit, filter, sort } = args;
+			const { filter, sort } = args;
 
 			const posts = await ctx.prisma.post.findMany({
 				...query,
-				skip: offset,
-				take: limit,
 				where: filter ?? undefined,
 				orderBy: sort
 					? sort === 'hot'

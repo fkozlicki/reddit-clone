@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import usePosts, { FeedType } from '@/hooks/query/usePosts';
 import Post from '@/components/shared/Post/Post';
 import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import toast from 'react-hot-toast';
 
 interface FeedProps {
 	type: FeedType;
@@ -14,15 +15,13 @@ interface FeedProps {
 }
 
 const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
-	const [hasMoreData, setHasMoreData] = useState<boolean>(true);
 	const { data, fetchMore, loading } = usePosts({
 		notifyOnNetworkStatusChange: true,
-		onError(error) {
-			console.error(error);
+		onError() {
+			toast.error("Couldn't load posts");
 		},
 		variables: {
-			offset: 0,
-			limit: 10,
+			first: 2,
 			sort: type,
 			filter: communityName
 				? { community: { name: communityName } }
@@ -36,29 +35,31 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 	const [ref, entry] = useIntersectionObserver<HTMLDivElement>();
 
 	useEffect(() => {
-		if (entry && entry.isIntersecting && !loading && data && hasMoreData) {
+		if (
+			entry &&
+			entry.isIntersecting &&
+			!loading &&
+			data?.posts.pageInfo.hasNextPage
+		) {
 			fetchMore({
 				variables: {
-					offset: data.posts.length,
-					limit: 10,
+					after: data.posts.pageInfo.endCursor,
 				},
 				updateQuery: (prev, { fetchMoreResult }) => {
-					if (!fetchMoreResult) return prev;
-					if (fetchMoreResult.posts.length === 0) {
-						setHasMoreData(false);
-					}
-					return {
-						posts: [...prev.posts, ...fetchMoreResult.posts],
-					};
+					fetchMoreResult.posts.edges = [
+						...prev.posts.edges,
+						...fetchMoreResult.posts.edges,
+					];
+					return fetchMoreResult;
 				},
 			});
 		}
-	}, [entry, loading, fetchMore, data, hasMoreData]);
+	}, [entry, loading, fetchMore, data]);
 
 	return (
 		<div className="flex flex-col gap-6">
 			{data &&
-				data.posts.map((post) => (
+				data.posts.edges.map(({ node: post }) => (
 					<Post key={post.id} post={post} refetch="Posts" />
 				))}
 			<div ref={ref}>
@@ -69,16 +70,18 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 						))}
 					</div>
 				)}
-				{data && data.posts.length === 0 && (
+				{data && data.posts.edges.length === 0 && (
 					<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
 						No posts
 					</div>
 				)}
-				{data && data.posts.length > 0 && !hasMoreData && (
-					<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
-						No more posts
-					</div>
-				)}
+				{data &&
+					data.posts.edges.length > 0 &&
+					!data.posts.pageInfo.hasNextPage && (
+						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
+							No more posts
+						</div>
+					)}
 			</div>
 		</div>
 	);
