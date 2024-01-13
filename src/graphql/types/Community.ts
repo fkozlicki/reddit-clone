@@ -5,6 +5,7 @@ builder.prismaObject('Community', {
 		id: t.exposeID('id'),
 		name: t.exposeString('name'),
 		members: t.relation('members'),
+		membersCount: t.relationCount('members'),
 		posts: t.relation('posts'),
 		topic: t.relation('topic', {
 			nullable: true,
@@ -39,6 +40,44 @@ builder.queryField('community', (t) =>
 			}
 
 			return community;
+		},
+	})
+);
+
+export const CommunityWhere = builder.prismaWhere('Community', {
+	fields: {
+		name: 'String',
+		topic: builder.prismaWhere('Topic', {
+			fields: {
+				name: 'String',
+			},
+		}),
+	},
+});
+
+builder.queryField('communities', (t) =>
+	t.prismaField({
+		type: ['Community'],
+		args: {
+			filter: t.arg({
+				type: CommunityWhere,
+			}),
+			take: t.arg({ type: 'Int' }),
+			sort: t.arg({ type: 'String' }),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			const communities = await ctx.prisma.community.findMany({
+				...query,
+				where: args.filter ?? undefined,
+				take: args.take ?? undefined,
+				orderBy: {
+					...(args.sort === 'member'
+						? { members: { _count: 'desc' } }
+						: undefined),
+				},
+			});
+
+			return communities;
 		},
 	})
 );

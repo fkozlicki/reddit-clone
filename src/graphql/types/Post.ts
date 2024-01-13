@@ -1,4 +1,5 @@
 import { builder } from '../builder';
+import { CommunityWhere } from './Community';
 
 const CommentWhere = builder.inputType('CommentWhere', {
 	fields: (t) => ({
@@ -58,25 +59,16 @@ builder.mutationField('createPost', (t) =>
 	})
 );
 
-const CommunityWhere = builder.prismaWhere('Community', {
+export const AuthorFilter = builder.prismaWhere('User', {
 	fields: {
 		name: 'String',
-		topic: builder.prismaWhere('Topic', {
-			fields: {
-				name: 'String',
-			},
-		}),
 	},
 });
 
 const PostFilter = builder.prismaWhere('Post', {
 	fields: {
 		community: CommunityWhere,
-		author: builder.prismaWhere('User', {
-			fields: {
-				name: 'String',
-			},
-		}),
+		author: AuthorFilter,
 	},
 });
 

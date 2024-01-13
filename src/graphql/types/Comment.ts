@@ -1,4 +1,5 @@
 import { builder } from '../builder';
+import { AuthorFilter } from './Post';
 
 builder.prismaObject('Comment', {
 	fields: (t) => ({
@@ -38,6 +39,29 @@ builder.mutationField('createComment', (t) =>
 			});
 
 			return comment;
+		},
+	})
+);
+
+const CommentFilter = builder.prismaWhere('Comment', {
+	fields: {
+		author: AuthorFilter,
+	},
+});
+
+builder.queryField('comments', (t) =>
+	t.prismaField({
+		type: ['Comment'],
+		args: {
+			filter: t.arg({ type: CommentFilter }),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			const comments = await ctx.prisma.comment.findMany({
+				...query,
+				where: args.filter ?? undefined,
+			});
+
+			return comments;
 		},
 	})
 );
