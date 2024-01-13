@@ -24,6 +24,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 			url: preSignedUrl,
 		});
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
 }

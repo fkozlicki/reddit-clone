@@ -21,7 +21,7 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 			toast.error("Couldn't load posts");
 		},
 		variables: {
-			first: 2,
+			first: 5,
 			sort: type,
 			filter: communityName
 				? { community: { name: communityName } }
@@ -60,7 +60,7 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 		<div className="flex flex-col gap-6">
 			{data &&
 				data.posts.edges.map(({ node: post }) => (
-					<Post key={post.id} post={post} refetch="Posts" />
+					<Post key={post.id} post={post} refetch="Posts" preview />
 				))}
 			<div ref={ref}>
 				{loading && (
