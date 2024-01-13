@@ -12,6 +12,8 @@ import useCommunity from '@/hooks/query/useCommunity';
 import CommunityTopic from '@/components/community/CommunityTopic/CommunityTopic';
 import CommunityMembershipButton from '@/components/community/CommunityMembershipButton/CommunityMembershipButton';
 import CommunityDescriptionForm from '../CommunityDescriptionForm/CommunityDescriptionForm';
+import Link from 'next/link';
+import Avatar from '@/components/ui/Avatar/Avatar';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -69,18 +71,30 @@ const CommunityAbout = ({
 				{withHeader && (
 					<div className="flex justify-between items-center">
 						<div className="text-sm font-bold text-white">About Community</div>
-						<div className="text-[10px] font-bold uppercase text-white">
-							mod tools (soon)
-						</div>
+						{isModerator && (
+							<Button
+								variant="secondary"
+								size="small"
+								className="text-white hover:bg-[#006dd3]"
+								shape="square"
+							>
+								Mod tools
+							</Button>
+						)}
 					</div>
 				)}
 			</div>
 			<div className="p-3">
 				{withName && (
-					<div className="flex items-center gap-3 mb-4">
-						<div className="w-10 h-10 bg-black rounded-full"></div>
-						<div className="text-primary">r/{communityName}</div>
-					</div>
+					<Link
+						href={`/r/${communityName}`}
+						className="flex items-center gap-3 mb-4 group"
+					>
+						<Avatar size={40} />
+						<span className="text-primary group-hover:underline">
+							r/{communityName}
+						</span>
+					</Link>
 				)}
 				{editable && isModerator ? (
 					<CommunityDescriptionForm

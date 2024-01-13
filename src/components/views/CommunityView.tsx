@@ -16,22 +16,24 @@ interface CommunityViewProps {
 
 const CommunityView = ({ name, feedType, highlighted }: CommunityViewProps) => {
 	return (
-		<div className="flex-1 min-h-[calc(100vh-48px)] ">
+		<>
 			<CommunityHeader name={name} />
-			<Grid
-				left={
-					<>
-						<FeedFilter highlighted={highlighted} prefix={`r/${name}`} />
-						<Feed type={feedType} communityName={name} />
-					</>
-				}
-				right={
-					<>
-						<CommunityAbout withHeader editable cta="Create Post" />
-					</>
-				}
-			/>
-		</div>
+			<div className="py-6 px-4">
+				<Grid
+					left={
+						<>
+							<FeedFilter highlighted={highlighted} prefix={`r/${name}`} />
+							<Feed type={feedType} communityName={name} />
+						</>
+					}
+					right={
+						<>
+							<CommunityAbout withHeader editable cta="Create Post" />
+						</>
+					}
+				/>
+			</div>
+		</>
 	);
 };
 

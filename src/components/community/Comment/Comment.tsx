@@ -2,6 +2,7 @@
 
 import CommentForm from '@/components/community/CommentForm/CommentForm';
 import VoteSection from '@/components/shared/VoteSection/VoteSection';
+import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import { PostComment } from '@/hooks/query/usePost';
@@ -45,7 +46,7 @@ const Comment = ({ comment }: CommentProps) => {
 	return (
 		<div className="flex gap-2">
 			<div className="flex flex-col items-center">
-				<div className="w-6 h-6 bg-black rounded-full"></div>
+				<Avatar size={24} />
 				<div className="w-0.5 flex-1 bg-gray-600"></div>
 			</div>
 			<div className="flex-1">

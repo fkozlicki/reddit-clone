@@ -19,23 +19,25 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 	}
 
 	return (
-		<Grid
-			left={
-				<>
-					<div className="mb-4 font-medium">Create a post</div>
-					<div className="w-full h-px bg-primary my-4" />
-					<ChooseCommunity community={community} />
-					<PostForm communityId={community.id} />
-				</>
-			}
-			right={
-				<>
-					<CommunityAbout withName />
-					<div className="h-5" />
-					<PostRules />
-				</>
-			}
-		/>
+		<div className="py-6 px-4">
+			<Grid
+				left={
+					<>
+						<div className="mb-4 font-medium">Create a post</div>
+						<div className="w-full h-px bg-primary my-4" />
+						<ChooseCommunity community={community} />
+						<PostForm communityId={community.id} />
+					</>
+				}
+				right={
+					<>
+						<CommunityAbout withName />
+						<div className="h-5" />
+						<PostRules />
+					</>
+				}
+			/>
+		</div>
 	);
 };
 

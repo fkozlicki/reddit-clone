@@ -2,31 +2,34 @@ import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
-const button = cva('border relative disabled:cursor-not-allowed font-medium', {
-	variants: {
-		variant: {
-			default:
-				'hover:bg-blue-50 hover:border-blue-100 disabled:hover:bg-gray-50 disabled:hover:border-gray-100',
-			primary:
-				'bg-blue-600/90 hover:bg-blue-600 text-white disabled:hover:bg-blue-400 disabled:hover:border-blue-400 border-0',
-			secondary: 'hover:bg-gray-200 border-0',
+const button = cva(
+	'border relative disabled:cursor-not-allowed font-medium outline-none',
+	{
+		variants: {
+			variant: {
+				default:
+					'hover:bg-blue-50 hover:border-blue-100 disabled:hover:bg-gray-50 disabled:hover:border-gray-100',
+				primary:
+					'bg-blue-600/90 hover:bg-blue-600 text-white disabled:hover:bg-blue-400 disabled:hover:border-blue-400 border-0',
+				secondary: 'hover:bg-gray-200 border-0',
+			},
+			size: {
+				small: 'text-xs h-6 min-w-[24px] px-2',
+				medium: 'py-1 px-3 text-sm h-8 min-w-[32px]',
+				large: 'py-[10px] px-5 text-sm h-10 min-w-[40px]',
+			},
+			shape: {
+				circle: 'rounded-full',
+				square: 'rounded',
+			},
 		},
-		size: {
-			small: 'text-xs h-6 min-w-[24px] px-2',
-			medium: 'py-1 px-3 text-sm h-8 min-w-[32px]',
-			large: 'py-[10px] px-5 text-sm h-10 min-w-[40px]',
+		defaultVariants: {
+			variant: 'default',
+			size: 'medium',
+			shape: 'circle',
 		},
-		shape: {
-			circle: 'rounded-full',
-			square: 'rounded',
-		},
-	},
-	defaultVariants: {
-		variant: 'default',
-		size: 'medium',
-		shape: 'circle',
-	},
-});
+	}
+);
 
 interface ButtonProps
 	extends ButtonHTMLAttributes<HTMLButtonElement>,
@@ -91,7 +94,7 @@ const Button = ({
 							cy="12"
 							r="10"
 							stroke="currentColor"
-							stroke-width="4"
+							strokeWidth="4"
 						></circle>
 						<path
 							className="opacity-75"

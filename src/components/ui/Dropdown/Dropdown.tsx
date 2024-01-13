@@ -9,7 +9,9 @@ import React, {
 	useState,
 } from 'react';
 
-const dropdown = cva('absolute top-full right-0 py-2 shadow bg-white');
+const dropdown = cva(
+	'absolute top-full right-0 py-2 shadow bg-white z-20 w-full'
+);
 
 type DropdownItem = {
 	text: ReactNode;
@@ -33,7 +35,7 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 	};
 
 	return (
-		<div ref={dropdownRef} className="relative w-fit">
+		<div ref={dropdownRef} className="relative">
 			{cloneElement(children, {
 				onClick: (event: MouseEvent) => {
 					event.stopPropagation();
@@ -54,7 +56,10 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 									'cursor-pointer': onClick,
 								}
 							)}
-							onClick={onClick}
+							onClick={() => {
+								onClick && onClick();
+								onClick && toggleDropdown();
+							}}
 						>
 							{icon && icon}
 							{text}

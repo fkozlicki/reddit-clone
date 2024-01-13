@@ -35,21 +35,19 @@ const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
 		  }));
 
 	return (
-		<Dropdown items={items} className="w-full">
-			<div className="flex items-center justify-between p-2 mb-2 border border-input rounded bg-primary cursor-pointer w-[275px]">
-				<div className="flex gap-2">
-					{community ? (
-						<div className="w-5 h-5 bg-black rounded-full" />
-					) : (
-						<div className="w-5 h-5 border post-hover border-dashed rounded-full" />
-					)}
-					<div className="text-sm text-primary">
-						{community?.name ?? 'Choose a community'}
+		<div className="w-[275px]">
+			<Dropdown items={items}>
+				<div className="flex items-center justify-between p-2 mb-2 border border-input rounded bg-primary cursor-pointer">
+					<div className="flex gap-2">
+						<Avatar size={20} />
+						<div className="text-sm text-primary">
+							{community?.name ?? 'Choose a community'}
+						</div>
 					</div>
+					<ChevronDownIcon width={16} className="text-primary" />
 				</div>
-				<ChevronDownIcon width={16} className="text-primary" />
-			</div>
-		</Dropdown>
+			</Dropdown>
+		</div>
 	);
 };
 

@@ -67,7 +67,7 @@ const CommunityDescriptionForm = ({
 	return (
 		<div
 			onClick={openDescriptionInput}
-			className="p-2 border border-input mb-2 rounded hover:border-primary cursor-pointer"
+			className="p-2 border border-input mb-3 rounded hover:border-primary cursor-pointer"
 		>
 			{descriptionInputOpen ? (
 				<form ref={description} onSubmit={handleSubmit(onSubmit)}>
@@ -80,11 +80,11 @@ const CommunityDescriptionForm = ({
 							},
 						})}
 						autoFocus
-						className="w-full outline-none text-sm mb-2"
+						className="w-full outline-none text-sm mb-2 resize-none no-scrollbar"
 						placeholder="Tell us about your community"
 						maxLength={200}
 					/>
-					<div className="flex justify-between text-xs">
+					<div className="flex justify-between text-xs items-center">
 						<div className="text-primary">
 							{charactersRemaining} characters remaining
 						</div>
