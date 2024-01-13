@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Post from './Post';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof Post> = {
 	title: 'Post',
@@ -13,13 +13,15 @@ type Story = StoryObj<typeof Post>;
 
 export const Default: Story = {
 	args: {
-		id: 'asdasd',
-		title: 'lorem ipsum',
-		content: 'lorem ipsum',
-		authorName: 'John',
-		createdAt: new Date(),
-		votes: [],
-		communityName: 'essa',
-		commentsCount: 2,
+		post: {
+			id: 'asdasd',
+			title: 'lorem ipsum',
+			content: 'lorem ipsum',
+			author: { name: 'John' },
+			createdAt: new Date(),
+			votes: [],
+			community: { name: 'essa' },
+			comments: [],
+		},
 	},
 };

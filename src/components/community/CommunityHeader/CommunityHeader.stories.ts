@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommunityHeader from './CommunityHeader';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof CommunityHeader> = {
 	title: 'CommunityHeader',

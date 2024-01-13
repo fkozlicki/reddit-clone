@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import PostSkeleton from './PostSkeleton';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof PostSkeleton> = {
 	title: 'PostSkeleton',

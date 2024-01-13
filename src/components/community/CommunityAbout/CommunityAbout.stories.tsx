@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommunityAbout from './CommunityAbout';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 import { COMMUNITY_QUERY } from '@/hooks/query/useCommunity';
 import { TOPICS_QUERY } from '@/hooks/query/useTopics';
 

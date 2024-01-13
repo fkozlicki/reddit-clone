@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommunityMembershipButton from './CommunityMembershipButton';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 import { COMMUNITY_MEMBERS_QUERY } from '@/hooks/query/useCommunityMembers';
 
 const meta: Meta<typeof CommunityMembershipButton> = {

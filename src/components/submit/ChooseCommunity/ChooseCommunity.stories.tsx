@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import ChooseCommunity from './ChooseCommunity';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 import { USER_COMMUNITIES_QUERY } from '@/hooks/query/useUserCommunities';
 
 const meta: Meta<typeof ChooseCommunity> = {

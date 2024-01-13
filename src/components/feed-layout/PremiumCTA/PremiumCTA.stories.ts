@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import PremiumCTA from './PremiumCTA';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof PremiumCTA> = {
 	title: 'PremiumCTA',

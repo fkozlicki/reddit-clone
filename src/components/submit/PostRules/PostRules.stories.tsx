@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import PostRules from './PostRules';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof PostRules> = {
 	title: 'PostRules',

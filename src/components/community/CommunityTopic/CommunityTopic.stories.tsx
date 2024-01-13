@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommunityTopic from './CommunityTopic';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 import { TOPICS_QUERY } from '@/hooks/query/useTopics';
 
 const meta: Meta<typeof CommunityTopic> = {

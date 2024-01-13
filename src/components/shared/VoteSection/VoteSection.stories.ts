@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import VoteSection from './VoteSection';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 import { userEvent, within } from '@storybook/testing-library';
 import { POST_VOTE_MUTATION } from '@/hooks/mutation/useVote';
 
@@ -15,17 +15,17 @@ type Story = StoryObj<typeof VoteSection>;
 
 export const Default: Story = {
 	args: {
-		initialKarma: 20,
+		karma: 2,
 	},
 };
 
 export const UpVoted: Story = {
 	args: {
-		initialKarma: 20,
+		karma: 2,
 		type: 'post',
 		direction: 'row',
 		postId: '1',
-		initialVote: undefined,
+		vote: undefined,
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -73,11 +73,11 @@ export const UpVoted: Story = {
 
 export const DownVoted: Story = {
 	args: {
-		initialKarma: 20,
+		karma: 20,
 		type: 'post',
 		direction: 'row',
 		postId: '1',
-		initialVote: undefined,
+		vote: undefined,
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);

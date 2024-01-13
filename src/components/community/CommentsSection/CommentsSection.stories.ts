@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CommentsSection from './CommentsSection';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof CommentsSection> = {
 	title: 'CommentsSection',
@@ -13,8 +13,8 @@ type Story = StoryObj<typeof CommentsSection>;
 
 export const Default: Story = {
 	args: {
-		initialComments: [],
 		postId: '1',
+		comments: [],
 	},
 	parameters: {
 		nextjs: {
@@ -25,7 +25,7 @@ export const Default: Story = {
 
 export const WithComments: Story = {
 	args: {
-		initialComments: [
+		comments: [
 			{
 				id: '1',
 				author: {
@@ -52,6 +52,7 @@ export const WithComments: Story = {
 						createdAt: new Date(),
 						id: '4',
 						votes: [],
+						replies: [],
 					},
 				],
 				votes: [],

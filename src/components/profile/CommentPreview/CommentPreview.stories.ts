@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CreatePost from './CreatePost';
+import CommentPreview from './CommentPreview';
 import '../../../app/globals.css';
 
-const meta: Meta<typeof CreatePost> = {
-	title: 'CreatePost',
-	component: CreatePost,
+const meta: Meta<typeof CommentPreview> = {
+	title: 'CommentPreview',
+	component: CommentPreview,
 	tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof CreatePost>;
+type Story = StoryObj<typeof CommentPreview>;
 
 export const Default: Story = {
 	parameters: {

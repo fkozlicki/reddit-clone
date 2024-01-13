@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import FeedFilter from './FeedFilter';
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof FeedFilter> = {
 	title: 'FeedFilter',
