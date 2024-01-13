@@ -8,7 +8,6 @@ import FeedFilter, {
 } from '../feed-layout/FeedFilter/FeedFilter';
 import HomeCTA from '../feed-layout/HomeCTA/HomeCTA';
 import PremiumCTA from '../feed-layout/PremiumCTA/PremiumCTA';
-import Trending from '../feed-layout/Trending/Trending';
 import Grid from '../ui/Grid/Grid';
 
 interface FeedViewProps {
@@ -21,7 +20,6 @@ const FeedView = async ({ feedType, highlighted }: FeedViewProps) => {
 
 	return (
 		<div className="px-4 py-6">
-			{!session && <Trending />}
 			<Grid
 				left={
 					<>
