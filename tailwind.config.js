@@ -7,6 +7,9 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			boxShadow: {
+				tab: 'inset 0 -2px 0 0 var(--color-bg-button)',
+			},
 			colors: {
 				button: 'var(--color-bg-button)',
 			},
