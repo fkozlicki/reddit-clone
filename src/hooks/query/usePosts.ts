@@ -9,6 +9,7 @@ export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 	votes: PostVote[];
 	author: {
 		name: User['name'];
+		image: User['image'];
 	};
 	community: {
 		name: Community['name'];
@@ -60,6 +61,7 @@ export const POSTS_QUERY = gql`
 					}
 					author {
 						name
+						image
 					}
 					community {
 						name

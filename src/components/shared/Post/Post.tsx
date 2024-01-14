@@ -27,7 +27,7 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 	const {
 		votes,
 		community: { name: communityName },
-		author: { name: authorName },
+		author: { name: authorName, image: authorAvatar },
 		createdAt,
 		id,
 		title,
@@ -58,7 +58,7 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 			<div className="bg-primary flex-1">
 				<div className="flex p-2">
 					<Link href={`/r/${communityName}`} className="mr-1">
-						<Avatar size={20} />
+						<Avatar size={20} url={authorAvatar} alt="post author avatar" />
 					</Link>
 					<div className="flex items-center flex-wrap">
 						<Link

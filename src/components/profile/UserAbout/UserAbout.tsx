@@ -19,7 +19,7 @@ const UserAbout = ({ user }: UserAboutProps) => {
 		<div className="bg-primary rounded overflow-hidden text-primary border border-post">
 			<div className="h-20 bg-button"></div>
 			<div className="flex justify-center -mt-[50px]">
-				<Avatar size={100} />
+				<Avatar size={100} url={user.image} alt="user avatar" />
 			</div>
 			<div className="p-4">
 				<div className="text-2xl font-medium text-center">

@@ -5,6 +5,7 @@ export type PostVote = Omit<Vote, 'id' | 'postId'>;
 
 type PostAuthor = {
 	name: User['name'];
+	image: User['image'];
 };
 
 export type PostComment = {
@@ -44,6 +45,7 @@ export const POST_QUERY = gql`
 				createdAt
 				author {
 					name
+					image
 				}
 				votes {
 					userId
@@ -68,6 +70,7 @@ export const POST_QUERY = gql`
 			}
 			author {
 				name
+				image
 			}
 			community {
 				name
