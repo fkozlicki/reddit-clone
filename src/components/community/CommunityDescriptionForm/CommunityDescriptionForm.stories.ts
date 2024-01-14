@@ -20,13 +20,13 @@ export const Default: Story = {
 	args: {},
 };
 
-export const WithInitialDescription: Story = {
+export const WithDescription: Story = {
 	parameters: {
 		nextjs: {
 			appDirectory: true,
 		},
 	},
 	args: {
-		initialDescription: 'Lorem ipsum dolor sit amet.',
+		description: 'Lorem ipsum dolor sit amet.',
 	},
 };
