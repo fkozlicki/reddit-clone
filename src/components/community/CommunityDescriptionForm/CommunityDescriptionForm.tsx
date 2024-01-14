@@ -1,4 +1,5 @@
 import Button from '@/components/ui/Button/Button';
+import Textarea from '@/components/ui/Textarea/Textarea';
 import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import { useClickAway } from '@/hooks/useClickAway';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,36 +13,33 @@ const descriptionSchema = z.object({
 type DescriptionValues = z.infer<typeof descriptionSchema>;
 
 interface CommunityDescriptionFormProps {
+	description: string | null;
 	communityName: string;
-	initialDescription: string | null;
-	updateDescription: (description: string | null) => void;
 }
 
 const CommunityDescriptionForm = ({
 	communityName,
-	initialDescription,
-	updateDescription,
+	description,
 }: CommunityDescriptionFormProps) => {
-	const [charactersRemaining, setCharactersRemaining] = useState<number>(
-		200 - (initialDescription?.length ?? 0)
-	);
 	const [descriptionInputOpen, setDescriptionInputOpen] =
 		useState<boolean>(false);
-	const description = useClickAway<HTMLFormElement>(() => {
+	const formWrapper = useClickAway<HTMLDivElement>(() => {
 		setDescriptionInputOpen(false);
 	});
 	const { handleSubmit, register, watch } = useForm<DescriptionValues>({
 		resolver: zodResolver(descriptionSchema),
 		defaultValues: {
-			description: initialDescription,
+			description,
 		},
 	});
 	const [changeDescription, { loading }] = useUpdateCommunity({
-		onCompleted({ updateCommunity: { description } }) {
-			updateDescription(description);
+		onCompleted() {
 			setDescriptionInputOpen(false);
 		},
+		refetchQueries: ['Community'],
 	});
+
+	const remaining = 200 - (watch('description')?.length ?? 0);
 
 	const onSubmit = ({ description }: DescriptionValues) => {
 		changeDescription({
@@ -66,30 +64,24 @@ const CommunityDescriptionForm = ({
 
 	return (
 		<div
+			ref={formWrapper}
 			onClick={openDescriptionInput}
 			className="p-2 border border-input mb-3 rounded hover:border-primary cursor-pointer"
 		>
 			{descriptionInputOpen ? (
-				<form ref={description} onSubmit={handleSubmit(onSubmit)}>
-					<textarea
-						{...register('description', {
-							onChange() {
-								setCharactersRemaining(
-									200 - (watch('description')?.length ?? 0)
-								);
-							},
-						})}
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<Textarea
+						{...register('description')}
 						autoFocus
-						className="w-full outline-none text-sm mb-2 resize-none no-scrollbar"
+						className="resize-none no-scrollbar border-none p-0 bg-primary"
 						placeholder="Tell us about your community"
 						maxLength={200}
 					/>
 					<div className="flex justify-between text-xs items-center">
-						<div className="text-primary">
-							{charactersRemaining} characters remaining
-						</div>
+						<div className="text-primary">{remaining} characters remaining</div>
 						<div className="flex items-center gap-1">
 							<Button
+								disabled={loading}
 								variant="secondary"
 								size="small"
 								shape="square"
@@ -99,6 +91,7 @@ const CommunityDescriptionForm = ({
 							</Button>
 							<Button
 								disabled={loading}
+								loading={loading}
 								shape="square"
 								variant="secondary"
 								size="small"
@@ -110,7 +103,7 @@ const CommunityDescriptionForm = ({
 				</form>
 			) : (
 				<div className="text-primary text-xs font-semibold">
-					{initialDescription ?? 'Add description'}
+					{description ?? 'Add description'}
 				</div>
 			)}
 		</div>

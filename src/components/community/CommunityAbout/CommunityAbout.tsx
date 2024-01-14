@@ -29,7 +29,6 @@ const CommunityAbout = ({
 	editable,
 }: CommunityAboutProps) => {
 	const { push } = useRouter();
-	const [description, setDescription] = useState<string | null>(null);
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
 	const params = useParams();
@@ -38,14 +37,7 @@ const CommunityAbout = ({
 		variables: {
 			name,
 		},
-		onCompleted(data) {
-			setDescription(data.community.description);
-		},
 	});
-
-	const updateDescription = (description: string | null) => {
-		setDescription(description);
-	};
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });
@@ -63,7 +55,13 @@ const CommunityAbout = ({
 		(mod) => mod.id === session?.user.id
 	);
 
-	const { name: communityName, createdAt, members, topic } = data.community;
+	const {
+		name: communityName,
+		createdAt,
+		members,
+		topic,
+		description,
+	} = data.community;
 
 	return (
 		<div className="rounded border border-post bg-primary relative">
@@ -98,9 +96,8 @@ const CommunityAbout = ({
 				)}
 				{editable && isModerator ? (
 					<CommunityDescriptionForm
-						updateDescription={updateDescription}
 						communityName={communityName}
-						initialDescription={description}
+						description={description}
 					/>
 				) : (
 					<div className="text-sm mb-2 text-primary">{description}</div>
@@ -116,25 +113,34 @@ const CommunityAbout = ({
 					<div>{members.length}</div>
 					<div className="text-xs">Memebers</div>
 				</div>
-				<div className="w-full h-px border-b border-input my-4" />
 				{editable && isModerator && (
 					<>
-						<CommunityTopic initialTopic={topic?.name} />
 						<div className="w-full h-px border-b border-input my-4" />
+						<CommunityTopic initialTopic={topic?.name} />
 					</>
 				)}
-				{cta &&
-					(cta === 'Create Post' ? (
-						<Button
-							variant="primary"
-							onClick={!session ? openSignIn : () => push(`/r/${name}/submit`)}
-							className="w-full"
-						>
-							Create Post
-						</Button>
-					) : (
-						<CommunityMembershipButton name={name} wide />
-					))}
+				{cta && (
+					<>
+						<div className="w-full h-px border-b border-input my-4" />
+						{cta === 'Create Post' ? (
+							<Button
+								variant="primary"
+								onClick={
+									!session ? openSignIn : () => push(`/r/${name}/submit`)
+								}
+								className="w-full"
+							>
+								Create Post
+							</Button>
+						) : (
+							<CommunityMembershipButton
+								className="w-full"
+								members={members}
+								communityName={name}
+							/>
+						)}
+					</>
+				)}
 			</div>
 		</div>
 	);
