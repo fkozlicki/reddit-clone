@@ -6,6 +6,7 @@ import React from 'react';
 import { prisma } from '@/lib/prisma';
 import Grid from '@/components/ui/Grid/Grid';
 import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
+import { Metadata } from 'next';
 
 const page = async ({ params: { name } }: { params: { name: string } }) => {
 	const community = await prisma.community.findUnique({
@@ -15,7 +16,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 	});
 
 	if (!community) {
-		return notFound();
+		notFound();
 	}
 
 	return (
@@ -42,3 +43,19 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 };
 
 export default page;
+
+export async function generateMetadata({
+	params: { name },
+}: {
+	params: { name: string };
+}): Promise<Metadata> {
+	const community = await prisma.community.findFirst({
+		where: {
+			name,
+		},
+	});
+
+	return {
+		title: `Submit to ${community?.name}`,
+	};
+}
