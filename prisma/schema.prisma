@@ -115,6 +115,7 @@ model Community {
   createdAt   DateTime @default(now())
   description String?
   topicId     String?
+  image       String?
   topic       Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
   posts       Post[]
   members     User[]   @relation("members")
