@@ -77,7 +77,7 @@ const CommunityModal = ({ open, onClose }: CommunityModalProps) => {
 					placeholder="/r"
 					className="text-sm w-full"
 					maxLength={21}
-					register={register('name')}
+					{...register('name')}
 					remaining={remaining}
 				/>
 				{errors.name && (
