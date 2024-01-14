@@ -10,10 +10,10 @@ interface AvatarProps {
 }
 
 const Avatar = ({ url, alt, size }: AvatarProps) => {
-	return url && alt ? (
+	return url ? (
 		<Image
 			src={url}
-			alt={alt}
+			alt={alt ?? ''}
 			width={size}
 			height={size}
 			className="rounded-full"

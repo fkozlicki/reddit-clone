@@ -3,6 +3,7 @@ import { Community, Topic } from '@prisma/client';
 
 type ChangeDescriptionResponse = {
 	updateCommunity: {
+		name: Community['name'];
 		description: Community['description'];
 		topic: {
 			name: Topic['name'];
@@ -10,12 +11,30 @@ type ChangeDescriptionResponse = {
 	};
 };
 type ChangeDescriptionVariables = {
-	name: string;
-} & ({ description: Community['description'] } | { topicId: Topic['id'] });
+	id: string;
+} & (
+	| { description: Community['description'] }
+	| { topicId: Topic['id'] }
+	| { image: Community['image'] }
+	| { name: Community['name'] }
+);
 
 const UPDATE_COMMUNITY_MUTATION = gql`
-	mutation ($name: String!, $description: String, $topicId: String) {
-		updateCommunity(name: $name, description: $description, topicId: $topicId) {
+	mutation (
+		$id: String!
+		$description: String
+		$topicId: String
+		$image: String
+		$name: String
+	) {
+		updateCommunity(
+			id: $id
+			description: $description
+			topicId: $topicId
+			image: $image
+			name: $name
+		) {
+			name
 			description
 			topic {
 				name

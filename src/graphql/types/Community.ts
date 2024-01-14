@@ -4,6 +4,10 @@ builder.prismaObject('Community', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		name: t.exposeString('name'),
+		image: t.expose('image', {
+			type: 'String',
+			nullable: true,
+		}),
 		members: t.relation('members'),
 		membersCount: t.relationCount('members'),
 		posts: t.relation('posts'),
@@ -125,27 +129,29 @@ builder.mutationField('updateCommunity', (t) =>
 	t.prismaField({
 		type: 'Community',
 		args: {
-			name: t.arg.string({ required: true }),
-			newName: t.arg.string(),
+			id: t.arg.string({ required: true }),
 			description: t.arg.string(),
 			topicId: t.arg.string(),
+			name: t.arg.string(),
+			image: t.arg.string(),
 		},
 		resolve: async (query, _parent, args, ctx) => {
 			if (!ctx.session) {
 				throw new Error('You have to be logged in.');
 			}
 
-			const { name, newName, description, topicId } = args;
+			const { id, description, topicId, name, image } = args;
 
 			const community = await ctx.prisma.community.update({
 				...query,
 				where: {
-					name,
+					id,
 				},
 				data: {
-					name: newName ?? undefined,
 					description,
 					topicId,
+					name: name ?? undefined,
+					image,
 				},
 			});
 

@@ -1,30 +1,21 @@
 'use client';
 
-import useUpdateUser from '@/hooks/mutation/useUpdateUser';
-import { CameraIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { CameraIcon } from '@heroicons/react/24/outline';
 import { User } from '@prisma/client';
 import Image from 'next/image';
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 interface UploadImageProps {
 	image: User['image'];
+	folder: string;
+	onUpload: (url: string) => void;
 }
 
-const UploadImage = ({ image }: UploadImageProps) => {
-	const [profileImage, setProfileImage] = useState<User['image']>(image);
-	const [updateUser] = useUpdateUser({
-		onCompleted({ updateUser: { image } }) {
-			toast('Changes saved');
-			setProfileImage(image);
-		},
-		onError(error) {
-			toast('Something went wrong');
-			console.error(error);
-		},
-	});
+const UploadImage = ({ image, folder, onUpload }: UploadImageProps) => {
 	const { register } = useForm();
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files || event.target.files.length <= 0) {
@@ -35,9 +26,11 @@ const UploadImage = ({ image }: UploadImageProps) => {
 		const filename = file.name;
 		const filetype = file.type;
 
+		setLoading(true);
+
 		try {
 			const res = await fetch(
-				`/api/upload?file=${filename}&fileType=${filetype}`,
+				`/api/upload?file=${filename}&fileType=${filetype}&folder=${folder}`,
 				{
 					method: 'PUT',
 				}
@@ -51,38 +44,54 @@ const UploadImage = ({ image }: UploadImageProps) => {
 				headers: { 'Content-Type': filetype },
 			});
 
-			const s3FileUrl = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com/${filename}`;
+			const s3FileUrl = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com${folder}/${filename}`;
 
-			updateUser({
-				variables: {
-					image: s3FileUrl,
-				},
-			});
+			onUpload(s3FileUrl);
 		} catch (error) {
-			toast('Something went wrong');
-			console.error(error);
+			toast.error('Something went wrong');
 		}
+
+		setLoading(false);
 	};
 
 	return (
-		<div>
-			<div className="mb-2 font-medium text-primary">Profile image</div>
+		<>
 			<label className="w-32 h-32 relative block cursor-pointer border rounded overflow-hidden">
-				{profileImage ? (
-					<Image
-						src={profileImage}
-						alt="profileImage"
-						width={128}
-						height={128}
-						priority={true}
-					/>
+				{image ? (
+					<Image src={image} alt="" width={128} height={128} priority={true} />
 				) : (
-					<div className="w-32 h-32 bg-black"></div>
+					<div className="w-32 h-32 bg-gray-500"></div>
 				)}
 				<div className="absolute grid place-items-center right-2 bottom-2 rounded-full w-8 h-8 border border-primary">
-					<CameraIcon className="w-5 h-5 text-primary" />
+					{loading ? (
+						<svg
+							className="animate-spin"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							width="1em"
+							height="1em"
+						>
+							<circle
+								className="opacity-25"
+								cx="12"
+								cy="12"
+								r="10"
+								stroke="currentColor"
+								strokeWidth="4"
+							></circle>
+							<path
+								className="opacity-75"
+								fill="currentColor"
+								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+							></path>
+						</svg>
+					) : (
+						<CameraIcon className="w-5 h-5 text-primary" />
+					)}
 				</div>
 				<input
+					disabled={loading}
 					type="file"
 					accept="image/png, image/jpeg"
 					className="hidden"
@@ -91,7 +100,7 @@ const UploadImage = ({ image }: UploadImageProps) => {
 					})}
 				/>
 			</label>
-		</div>
+		</>
 	);
 };
 

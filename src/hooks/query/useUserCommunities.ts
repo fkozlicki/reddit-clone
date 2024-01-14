@@ -6,6 +6,7 @@ type UserQueryResponse = {
 		communities: {
 			id: Community['id'];
 			name: Community['name'];
+			image: Community['image'];
 			members: {
 				id: User['id'];
 			}[];
@@ -19,6 +20,7 @@ export const USER_COMMUNITIES_QUERY = gql`
 			communities {
 				id
 				name
+				image
 				members {
 					id
 				}

@@ -19,6 +19,7 @@ interface ModalProps
 	okProps?: {
 		loading?: boolean;
 		disabled?: boolean;
+		text?: string;
 	};
 }
 
@@ -52,12 +53,12 @@ const Modal = ({
 						size="small"
 					/>
 				</div>
-				<div>{children}</div>
+				<>{children}</>
 				{footer && (
-					<div className="flex gap-2 justify-end">
+					<div className="flex gap-2 justify-end mt-4">
 						<Button onClick={onClose}>Cancel</Button>
 						<Button onClick={onOk} variant="primary" {...okProps}>
-							OK
+							{okProps?.text ?? 'OK'}
 						</Button>
 					</div>
 				)}

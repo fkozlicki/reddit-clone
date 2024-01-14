@@ -1,16 +1,16 @@
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
 import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import useTopics from '@/hooks/query/useTopics';
-import { useClickAway } from '@/hooks/useClickAway';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useParams } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface CommunityTopicProps {
+	communityId: string;
 	initialTopic?: string;
 }
 
-const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
+const CommunityTopic = ({ initialTopic, communityId }: CommunityTopicProps) => {
 	const params = useParams();
 	const name = params.name as string;
 	const [topic, setTopic] = useState<string | undefined>(initialTopic);
@@ -28,7 +28,7 @@ const CommunityTopic = ({ initialTopic }: CommunityTopicProps) => {
 	const handleAddTopic = (topicId: string) => {
 		changeTopic({
 			variables: {
-				name,
+				id: communityId,
 				topicId,
 			},
 		});

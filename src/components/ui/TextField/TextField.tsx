@@ -13,7 +13,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 					type="text"
 					ref={ref}
 					className={cn(
-						'border border-input bg-input rounded py-2 px-3 text-primary outline-none text-sm',
+						'border border-input bg-input rounded py-2 px-3 text-primary outline-none text-sm w-full',
 						className
 					)}
 					{...props}

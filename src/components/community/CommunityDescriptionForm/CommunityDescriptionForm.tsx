@@ -13,12 +13,12 @@ const descriptionSchema = z.object({
 type DescriptionValues = z.infer<typeof descriptionSchema>;
 
 interface CommunityDescriptionFormProps {
+	id: string;
 	description: string | null;
-	communityName: string;
 }
 
 const CommunityDescriptionForm = ({
-	communityName,
+	id,
 	description,
 }: CommunityDescriptionFormProps) => {
 	const [descriptionInputOpen, setDescriptionInputOpen] =
@@ -44,7 +44,7 @@ const CommunityDescriptionForm = ({
 	const onSubmit = ({ description }: DescriptionValues) => {
 		changeDescription({
 			variables: {
-				name: communityName,
+				id,
 				description,
 			},
 		});

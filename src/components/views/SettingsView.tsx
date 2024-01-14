@@ -21,20 +21,25 @@ const settingsSchema = z.object({
 	name: z.string().min(3),
 	displayName: z.string().max(30).nullable(),
 	about: z.string().max(200).nullable(),
+	image: z.string().nullable(),
 });
 
 type SettingsValues = z.infer<typeof settingsSchema>;
 
 const SettingsView = ({ user }: SettingsViewProps) => {
-	const { register, handleSubmit, watch, getValues, getFieldState, reset } =
+	const { register, handleSubmit, watch, getFieldState, reset } =
 		useForm<SettingsValues>({
 			defaultValues: user,
 			resolver: zodResolver(settingsSchema),
 		});
 	const [updateUser] = useUpdateUser({
 		onCompleted(data) {
+			console.log(data);
 			toast.success('Updated successfully');
 			reset(data.updateUser);
+		},
+		onError() {
+			toast.error('Something went wrong');
 		},
 	});
 
@@ -54,6 +59,14 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				variables,
 			});
 		})();
+	};
+
+	const onUpload = (url: string) => {
+		updateUser({
+			variables: {
+				image: url,
+			},
+		});
 	};
 
 	return (
@@ -101,7 +114,11 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 						remaining={aboutRemaining}
 					/>
 				</div>
-				<UploadImage image={user.image} />
+				<UploadImage
+					image={watch('image')}
+					folder={`/users/${user.id}`}
+					onUpload={onUpload}
+				/>
 			</div>
 		</div>
 	);

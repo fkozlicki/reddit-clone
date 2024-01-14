@@ -21,8 +21,14 @@ const CommunityHeader = ({ name }: CommunityHeaderProps) => {
 			<div className="h-16 bg-[#0079d3]"></div>
 			<div className="max-w-[976px] m-auto">
 				<div className="flex gap-5 items-start">
-					<div className="p-1 rounded-full -mt-4 bg-white">
-						<Image src="/community.svg" alt="" width={64} height={64} />
+					<div className="-mt-4 bg-white overflow-hidden p-1 rounded-full">
+						<Image
+							src={data?.community.image ?? '/community.svg'}
+							alt=""
+							width={64}
+							height={64}
+							className="rounded-full"
+						/>
 					</div>
 					<div className="flex items-start gap-8 my-2">
 						<div className="">

@@ -1,12 +1,14 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
-import { Community, Topic } from '@prisma/client';
+import { Community, Topic, User } from '@prisma/client';
+
+export type CommunityData = Community & {
+	moderators: { id: string }[];
+	members: { id: string; image: User['image']; name: User['name'] }[];
+	topic: Topic | null;
+};
 
 type CommunityQueryResponse = {
-	community: Community & {
-		moderators: { id: string }[];
-		members: { id: string }[];
-		topic: Topic | null;
-	};
+	community: CommunityData;
 };
 
 type CommunityQueryVariables = {
@@ -16,11 +18,15 @@ type CommunityQueryVariables = {
 export const COMMUNITY_QUERY = gql`
 	query Community($name: String!) {
 		community(name: $name) {
+			id
 			name
 			description
 			createdAt
+			image
 			members {
 				id
+				image
+				name
 			}
 			moderators {
 				id
