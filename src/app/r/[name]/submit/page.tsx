@@ -8,7 +8,11 @@ import Grid from '@/components/ui/Grid/Grid';
 import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
 import { Metadata } from 'next';
 
-const page = async ({ params: { name } }: { params: { name: string } }) => {
+export default async function CommunitySubmit({
+	params: { name },
+}: {
+	params: { name: string };
+}) {
 	const community = await prisma.community.findUnique({
 		where: {
 			name,
@@ -40,9 +44,7 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 			/>
 		</div>
 	);
-};
-
-export default page;
+}
 
 export async function generateMetadata({
 	params: { name },

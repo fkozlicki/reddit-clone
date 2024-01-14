@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
-export default async function ProfileLayout({
+export default async function UserLayout({
 	children,
 	params: { name },
 }: {

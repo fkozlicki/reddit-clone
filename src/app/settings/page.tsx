@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { notFound, redirect } from 'next/navigation';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 
-const page = async () => {
+export default async function Settings() {
 	const session = await getServerSession(authOptions);
 
 	if (!session) {
@@ -22,6 +22,4 @@ const page = async () => {
 	}
 
 	return <SettingsView user={user} />;
-};
-
-export default page;
+}

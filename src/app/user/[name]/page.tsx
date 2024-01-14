@@ -1,6 +1,6 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
 
-export default function UserOverview({
+export default function User({
 	params: { name },
 }: {
 	params: { name: string };

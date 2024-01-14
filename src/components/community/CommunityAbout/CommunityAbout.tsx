@@ -70,14 +70,16 @@ const CommunityAbout = ({
 					<div className="flex justify-between items-center">
 						<div className="text-sm font-bold text-white">About Community</div>
 						{isModerator && (
-							<Button
-								variant="secondary"
-								size="small"
-								className="text-white hover:bg-[#006dd3]"
-								shape="square"
-							>
-								Mod tools
-							</Button>
+							<Link href={`/r/${communityName}/settings`}>
+								<Button
+									variant="secondary"
+									size="small"
+									className="text-white hover:bg-[#006dd3]"
+									shape="square"
+								>
+									Mod tools
+								</Button>
+							</Link>
 						)}
 					</div>
 				)}

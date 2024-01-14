@@ -5,7 +5,11 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
-const page = async ({ params: { name } }: { params: { name: string } }) => {
+export default async function Topic({
+	params: { name },
+}: {
+	params: { name: string };
+}) {
 	const topic = await prisma.topic.findUnique({
 		where: { name },
 	});
@@ -22,6 +26,4 @@ const page = async ({ params: { name } }: { params: { name: string } }) => {
 			/>
 		</div>
 	);
-};
-
-export default page;
+}
