@@ -11,6 +11,7 @@ import Label from '../ui/Label/Label';
 import TextField from '../ui/TextField/TextField';
 import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Textarea from '../ui/Textarea/Textarea';
 
 interface SettingsViewProps {
 	user: User;
@@ -64,7 +65,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				<div className="flex flex-col gap-1">
 					<Label>Name</Label>
 					<TextField
-						register={register('name', {
+						{...register('name', {
 							onBlur() {
 								onUpdate('name');
 							},
@@ -76,7 +77,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				<div className="flex flex-col gap-1">
 					<Label>Display name</Label>
 					<TextField
-						register={register('displayName', {
+						{...register('displayName', {
 							onBlur() {
 								onUpdate('displayName');
 							},
@@ -88,12 +89,13 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				</div>
 				<div className="flex flex-col gap-1">
 					<Label>About</Label>
-					<TextField
-						register={register('about', {
+					<Textarea
+						{...register('about', {
 							onBlur() {
 								onUpdate('about');
 							},
 						})}
+						className="min-h-[100px]"
 						placeholder="About"
 						maxLength={200}
 						remaining={aboutRemaining}

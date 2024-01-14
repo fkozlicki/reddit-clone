@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
+import Textarea from '@/components/ui/Textarea/Textarea';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useCreateComment from '@/hooks/mutation/useCreateComment';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -71,13 +72,13 @@ const CommentForm = ({ postId, replyToId }: CommentFormProps) => {
 					focus ? 'border-focus' : 'border-input'
 				} flex flex-col rounded overflow-hidden`}
 			>
-				<textarea
+				<Textarea
 					{...register('content')}
 					onFocus={() => setFocus(true)}
 					onBlur={() => setFocus(false)}
 					placeholder="What are your thoughts?"
-					className={`w-full resize-y outline-none text-sm min-h-[125px] m-0 py-2 px-3 bg-primary`}
-				></textarea>
+					className="min-h-[125px] bg-primary border-none"
+				/>
 				<div className="bg-post-side flex justify-end p-1">
 					<Button
 						variant="primary"

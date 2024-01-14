@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import useCreatePost from '@/hooks/mutation/useCreatePost';
 import TextField from '@/components/ui/TextField/TextField';
+import Textarea from '@/components/ui/Textarea/Textarea';
 
 interface PostFormProps {
 	communityId?: string;
@@ -58,13 +59,13 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		<form onSubmit={handleSubmit(onSubmit)} className="bg-primary p-3 rounded">
 			<TextField
 				placeholder="Title"
-				register={register('title')}
+				{...register('title')}
 				className="w-full mb-4"
 			/>
-			<TextField
+			<Textarea
 				placeholder="Text"
-				register={register('content')}
-				className="mb-4 w-full"
+				{...register('content')}
+				className="mb-4 min-h-[100px]"
 			/>
 			<Button
 				variant="primary"
