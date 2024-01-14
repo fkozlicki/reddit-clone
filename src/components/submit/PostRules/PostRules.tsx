@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 const PostRules = () => {
 	return (
 		<div className="bg-primary p-3 rounded border border-post">
-			<div className="text-primary">Posting to Reddit</div>
-			<div className="w-full h-px bg-border-input my-2"></div>
+			<div className="text-primary mb-4">Posting to Reddit</div>
 			{rules.map((rule, index) => (
-				<div key={index}>
+				<Fragment key={index}>
 					<div className="text-sm mb-2 pt-2 text-primary">{rule}</div>
-					<div className="w-full h-px border-b border-input my-2"></div>
-				</div>
+					{index !== rules.length - 1 && (
+						<div className="w-full h-px border-b border-input my-2"></div>
+					)}
+				</Fragment>
 			))}
 		</div>
 	);
