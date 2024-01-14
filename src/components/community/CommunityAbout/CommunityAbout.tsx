@@ -1,19 +1,20 @@
 'use client';
 
-import { CalendarDaysIcon } from '@heroicons/react/24/outline';
-import React, { useState } from 'react';
 import Button from '@/components/ui/Button/Button';
-import { useParams, useRouter } from 'next/navigation';
-import { formatDate } from '@/utils/formatDate';
-import { useSession } from 'next-auth/react';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useCommunity from '@/hooks/query/useCommunity';
+import { formatDate } from '@/utils/formatDate';
+import { CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import CommunityTopic from '@/components/community/CommunityTopic/CommunityTopic';
 import CommunityMembershipButton from '@/components/community/CommunityMembershipButton/CommunityMembershipButton';
-import CommunityDescriptionForm from '../CommunityDescriptionForm/CommunityDescriptionForm';
-import Link from 'next/link';
+import CommunityTopic from '@/components/community/CommunityTopic/CommunityTopic';
 import Avatar from '@/components/ui/Avatar/Avatar';
+import Link from 'next/link';
+import CommunityDescriptionForm from '../CommunityDescriptionForm/CommunityDescriptionForm';
+import CommunitySettingsModal from '../CommunitySettingsModal/CommunitySettingsModal';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -31,6 +32,7 @@ const CommunityAbout = ({
 	const { push } = useRouter();
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
+	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const params = useParams();
 	const name = params.name as string;
 	const { data, loading, error } = useCommunity({
@@ -41,6 +43,14 @@ const CommunityAbout = ({
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });
+	};
+
+	const closeSettings = () => {
+		setSettingsOpen(false);
+	};
+
+	const openSettings = () => {
+		setSettingsOpen(true);
 	};
 
 	if (loading) {
@@ -56,11 +66,13 @@ const CommunityAbout = ({
 	);
 
 	const {
+		id,
 		name: communityName,
 		createdAt,
 		members,
 		topic,
 		description,
+		image,
 	} = data.community;
 
 	return (
@@ -70,8 +82,14 @@ const CommunityAbout = ({
 					<div className="flex justify-between items-center">
 						<div className="text-sm font-bold text-white">About Community</div>
 						{isModerator && (
-							<Link href={`/r/${communityName}/settings`}>
+							<>
+								<CommunitySettingsModal
+									community={data.community}
+									open={settingsOpen}
+									onClose={closeSettings}
+								/>
 								<Button
+									onClick={openSettings}
 									variant="secondary"
 									size="small"
 									className="text-white hover:bg-[#006dd3]"
@@ -79,7 +97,7 @@ const CommunityAbout = ({
 								>
 									Mod tools
 								</Button>
-							</Link>
+							</>
 						)}
 					</div>
 				)}
@@ -90,19 +108,16 @@ const CommunityAbout = ({
 						href={`/r/${communityName}`}
 						className="flex items-center gap-3 mb-4 group"
 					>
-						<Avatar size={40} />
+						<Avatar size={40} url={image} alt="" />
 						<span className="text-primary group-hover:underline">
 							r/{communityName}
 						</span>
 					</Link>
 				)}
 				{editable && isModerator ? (
-					<CommunityDescriptionForm
-						communityName={communityName}
-						description={description}
-					/>
+					<CommunityDescriptionForm id={id} description={description} />
 				) : (
-					<div className="text-sm mb-2 text-primary">{description}</div>
+					<div className="text-sm text-primary mb-4">{description}</div>
 				)}
 				<div className="flex items-center gap-4 text-primary">
 					<CalendarDaysIcon width={20} />
@@ -118,7 +133,7 @@ const CommunityAbout = ({
 				{editable && isModerator && (
 					<>
 						<div className="w-full h-px border-b border-input my-4" />
-						<CommunityTopic initialTopic={topic?.name} />
+						<CommunityTopic communityId={id} initialTopic={topic?.name} />
 					</>
 				)}
 				{cta && (
