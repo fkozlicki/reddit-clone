@@ -17,7 +17,7 @@ export const Default: Story = {
 			id: 'asdasd',
 			title: 'lorem ipsum',
 			content: 'lorem ipsum',
-			author: { name: 'John' },
+			author: { name: 'John', image: null },
 			createdAt: new Date(),
 			votes: [],
 			community: { name: 'essa' },

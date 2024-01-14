@@ -30,6 +30,7 @@ export const WithComments: Story = {
 				id: '1',
 				author: {
 					name: 'John Doe',
+					image: null,
 				},
 				content: 'Lorem ipsum dolor sit amet.',
 				createdAt: new Date(),
@@ -40,6 +41,7 @@ export const WithComments: Story = {
 				id: '2',
 				author: {
 					name: 'Anne Doe',
+					image: null,
 				},
 				content: 'Lorem ipsum dolor sit amet.',
 				createdAt: new Date(),
@@ -47,6 +49,7 @@ export const WithComments: Story = {
 					{
 						author: {
 							name: 'John Doe',
+							image: null,
 						},
 						content: '123',
 						createdAt: new Date(),

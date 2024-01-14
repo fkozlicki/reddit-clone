@@ -32,7 +32,7 @@ type Story = StoryObj<typeof Comment>;
 
 const comment = {
 	id: '1',
-	author: { name: 'John Doe' },
+	author: { name: 'John Doe', image: null },
 	content: 'Lorem ipsum dolor sit amet.',
 	createdAt: new Date(),
 	votes: [],
