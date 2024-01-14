@@ -1,4 +1,7 @@
+'use client';
+
 import CommunityMembershipButton from '@/components/community/CommunityMembershipButton/CommunityMembershipButton';
+import useCommunity from '@/hooks/query/useCommunity';
 import Image from 'next/image';
 import React from 'react';
 
@@ -7,6 +10,12 @@ interface CommunityHeaderProps {
 }
 
 const CommunityHeader = ({ name }: CommunityHeaderProps) => {
+	const { data } = useCommunity({
+		variables: {
+			name,
+		},
+	});
+
 	return (
 		<div className="bg-primary">
 			<div className="h-16 bg-[#0079d3]"></div>
@@ -20,7 +29,12 @@ const CommunityHeader = ({ name }: CommunityHeaderProps) => {
 							<div className="text-2xl font-bold text-primary">{name}</div>
 							<div className="text-sm text-primary">r/{name}</div>
 						</div>
-						<CommunityMembershipButton name={name} />
+						{data && (
+							<CommunityMembershipButton
+								members={data.community.members}
+								communityName={name}
+							/>
+						)}
 					</div>
 				</div>
 			</div>

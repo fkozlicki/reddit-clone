@@ -14,7 +14,7 @@ type CommunityQueryVariables = {
 };
 
 export const COMMUNITY_QUERY = gql`
-	query ($name: String!) {
+	query Community($name: String!) {
 		community(name: $name) {
 			name
 			description

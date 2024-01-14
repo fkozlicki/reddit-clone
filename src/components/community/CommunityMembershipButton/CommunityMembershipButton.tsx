@@ -1,40 +1,34 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import React, { useState } from 'react';
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import useCommunityMembers from '@/hooks/query/useCommunityMembers';
 import useChangeMembership from '@/hooks/mutation/useChangeMembership';
 import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
+import { ButtonHTMLAttributes, useState } from 'react';
 
-interface CommunityMembershipButtonProps {
-	name: string;
-	wide?: boolean;
+interface CommunityMembershipButtonProps
+	extends ButtonHTMLAttributes<HTMLButtonElement> {
+	communityName: string;
+	members: { id: string }[];
 }
 
 const CommunityMembershipButton = ({
-	name,
-	wide,
+	communityName,
+	className,
+	members,
 }: CommunityMembershipButtonProps) => {
 	const [, dispatch] = useModalsContext();
-	const [isMember, setIsMember] = useState<boolean>(false);
 	const { data: session } = useSession();
 	const [text, setText] = useState<string>('Joined');
 	const [changeMembership, { loading: leaveLoading }] = useChangeMembership({
 		variables: {
-			name,
+			name: communityName,
 		},
-		onCompleted({ changeMembership: { members } }) {
-			setIsMember(members.some((member) => member.id === session?.user.id));
-		},
+		refetchQueries: ['Community'],
 	});
-	useCommunityMembers({
-		variables: { name },
-		onCompleted({ community: { members } }) {
-			setIsMember(members.some(({ id }) => id === session?.user.id));
-		},
-	});
+
+	const isMember = members.some((member) => member.id === session?.user.id);
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });
@@ -47,7 +41,7 @@ const CommunityMembershipButton = ({
 			onClick={session ? () => changeMembership() : openSignIn}
 			disabled={leaveLoading}
 			loading={leaveLoading}
-			className={cn({ 'w-full': wide })}
+			className={cn('min-w-[75px]', className)}
 		>
 			{isMember ? text : 'Join'}
 		</Button>
