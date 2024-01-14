@@ -18,7 +18,7 @@ const page = async () => {
 	});
 
 	if (!user) {
-		return notFound();
+		notFound();
 	}
 
 	return <SettingsView user={user} />;

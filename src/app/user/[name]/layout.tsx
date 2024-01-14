@@ -19,7 +19,7 @@ export default async function ProfileLayout({
 	});
 
 	if (!user) {
-		return notFound();
+		notFound();
 	}
 
 	return (

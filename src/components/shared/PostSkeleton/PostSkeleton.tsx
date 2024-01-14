@@ -9,8 +9,9 @@ const PostSkeleton = () => {
 					type="post"
 					postId=""
 					direction="column"
-					initialKarma={0}
-					initialVote={undefined}
+					karma={0}
+					vote={undefined}
+					refetch="Post"
 				/>
 			</div>
 			<div className="bg-primary flex-1 p-2">
