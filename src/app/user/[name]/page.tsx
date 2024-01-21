@@ -1,9 +1,10 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
+import OverviewFeed from '@/components/profile/OverviewFeed/OverviewFeed';
 
 export default function User({
 	params: { name },
 }: {
 	params: { name: string };
 }) {
-	return <Feed type="hot" authorName={name} />;
+	return <OverviewFeed name={name} />;
 }

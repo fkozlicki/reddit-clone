@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 interface PostProps {
 	post: PostInfo;
-	refetch: 'Post' | 'Posts';
+	refetch: 'Post' | 'Posts' | 'Overview';
 	preview?: boolean;
 }
 

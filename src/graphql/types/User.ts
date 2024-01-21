@@ -1,4 +1,6 @@
 import { builder } from '../builder';
+import { Comment } from './Comment';
+import { Post } from './Post';
 
 builder.prismaObject('User', {
 	fields: (t) => ({
@@ -81,6 +83,83 @@ builder.mutationField('updateUser', (t) =>
 			});
 
 			return user;
+		},
+	})
+);
+
+const OverviewItem = builder.unionType('overviewItem', {
+	types: [Post, Comment],
+	resolveType(item) {
+		if ('title' in item) {
+			return Post;
+		}
+		if ('postId' in item) {
+			return Comment;
+		}
+	},
+});
+
+builder.queryField('overview', (t) =>
+	t.connection({
+		type: OverviewItem,
+		args: {
+			name: t.arg.string({ required: true }),
+		},
+		resolve: async (_parent, args, ctx) => {
+			const first = args.first ? args.first + 1 : 11;
+
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					name: args.name,
+				},
+				include: {
+					posts: {
+						take: first,
+						...(args.after
+							? { where: { createdAt: { lt: args.after } } }
+							: undefined),
+					},
+					comments: {
+						take: first,
+						...(args.after
+							? { where: { createdAt: { lt: args.after } } }
+							: undefined),
+					},
+				},
+			});
+
+			if (!user) {
+				throw new Error('No user found');
+			}
+
+			const postsAndComments = [...user.posts, ...user.comments].sort(
+				(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+			);
+
+			const hasNextPage = postsAndComments.length > first - 1;
+			const hasPreviousPage = !!args.after;
+
+			const nodes = postsAndComments.slice(0, first - 1);
+
+			const startCursor =
+				nodes.length > 0 ? nodes[0].createdAt.toISOString() : null;
+			const endCursor =
+				nodes.length > 0
+					? nodes[nodes.length - 1].createdAt.toISOString()
+					: null;
+
+			return {
+				edges: nodes.map((node) => ({
+					cursor: node.createdAt.toISOString(),
+					node,
+				})),
+				pageInfo: {
+					hasNextPage,
+					hasPreviousPage,
+					endCursor,
+					startCursor,
+				},
+			};
 		},
 	})
 );
