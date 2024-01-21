@@ -31,6 +31,9 @@ export const OVERVIEW_QUERY = gql`
 							name
 							image
 						}
+						savedBy {
+							id
+						}
 					}
 					... on Comment {
 						id
