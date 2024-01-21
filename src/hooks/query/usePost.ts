@@ -25,6 +25,7 @@ type PostQueryResponse = {
 		community: {
 			name: Community['name'];
 		};
+		savedBy: { id: string }[];
 	};
 };
 
@@ -75,6 +76,9 @@ export const POST_QUERY = gql`
 			}
 			community {
 				name
+			}
+			savedBy {
+				id
 			}
 		}
 	}

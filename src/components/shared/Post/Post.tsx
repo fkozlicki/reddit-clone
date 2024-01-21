@@ -4,15 +4,17 @@ import Wrapper from '@/components/Wrapper';
 import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
+import useSavePost from '@/hooks/mutation/useSavePost';
 import { PostInfo } from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import {
-	BookmarkIcon,
+	BookmarkIcon as BookmarkIconOutline,
 	ChatBubbleLeftIcon,
 	EllipsisHorizontalIcon,
 	ShareIcon,
 } from '@heroicons/react/24/outline';
+import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -24,6 +26,12 @@ interface PostProps {
 
 const Post = ({ post, refetch, preview }: PostProps) => {
 	const { data: session } = useSession();
+	const [savePost, { loading: saveLoading }] = useSavePost({
+		refetchQueries: [refetch],
+		variables: {
+			id: post.id,
+		},
+	});
 	const {
 		votes,
 		community: { name: communityName },
@@ -33,10 +41,14 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 		title,
 		content,
 		comments,
+		savedBy,
 	} = post;
 	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
 	const userVote = votes.find((vote) => vote.userId === session?.user.id);
 	const commentsCount = comments.length;
+
+	const saved =
+		session && savedBy.map((user) => user.id).includes(session.user.id);
 
 	return (
 		<div
@@ -132,10 +144,20 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 					<Button
 						variant="secondary"
 						shape="square"
-						className="text-xs hidden sm:inline-block"
-						icon={<BookmarkIcon width={18} />}
+						className={cn('text-xs hidden sm:inline-block', {
+							'text-yellow-500 font-bold': saved,
+						})}
+						icon={
+							saved ? (
+								<BookmarkIconSolid width={18} />
+							) : (
+								<BookmarkIconOutline width={18} />
+							)
+						}
+						onClick={() => savePost()}
+						loading={saveLoading}
 					>
-						Save
+						{saved ? 'Unsave' : 'Save'}
 					</Button>
 					<Button
 						variant="secondary"

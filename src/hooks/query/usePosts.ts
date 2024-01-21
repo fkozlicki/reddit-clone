@@ -15,6 +15,7 @@ export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 	community: {
 		name: Community['name'];
 	};
+	savedBy: { id: string }[];
 };
 
 type PostsQueryResponse = {
@@ -66,6 +67,9 @@ export const POSTS_QUERY = gql`
 					}
 					community {
 						name
+					}
+					savedBy {
+						id
 					}
 				}
 			}

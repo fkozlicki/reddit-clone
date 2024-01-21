@@ -26,6 +26,7 @@ export const Post = builder.prismaObject('Post', {
 			}),
 		}),
 		community: t.relation('community'),
+		savedBy: t.relation('savedBy'),
 	}),
 });
 
@@ -151,6 +152,55 @@ builder.queryField('post', (t) =>
 			}
 
 			return post;
+		},
+	})
+);
+
+builder.mutationField('save', (t) =>
+	t.prismaField({
+		type: 'Post',
+		args: {
+			id: t.arg.string({
+				required: true,
+			}),
+		},
+		resolve: async (query, _parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('You have to be logged in');
+			}
+
+			const post = await ctx.prisma.post.findUnique({
+				where: {
+					id: args.id,
+				},
+				include: {
+					savedBy: true,
+				},
+			});
+
+			if (!post) {
+				throw new Error('Post not found');
+			}
+
+			const isSaved = post.savedBy
+				.map((user) => user.id)
+				.includes(ctx.session.user.id);
+
+			const operation = isSaved
+				? { disconnect: { id: ctx.session.user.id } }
+				: { connect: { id: ctx.session.user.id } };
+
+			const updated = await ctx.prisma.post.update({
+				...query,
+				where: {
+					id: args.id,
+				},
+				data: {
+					savedBy: operation,
+				},
+			});
+
+			return updated;
 		},
 	})
 );

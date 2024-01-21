@@ -50,6 +50,7 @@ model User {
   comments             Comment[]
   commentVotes         CommentVote[]
   posts                Post[]
+  saved                Post[]        @relation("saved")
   sessions             Session[]
   votes                Vote[]
   communities          Community[]   @relation("members")
@@ -75,6 +76,7 @@ model Post {
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   votes       Vote[]
+  savedBy     User[]    @relation("saved")
 }
 
 model Vote {
