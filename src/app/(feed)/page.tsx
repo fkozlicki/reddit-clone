@@ -5,7 +5,7 @@ export default function Home() {
 	return (
 		<>
 			<FeedFilter best highlighted="best" />
-			<Feed />
+			<Feed sort="hot" />
 		</>
 	);
 }

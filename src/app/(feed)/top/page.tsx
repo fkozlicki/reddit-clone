@@ -5,7 +5,7 @@ export default function Top() {
 	return (
 		<>
 			<FeedFilter best highlighted="top" />
-			<Feed />
+			<Feed sort="top" />
 		</>
 	);
 }

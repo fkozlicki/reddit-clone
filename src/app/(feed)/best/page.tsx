@@ -5,7 +5,7 @@ export default function Best() {
 	return (
 		<>
 			<FeedFilter best highlighted="best" />
-			<Feed />
+			<Feed sort="hot" />
 		</>
 	);
 }

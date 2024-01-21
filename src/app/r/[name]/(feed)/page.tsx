@@ -9,7 +9,7 @@ export default async function Community({
 	return (
 		<>
 			<FeedFilter highlighted="hot" prefix={`r/${name}`} />
-			<Feed filter={{ community: { name } }} />
+			<Feed sort="hot" filter={{ community: { name } }} />
 		</>
 	);
 }

@@ -5,7 +5,7 @@ export default async function New() {
 	return (
 		<>
 			<FeedFilter best highlighted="new" />
-			<Feed />
+			<Feed sort="new" />
 		</>
 	);
 }
