@@ -62,6 +62,7 @@ builder.mutationField('createPost', (t) =>
 
 export const AuthorFilter = builder.prismaWhere('User', {
 	fields: {
+		id: 'String',
 		name: 'String',
 	},
 });
@@ -77,11 +78,16 @@ const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
 	ops: ['every', 'some', 'none'],
 });
 
+const AuthorListFilter = builder.prismaListFilter(AuthorFilter, {
+	ops: ['every', 'some', 'none'],
+});
+
 const PostFilter = builder.prismaWhere('Post', {
 	fields: {
 		community: CommunityWhere,
 		author: AuthorFilter,
 		votes: PostVoteListFilter,
+		savedBy: AuthorListFilter,
 	},
 });
 
