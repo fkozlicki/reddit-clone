@@ -54,6 +54,7 @@ export const POST_QUERY = gql`
 				replies {
 					author {
 						name
+						image
 					}
 					content
 					createdAt

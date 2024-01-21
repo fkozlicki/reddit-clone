@@ -25,7 +25,7 @@ const Comment = ({ comment }: CommentProps) => {
 	const postId = params.id as string;
 
 	const {
-		author: { name: authorName },
+		author: { name: authorName, image },
 		createdAt,
 		content,
 		id,
@@ -46,7 +46,7 @@ const Comment = ({ comment }: CommentProps) => {
 	return (
 		<div className="flex gap-2">
 			<div className="flex flex-col items-center">
-				<Avatar size={24} />
+				<Avatar size={24} url={image} alt="avatar" />
 				<div className="w-0.5 flex-1 bg-gray-600"></div>
 			</div>
 			<div className="flex-1">

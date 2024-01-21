@@ -1,7 +1,7 @@
 import { builder } from '../builder';
 import { AuthorFilter } from './Post';
 
-builder.prismaObject('Comment', {
+export const Comment = builder.prismaObject('Comment', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		content: t.exposeString('content'),
@@ -12,6 +12,7 @@ builder.prismaObject('Comment', {
 		post: t.relation('post'),
 		votes: t.relation('votes'),
 		replies: t.relation('replies'),
+		postId: t.exposeString('postId'),
 	}),
 });
 

@@ -15,7 +15,7 @@ type VoteSectionProps = {
 	direction: 'row' | 'column';
 	karma: number;
 	vote?: PostVote;
-	refetch: 'Post' | 'Posts';
+	refetch: 'Post' | 'Posts' | 'Overview';
 } & ({ type: 'post'; postId: string } | { type: 'comment'; commentId: string });
 
 const VoteSection = ({

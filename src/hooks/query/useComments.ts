@@ -3,9 +3,9 @@ import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 const COMMENTS_QUERY = gql`
 	query Comments($filter: CommentFilter) {
 		comments(filter: $filter) {
+			id
 			content
 			createdAt
-			id
 			author {
 				name
 			}
@@ -24,6 +24,7 @@ const COMMENTS_QUERY = gql`
 `;
 
 export type CommentWithPost = {
+	__typename: 'Comment';
 	id: string;
 	content: string;
 	createdAt: string;

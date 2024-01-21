@@ -1,20 +1,18 @@
 'use client';
 
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import React, { useEffect, useState } from 'react';
-import usePosts, { FeedType } from '@/hooks/query/usePosts';
 import Post from '@/components/shared/Post/Post';
 import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import usePosts from '@/hooks/query/usePosts';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 interface FeedProps {
-	type: FeedType;
-	communityName?: string;
-	topicName?: string;
-	authorName?: string;
+	sort?: any;
+	filter?: any;
 }
 
-const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
+const Feed = ({ sort, filter }: FeedProps) => {
 	const { data, fetchMore, loading } = usePosts({
 		notifyOnNetworkStatusChange: true,
 		onError() {
@@ -22,25 +20,14 @@ const Feed = ({ type, communityName, topicName, authorName }: FeedProps) => {
 		},
 		variables: {
 			first: 5,
-			sort: type,
-			filter: communityName
-				? { community: { name: communityName } }
-				: topicName
-				? { community: { topic: { name: topicName } } }
-				: authorName
-				? { author: { name: authorName } }
-				: undefined,
+			sort,
+			filter,
 		},
 	});
 	const [ref, entry] = useIntersectionObserver<HTMLDivElement>();
 
 	useEffect(() => {
-		if (
-			entry &&
-			entry.isIntersecting &&
-			!loading &&
-			data?.posts.pageInfo.hasNextPage
-		) {
+		if (entry?.isIntersecting && !loading && data?.posts.pageInfo.hasNextPage) {
 			fetchMore({
 				variables: {
 					after: data.posts.pageInfo.endCursor,

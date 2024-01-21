@@ -34,7 +34,6 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 		});
 	const [updateUser] = useUpdateUser({
 		onCompleted(data) {
-			console.log(data);
 			toast.success('Updated successfully');
 			reset(data.updateUser);
 		},

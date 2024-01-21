@@ -3,6 +3,7 @@ import { Comment, Community, Post, User } from '@prisma/client';
 import { PostVote } from './usePost';
 
 export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
+	__typename: 'Post';
 	comments: {
 		id: Comment['id'];
 	}[];

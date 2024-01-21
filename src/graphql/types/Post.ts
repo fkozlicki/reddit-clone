@@ -7,7 +7,7 @@ const CommentWhere = builder.inputType('CommentWhere', {
 	}),
 });
 
-builder.prismaObject('Post', {
+export const Post = builder.prismaObject('Post', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		title: t.exposeString('title'),
@@ -65,10 +65,22 @@ export const AuthorFilter = builder.prismaWhere('User', {
 	},
 });
 
+const PostVoteFilter = builder.prismaWhere('Vote', {
+	fields: {
+		value: 'Int',
+		user: AuthorFilter,
+	},
+});
+
+const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
+	ops: ['every', 'some', 'none'],
+});
+
 const PostFilter = builder.prismaWhere('Post', {
 	fields: {
 		community: CommunityWhere,
 		author: AuthorFilter,
+		votes: PostVoteListFilter,
 	},
 });
 
