@@ -11,7 +11,7 @@ interface TopCommunitiesProps {
 }
 
 const TopCommunities = ({ topicName }: TopCommunitiesProps) => {
-	const { data, loading, error } = useCommunities({
+	const { data } = useCommunities({
 		variables: {
 			filter: { topic: { name: topicName } },
 			take: 5,
