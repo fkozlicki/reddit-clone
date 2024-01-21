@@ -9,7 +9,7 @@ export default async function CommunityNew({
 	return (
 		<>
 			<FeedFilter highlighted="new" prefix={`r/${name}`} />
-			<Feed type="new" communityName={name} />
+			<Feed filter={{ community: { name } }} />
 		</>
 	);
 }
