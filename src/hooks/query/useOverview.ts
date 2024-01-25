@@ -59,7 +59,7 @@ export const OVERVIEW_QUERY = gql`
 	}
 `;
 
-type OverviewQueryResponse = {
+export type OverviewQueryResponse = {
 	overview: {
 		pageInfo: {
 			endCursor: string;

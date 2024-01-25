@@ -87,5 +87,5 @@ export const POST_QUERY = gql`
 export default function usePost(
 	options: QueryHookOptions<PostQueryResponse, PostQueryVariables>
 ) {
-	return useQuery(POST_QUERY, options);
+	return useQuery<PostQueryResponse, PostQueryVariables>(POST_QUERY, options);
 }

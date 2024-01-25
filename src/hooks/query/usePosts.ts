@@ -18,7 +18,7 @@ export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 	savedBy: { id: string }[];
 };
 
-type PostsQueryResponse = {
+export type PostsQueryResponse = {
 	posts: {
 		pageInfo: {
 			endCursor: string;
