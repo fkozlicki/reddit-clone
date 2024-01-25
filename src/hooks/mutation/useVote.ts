@@ -11,12 +11,12 @@ type CommentVoteMutationVariables = {
 	commentId: CommentVote['commentId'];
 };
 
-type PostVoteMutationResponse = {
-	makeVote: Vote;
+export type PostVoteMutationResponse = {
+	makeVote: Vote[];
 };
 
-type CommentVoteMutationResponse = {
-	makeCommentVote: CommentVote;
+export type CommentVoteMutationResponse = {
+	makeCommentVote: CommentVote[];
 };
 
 type VoteMutationVariables =

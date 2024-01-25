@@ -13,7 +13,7 @@ builder.prismaObject('CommentVote', {
 
 builder.mutationField('makeCommentVote', (t) =>
 	t.prismaField({
-		type: 'CommentVote',
+		type: ['CommentVote'],
 		args: {
 			value: t.arg.int({ required: true }),
 			commentId: t.arg.string({ required: true }),
@@ -32,16 +32,14 @@ builder.mutationField('makeCommentVote', (t) =>
 
 			if (existingVote) {
 				if (existingVote.value === args.value) {
-					const deletedVote = await ctx.prisma.commentVote.delete({
+					await ctx.prisma.commentVote.delete({
 						...query,
 						where: {
 							id: existingVote.id,
 						},
 					});
-
-					return deletedVote;
 				} else {
-					const updatedVote = await ctx.prisma.commentVote.update({
+					await ctx.prisma.commentVote.update({
 						...query,
 						where: {
 							id: existingVote.id,
@@ -50,11 +48,9 @@ builder.mutationField('makeCommentVote', (t) =>
 							value: args.value,
 						},
 					});
-
-					return updatedVote;
 				}
 			} else {
-				const newVote = await ctx.prisma.commentVote.create({
+				await ctx.prisma.commentVote.create({
 					...query,
 					data: {
 						value: args.value,
@@ -62,9 +58,15 @@ builder.mutationField('makeCommentVote', (t) =>
 						userId: ctx.session.user.id,
 					},
 				});
-
-				return newVote;
 			}
+
+			const votes = await ctx.prisma.commentVote.findMany({
+				where: {
+					commentId: args.commentId,
+				},
+			});
+
+			return votes;
 		},
 	})
 );

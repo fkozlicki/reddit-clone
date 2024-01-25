@@ -13,7 +13,7 @@ builder.prismaObject('Vote', {
 
 builder.mutationField('makeVote', (t) =>
 	t.prismaField({
-		type: 'Vote',
+		type: ['Vote'],
 		args: {
 			value: t.arg.int({ required: true }),
 			postId: t.arg.string({ required: true }),
@@ -32,16 +32,14 @@ builder.mutationField('makeVote', (t) =>
 
 			if (existingVote) {
 				if (existingVote.value === args.value) {
-					const deletedVote = await ctx.prisma.vote.delete({
+					await ctx.prisma.vote.delete({
 						...query,
 						where: {
 							id: existingVote.id,
 						},
 					});
-
-					return deletedVote;
 				} else {
-					const updatedVote = await ctx.prisma.vote.update({
+					await ctx.prisma.vote.update({
 						...query,
 						where: {
 							id: existingVote.id,
@@ -50,11 +48,9 @@ builder.mutationField('makeVote', (t) =>
 							value: args.value,
 						},
 					});
-
-					return updatedVote;
 				}
 			} else {
-				const newVote = await ctx.prisma.vote.create({
+				await ctx.prisma.vote.create({
 					...query,
 					data: {
 						value: args.value,
@@ -62,9 +58,15 @@ builder.mutationField('makeVote', (t) =>
 						userId: ctx.session.user.id,
 					},
 				});
-
-				return newVote;
 			}
+
+			const votes = await ctx.prisma.vote.findMany({
+				where: {
+					postId: args.postId,
+				},
+			});
+
+			return votes;
 		},
 	})
 );
