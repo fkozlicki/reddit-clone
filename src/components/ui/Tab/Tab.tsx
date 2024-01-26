@@ -13,7 +13,7 @@ const Tab = ({ href, selected, children }: TabProps) => {
 		<Link
 			href={href}
 			className={cn(
-				'flex items-center h-full px-2 uppercase text-sm font-medium',
+				'flex items-center h-full px-2 uppercase text-sm font-medium hover:text-button text-primary',
 				{ 'shadow-tab text-button': selected }
 			)}
 		>

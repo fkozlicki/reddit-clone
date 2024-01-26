@@ -47,7 +47,7 @@ const Feed = ({ sort, filter }: FeedProps) => {
 		<div className="flex flex-col gap-6">
 			{data &&
 				data.posts.edges.map(({ node: post }) => (
-					<Post key={post.id} post={post} refetch="Posts" preview />
+					<Post key={post.id} post={post} preview />
 				))}
 			<div ref={ref}>
 				{loading && (
@@ -58,7 +58,7 @@ const Feed = ({ sort, filter }: FeedProps) => {
 					</div>
 				)}
 				{data && data.posts.edges.length === 0 && (
-					<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
+					<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
 						No posts
 					</div>
 				)}

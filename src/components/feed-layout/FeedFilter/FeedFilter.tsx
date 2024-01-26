@@ -22,7 +22,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 						<Button
 							icon={<StarIcon width={20} />}
 							variant="secondary"
-							className={highlighted === 'best' ? 'bg-gray-200' : ''}
+							className={highlighted === 'best' ? 'bg-primary-hover' : ''}
 						>
 							Best
 						</Button>
@@ -32,7 +32,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					<Button
 						icon={<FireIcon width={20} />}
 						variant="secondary"
-						className={highlighted === 'hot' ? 'bg-gray-200' : ''}
+						className={highlighted === 'hot' ? 'bg-primary-hover' : ''}
 					>
 						Hot
 					</Button>
@@ -41,7 +41,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					<Button
 						variant="secondary"
 						icon={<BoltIcon width={20} />}
-						className={highlighted === 'new' ? 'bg-gray-200' : ''}
+						className={highlighted === 'new' ? 'bg-primary-hover' : ''}
 					>
 						New
 					</Button>
@@ -50,7 +50,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					<Button
 						variant="secondary"
 						icon={<BarsArrowUpIcon width={20} />}
-						className={highlighted === 'top' ? 'bg-gray-200' : ''}
+						className={highlighted === 'top' ? 'bg-primary-hover' : ''}
 					>
 						Top
 					</Button>

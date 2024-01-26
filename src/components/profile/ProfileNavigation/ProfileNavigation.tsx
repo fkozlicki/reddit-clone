@@ -12,7 +12,7 @@ const ProfileNavigation = () => {
 	return (
 		<div className="bg-primary">
 			<div className="max-w-[976px] m-auto">
-				<div className="flex items-center h-10 gap-2">
+				<div className="flex items-center h-10 gap-2 overflow-x-auto mobile-scrollbar">
 					<Tab href={`/user/${name}`} selected={pathname === `/user/${name}`}>
 						Overview
 					</Tab>

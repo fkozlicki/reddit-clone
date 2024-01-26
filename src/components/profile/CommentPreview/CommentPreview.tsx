@@ -38,9 +38,12 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 		<div className="bg-primary">
 			<div
 				onClick={goToPost}
-				className="flex p-2 border border-b-input hover:border hover:border-post"
+				className="flex p-2 border border-post hover:border-post-hover"
 			>
-				<ChatBubbleLeftIcon width={20} className="mr-2 basis-5 flex-shrink-0" />
+				<ChatBubbleLeftIcon
+					width={20}
+					className="mr-2 basis-5 flex-shrink-0 text-primary"
+				/>
 				<div className="flex items-center text-xs text-gray-400 flex-wrap">
 					<Link
 						href={`/user/${commentAuthor}`}
@@ -66,9 +69,9 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 			</div>
 			<div
 				onClick={goToComment}
-				className="py-2 px-4 border border-t-transparent hover:border-post"
+				className="py-2 px-4 border border-post border-t-transparent hover:border-post-hover"
 			>
-				<div className="border-dashed border-l-[2px] pl-4">
+				<div className="border-dashed border-l-[2px] pl-4 text-primary">
 					<div className="flex text-xs">
 						<Link href="">{commentAuthor}</Link>
 						<span className="mx-1 text-[6px] text-primary">•</span>

@@ -19,6 +19,7 @@ import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import AuthModal from '../AuthModal/AuthModal';
+import Search from '../Search/Search';
 
 interface NavbarProps {
 	session: Session | null;
@@ -44,12 +45,7 @@ const Navbar = ({ session }: NavbarProps) => {
 		<div className="flex justify-between items-center px-4 h-12 border-b border-input bg-primary z-50">
 			<Logo />
 			<div className="w-2 h-full" />
-			<div className="flex-1 max-w-[690px]">
-				<TextField
-					className="w-full rounded-3xl hover:border-button focus:border-button"
-					placeholder="Search Reddit"
-				/>
-			</div>
+			<Search />
 			<div className="w-2 h-full" />
 			{!session && (
 				<Button onClick={openModal} variant="primary" className="w-[120px]">
@@ -96,7 +92,7 @@ const Navbar = ({ session }: NavbarProps) => {
 						},
 					]}
 				>
-					<div className="flex gap-4 p-1 rounded hover:bg-slate-200 cursor-pointer">
+					<div className="flex gap-4 p-1 rounded hover:bg-primary-hover cursor-pointer">
 						<div className="flex items-center gap-2">
 							<Avatar url={session.user.image} alt="avatar" size={32} />
 							<div className="flex flex-col items-start">

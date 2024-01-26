@@ -14,7 +14,7 @@ export default async function FeedLayout({
 	const session = await getServerSession(authOptions);
 
 	return (
-		<div className="px-4 py-6">
+		<div className="sm:px-4 py-6">
 			<Grid
 				left={
 					<>

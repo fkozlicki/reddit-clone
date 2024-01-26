@@ -20,7 +20,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 				/>
 				{typeof remaining === 'number' && (
 					<div
-						className={cn('text-xs mt-1', { 'text-red-600': remaining === 0 })}
+						className={cn('text-xs mt-1 text-primary', {
+							'text-red-600': remaining === 0,
+						})}
 					>
 						{remaining} characters remaining
 					</div>

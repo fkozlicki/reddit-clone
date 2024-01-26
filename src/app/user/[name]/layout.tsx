@@ -25,7 +25,7 @@ export default async function UserLayout({
 	return (
 		<>
 			<ProfileNavigation />
-			<div className="px-4 py-6">
+			<div className="sm:px-4 py-6">
 				<Grid left={children} right={<UserAbout user={user} />} />
 			</div>
 		</>

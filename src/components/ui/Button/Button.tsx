@@ -3,15 +3,13 @@ import { VariantProps, cva } from 'class-variance-authority';
 import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 const button = cva(
-	'border relative disabled:cursor-not-allowed font-medium outline-none',
+	'border relative disabled:cursor-not-allowed font-medium outline-none text-primary',
 	{
 		variants: {
 			variant: {
-				default:
-					'hover:bg-blue-50 hover:border-blue-100 disabled:hover:bg-gray-50 disabled:hover:border-gray-100',
-				primary:
-					'bg-blue-600/90 hover:bg-blue-600 text-white disabled:hover:bg-blue-400 disabled:hover:border-blue-400 border-0',
-				secondary: 'hover:bg-gray-200 border-0',
+				default: 'border-post hover:bg-primary-hover hover:border-input',
+				primary: 'bg-button text-primary-inverse border-0',
+				secondary: 'hover:bg-primary-hover border-0',
 			},
 			size: {
 				small: 'text-xs h-6 min-w-[24px] px-2',

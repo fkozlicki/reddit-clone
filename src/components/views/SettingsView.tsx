@@ -70,7 +70,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 
 	return (
 		<div className="max-w-7xl m-auto px-4 py-6">
-			<div className="font-medium text-lg border-b-2 border-input pb-2 mb-4 lg:mb-12">
+			<div className="font-medium text-lg border-b-2 border-input pb-2 mb-4 lg:mb-12 text-primary">
 				User settings
 			</div>
 			<div className="max-w-2xl mr-auto flex flex-col gap-4 lg:gap-6">
