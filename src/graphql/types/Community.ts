@@ -48,9 +48,13 @@ builder.queryField('community', (t) =>
 	})
 );
 
+const NameFilter = builder.prismaFilter('String', {
+	ops: ['contains', 'is', 'equals'],
+});
+
 export const CommunityWhere = builder.prismaWhere('Community', {
 	fields: {
-		name: 'String',
+		name: NameFilter,
 		topic: builder.prismaWhere('Topic', {
 			fields: {
 				name: 'String',

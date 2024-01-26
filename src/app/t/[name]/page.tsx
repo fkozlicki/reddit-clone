@@ -21,7 +21,7 @@ export default async function Topic({
 	return (
 		<div className="py-6">
 			<Grid
-				left={<Feed filter={{ topic: { name } }} />}
+				left={<Feed filter={{ community: { topic: { name } } }} />}
 				right={<TopCommunities topicName={name} />}
 			/>
 		</div>
