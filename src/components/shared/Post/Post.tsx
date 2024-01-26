@@ -20,14 +20,12 @@ import Link from 'next/link';
 
 interface PostProps {
 	post: PostInfo;
-	refetch: 'Post' | 'Posts' | 'Overview';
 	preview?: boolean;
 }
 
-const Post = ({ post, refetch, preview }: PostProps) => {
+const Post = ({ post, preview }: PostProps) => {
 	const { data: session } = useSession();
 	const [savePost, { loading: saveLoading }] = useSavePost({
-		refetchQueries: [refetch],
 		variables: {
 			id: post.id,
 		},
@@ -64,12 +62,11 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 					direction="column"
 					karma={karma}
 					vote={userVote}
-					refetch={refetch}
 				/>
 			</div>
 			<div className="bg-primary flex-1">
 				<div className="flex p-2">
-					<Link href={`/r/${communityName}`} className="mr-1">
+					<Link href={`/r/${communityName}`} className="mr-1 shrink-0">
 						<Avatar size={20} url={authorAvatar} alt="post author avatar" />
 					</Link>
 					<div className="flex items-center flex-wrap">
@@ -113,7 +110,6 @@ const Post = ({ post, refetch, preview }: PostProps) => {
 							direction="row"
 							karma={karma}
 							vote={userVote}
-							refetch={refetch}
 						/>
 					</div>
 					<Wrapper

@@ -3,7 +3,7 @@ import { Comment, Community, Post, User, Vote } from '@prisma/client';
 
 export type PostVote = Omit<Vote, 'id' | 'postId'>;
 
-type PostAuthor = {
+export type PostAuthor = {
 	name: User['name'];
 	image: User['image'];
 };
@@ -19,6 +19,7 @@ export type PostComment = {
 
 type PostQueryResponse = {
 	post: Omit<Post, 'authorId' | 'communityId'> & {
+		__typename: 'Post';
 		comments: PostComment[];
 		votes: PostVote[];
 		author: PostAuthor;

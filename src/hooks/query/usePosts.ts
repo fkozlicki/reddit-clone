@@ -1,6 +1,6 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { Comment, Community, Post, User } from '@prisma/client';
-import { PostVote } from './usePost';
+import { PostAuthor, PostVote } from './usePost';
 
 export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 	__typename: 'Post';
@@ -8,10 +8,7 @@ export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
 		id: Comment['id'];
 	}[];
 	votes: PostVote[];
-	author: {
-		name: User['name'];
-		image: User['image'];
-	};
+	author: PostAuthor;
 	community: {
 		name: Community['name'];
 	};
