@@ -44,7 +44,7 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 	return (
 		<div className="flex gap-4 justify-center flex-1 min-h-full">
 			<div className="w-full lg:max-w-[750px] flex flex-col">
-				<Post post={post} refetch="Post" />
+				<Post post={post} />
 				<div className="w-full h-5" />
 				<CommentsSection postId={post.id} comments={post.comments} />
 			</div>

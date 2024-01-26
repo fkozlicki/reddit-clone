@@ -66,7 +66,6 @@ const Comment = ({ comment }: CommentProps) => {
 							direction="row"
 							karma={karma}
 							vote={userVote}
-							refetch="Post"
 						/>
 						<Button
 							variant="secondary"

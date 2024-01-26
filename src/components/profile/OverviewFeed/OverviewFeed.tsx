@@ -46,12 +46,7 @@ const OverviewFeed = ({ name }: OverviewFeedProps) => {
 			{data &&
 				data.overview.edges.map((item) =>
 					item.node.__typename === 'Post' ? (
-						<Post
-							key={item.node.id}
-							post={item.node}
-							refetch="Overview"
-							preview
-						/>
+						<Post key={item.node.id} post={item.node} preview />
 					) : (
 						<CommentPreview key={item.node.id} comment={item.node} />
 					)
