@@ -10,6 +10,18 @@
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 	}
+	.mobile-scrollbar::-webkit-scrollbar {
+		height: 4px;
+		position: absolute;
+	}
+
+	.mobile-scrollbar::-webkit-scrollbar-thumb {
+		background: var(--color-border-post);
+	}
+
+	.mobile-scrollbar::-webkit-scrollbar-track {
+		background: var(--color-bg-primary);
+	}
 }
 
 @layer base {
