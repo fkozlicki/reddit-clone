@@ -11,9 +11,9 @@ builder.prismaObject('Vote', {
 	}),
 });
 
-builder.mutationField('makeVote', (t) =>
+builder.mutationField('votePost', (t) =>
 	t.prismaField({
-		type: ['Vote'],
+		type: 'Post',
 		args: {
 			value: t.arg.int({ required: true }),
 			postId: t.arg.string({ required: true }),
@@ -30,43 +30,28 @@ builder.mutationField('makeVote', (t) =>
 				},
 			});
 
-			if (existingVote) {
-				if (existingVote.value === args.value) {
-					await ctx.prisma.vote.delete({
-						...query,
-						where: {
-							id: existingVote.id,
-						},
-					});
-				} else {
-					await ctx.prisma.vote.update({
-						...query,
-						where: {
-							id: existingVote.id,
-						},
-						data: {
-							value: args.value,
-						},
-					});
-				}
-			} else {
-				await ctx.prisma.vote.create({
-					...query,
-					data: {
-						value: args.value,
-						postId: args.postId,
-						userId: ctx.session.user.id,
-					},
-				});
-			}
+			const action = existingVote
+				? existingVote.value === args.value
+					? { delete: { id: existingVote.id } }
+					: {
+							update: {
+								where: { id: existingVote.id },
+								data: { value: args.value },
+							},
+					  }
+				: { create: { userId: ctx.session.user.id, value: args.value } };
 
-			const votes = await ctx.prisma.vote.findMany({
+			const post = await ctx.prisma.post.update({
+				...query,
 				where: {
-					postId: args.postId,
+					id: args.postId,
+				},
+				data: {
+					votes: action,
 				},
 			});
 
-			return votes;
+			return post;
 		},
 	})
 );

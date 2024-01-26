@@ -4,6 +4,26 @@ const SAVE_POST_MUTATION = gql`
 	mutation savePost($id: String!) {
 		save(id: $id) {
 			id
+			title
+			content
+			createdAt
+			comments {
+				id
+			}
+			votes {
+				userId
+				value
+			}
+			author {
+				name
+				image
+			}
+			community {
+				name
+			}
+			savedBy {
+				id
+			}
 		}
 	}
 `;
@@ -11,7 +31,7 @@ const SAVE_POST_MUTATION = gql`
 type SavePostVariables = { id: string };
 
 type SavePostResponse = {
-	savePost: {
+	save: {
 		id: string;
 	};
 };

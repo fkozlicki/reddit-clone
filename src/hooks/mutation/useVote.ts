@@ -1,5 +1,6 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import { CommentVote, Vote } from '@prisma/client';
+import { PostInfo } from '../query/usePosts';
 
 type PostVoteMutationVariables = {
 	value: 1 | -1;
@@ -12,7 +13,7 @@ type CommentVoteMutationVariables = {
 };
 
 export type PostVoteMutationResponse = {
-	makeVote: Vote[];
+	makeVote: PostInfo;
 };
 
 export type CommentVoteMutationResponse = {
@@ -29,22 +30,24 @@ type VoteMutationResponse =
 
 export const POST_VOTE_MUTATION = gql`
 	mutation ($value: Int!, $postId: String!) {
-		makeVote(value: $value, postId: $postId) {
+		votePost(value: $value, postId: $postId) {
 			id
-			value
-			userId
-			postId
+			votes {
+				userId
+				value
+			}
 		}
 	}
 `;
 
 export const COMMENT_VOTE_MUTATION = gql`
 	mutation ($value: Int!, $commentId: String!) {
-		makeCommentVote(value: $value, commentId: $commentId) {
+		voteComment(value: $value, commentId: $commentId) {
 			id
-			value
-			userId
-			commentId
+			votes {
+				userId
+				value
+			}
 		}
 	}
 `;

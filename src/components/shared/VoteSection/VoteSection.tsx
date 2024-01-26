@@ -8,7 +8,7 @@ import useVote, {
 } from '@/hooks/mutation/useVote';
 import { OverviewQueryResponse } from '@/hooks/query/useOverview';
 import { PostComment, PostVote } from '@/hooks/query/usePost';
-import { PostsQueryResponse } from '@/hooks/query/usePosts';
+import { POSTS_QUERY, PostsQueryResponse } from '@/hooks/query/usePosts';
 import {
 	ArrowDownCircleIcon,
 	ArrowUpCircleIcon,
@@ -30,111 +30,34 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 		onError() {
 			toast.error("Couldn't vote");
 		},
-		updateQueries:
-			props.type === 'post'
-				? {
-						Post: (previousData, { mutationResult }) => {
-							return {
-								...previousData,
-								post: {
-									...previousData.post,
-									votes: (mutationResult.data as PostVoteMutationResponse)
-										.makeVote,
-								},
-							};
-						},
-						Posts: (previousData, { mutationResult }) => {
-							return {
-								...previousData,
-								posts: {
-									...previousData.posts,
-									edges: (previousData as PostsQueryResponse).posts.edges.map(
-										(edge) =>
-											edge.node.id === props.postId
-												? {
-														...edge,
-														node: {
-															...edge.node,
-															votes: (
-																mutationResult.data as PostVoteMutationResponse
-															).makeVote,
-														},
-												  }
-												: edge
-									),
-								},
-							};
-						},
-						Overview: (previousData, { mutationResult }) => {
-							return {
-								...previousData,
-								overview: {
-									...previousData.overview,
-									edges: (
-										previousData as OverviewQueryResponse
-									).overview.edges.map((edge) =>
-										edge.node.id === props.postId
-											? {
-													...edge,
-													node: {
-														...edge.node,
-														votes: (
-															mutationResult.data as PostVoteMutationResponse
-														).makeVote,
-													},
-											  }
-											: edge
-									),
-								},
-							};
-						},
-				  }
-				: {
-						Post: (previousData, { mutationResult }) => {
-							function updateComments(
-								comments: PostComment[],
-								targetId: string,
-								votes: CommentVote[]
-							): PostComment[] {
-								return comments.map((comment) => {
-									if (comment.id === targetId) {
-										return { ...comment, votes };
-									}
-
-									if (comment.replies && comment.replies.length > 0) {
-										return {
-											...comment,
-											replies: updateComments(comment.replies, targetId, votes),
-										};
-									}
-
-									return comment;
-								});
-							}
-
-							const newComments = updateComments(
-								previousData.post.comments,
-								props.commentId,
-								(mutationResult.data as CommentVoteMutationResponse)
-									.makeCommentVote
-							);
-
-							return {
-								...previousData,
-								post: {
-									...previousData.post,
-									comments: newComments,
-								},
-							};
-						},
-				  },
+		refetchQueries: [
+			{
+				query: POSTS_QUERY,
+				variables: {
+					first: 5,
+					filter: {
+						votes: { some: { user: { name: session?.user.name }, value: 1 } },
+					},
+				},
+			},
+			{
+				query: POSTS_QUERY,
+				variables: {
+					first: 5,
+					filter: {
+						votes: { some: { user: { name: session?.user.name }, value: -1 } },
+					},
+				},
+			},
+		],
 	});
 
-	const openSignIn = () => {
-		dispatch({ type: 'openSignIn' });
-	};
-
 	const handleVote = async (value: 1 | -1) => {
+		if (!session) {
+			dispatch({ type: 'openSignIn' });
+			return;
+		}
+
 		const variables =
 			props.type === 'post'
 				? { value, postId: props.postId }
@@ -143,6 +66,14 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 		vote({
 			variables,
 		});
+	};
+
+	const onUpvote = () => {
+		handleVote(1);
+	};
+
+	const onDownvote = () => {
+		handleVote(-1);
 	};
 
 	return (
@@ -156,7 +87,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 				variant="secondary"
 				shape="square"
 				size="small"
-				onClick={session ? () => handleVote(1) : openSignIn}
+				onClick={onUpvote}
 				className="group"
 				icon={
 					<ArrowUpCircleIcon
@@ -173,7 +104,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 				variant="secondary"
 				shape="square"
 				size="small"
-				onClick={session ? () => handleVote(-1) : openSignIn}
+				onClick={onDownvote}
 				className="group"
 				icon={
 					<ArrowDownCircleIcon
