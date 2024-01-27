@@ -11,7 +11,6 @@ const PostSkeleton = () => {
 					direction="column"
 					karma={0}
 					vote={undefined}
-					refetch="Post"
 				/>
 			</div>
 			<div className="bg-primary flex-1 p-2">
