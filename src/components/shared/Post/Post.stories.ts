@@ -14,14 +14,16 @@ type Story = StoryObj<typeof Post>;
 export const Default: Story = {
 	args: {
 		post: {
+			__typename: 'Post',
 			id: 'asdasd',
 			title: 'lorem ipsum',
 			content: 'lorem ipsum',
-			author: { name: 'John', image: null },
+			author: { id: '123', name: 'John', image: null },
 			createdAt: new Date(),
 			votes: [],
 			community: { name: 'essa' },
 			comments: [],
+			savedBy: [],
 		},
 	},
 };

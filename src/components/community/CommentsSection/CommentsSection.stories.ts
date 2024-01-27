@@ -29,6 +29,7 @@ export const WithComments: Story = {
 			{
 				id: '1',
 				author: {
+					id: '123',
 					name: 'John Doe',
 					image: null,
 				},
@@ -40,6 +41,7 @@ export const WithComments: Story = {
 			{
 				id: '2',
 				author: {
+					id: '456',
 					name: 'Anne Doe',
 					image: null,
 				},
@@ -48,6 +50,7 @@ export const WithComments: Story = {
 				replies: [
 					{
 						author: {
+							id: '789',
 							name: 'John Doe',
 							image: null,
 						},

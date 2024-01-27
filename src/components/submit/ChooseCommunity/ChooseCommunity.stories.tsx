@@ -63,6 +63,7 @@ export const Selected: Story = {
 			createdAt: new Date(),
 			description: null,
 			topicId: null,
+			image: null,
 		},
 	},
 	parameters: {
