@@ -16,7 +16,7 @@ const OverviewFeed = ({ name }: OverviewFeedProps) => {
 	const { data, fetchMore, loading } = useOverview({
 		variables: {
 			name,
-			first: 2,
+			first: 10,
 		},
 	});
 
