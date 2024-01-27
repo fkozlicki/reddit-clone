@@ -28,6 +28,7 @@ export const OVERVIEW_QUERY = gql`
 							value
 						}
 						author {
+							id
 							name
 							image
 						}
@@ -40,7 +41,9 @@ export const OVERVIEW_QUERY = gql`
 						content
 						createdAt
 						author {
+							id
 							name
+							image
 						}
 						post {
 							title
@@ -49,7 +52,9 @@ export const OVERVIEW_QUERY = gql`
 								name
 							}
 							author {
+								id
 								name
+								image
 							}
 						}
 					}

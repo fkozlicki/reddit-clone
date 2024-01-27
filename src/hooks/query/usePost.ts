@@ -4,6 +4,7 @@ import { Comment, Community, Post, User, Vote } from '@prisma/client';
 export type PostVote = Omit<Vote, 'id' | 'postId'>;
 
 export type PostAuthor = {
+	id: User['id'];
 	name: User['name'];
 	image: User['image'];
 };

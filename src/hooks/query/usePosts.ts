@@ -59,6 +59,7 @@ export const POSTS_QUERY = gql`
 						value
 					}
 					author {
+						id
 						name
 						image
 					}
