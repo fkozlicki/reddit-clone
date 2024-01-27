@@ -49,5 +49,8 @@ export default function useUpdateCommunity(
 		ChangeDescriptionVariables
 	>
 ) {
-	return useMutation(UPDATE_COMMUNITY_MUTATION, options);
+	return useMutation<ChangeDescriptionResponse, ChangeDescriptionVariables>(
+		UPDATE_COMMUNITY_MUTATION,
+		options
+	);
 }

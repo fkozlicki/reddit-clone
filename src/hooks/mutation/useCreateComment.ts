@@ -34,5 +34,8 @@ export const CREATE_COMMENT_MUTATION = gql`
 export default function useCreateComment(
 	options: MutationHookOptions<CreateCommentResponse, CreateCommentVariables>
 ) {
-	return useMutation(CREATE_COMMENT_MUTATION, options);
+	return useMutation<CreateCommentResponse, CreateCommentVariables>(
+		CREATE_COMMENT_MUTATION,
+		options
+	);
 }

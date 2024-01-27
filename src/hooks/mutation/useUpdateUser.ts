@@ -42,5 +42,8 @@ const UPDATE_USER_MUTATION = gql`
 export default function useUpdateUser(
 	options: MutationHookOptions<UpdateUserResponse, UpdateUserVariables>
 ) {
-	return useMutation(UPDATE_USER_MUTATION, options);
+	return useMutation<UpdateUserResponse, UpdateUserVariables>(
+		UPDATE_USER_MUTATION,
+		options
+	);
 }
