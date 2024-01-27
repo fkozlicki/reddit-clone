@@ -28,7 +28,7 @@ export default async function CommunitySubmit({
 			<Grid
 				left={
 					<>
-						<div className="mb-4 font-medium">Create a post</div>
+						<div className="mb-4 font-medium text-primary">Create a post</div>
 						<div className="w-full h-px bg-primary my-4" />
 						<ChooseCommunity community={community} />
 						<PostForm communityId={community.id} />
