@@ -110,7 +110,11 @@ const Post = ({ post, preview }: PostProps) => {
 			</div>
 			<div className="bg-primary flex-1">
 				<div className="flex p-2">
-					<Link href={`/r/${communityName}`} className="mr-1 shrink-0">
+					<Link
+						href={`/r/${communityName}`}
+						className="mr-1 shrink-0"
+						aria-label="Community"
+					>
 						<Avatar size={20} url={authorAvatar} alt="post author avatar" />
 					</Link>
 					<div className="flex items-center flex-wrap">
@@ -200,6 +204,7 @@ const Post = ({ post, preview }: PostProps) => {
 						{saved ? 'Unsave' : 'Save'}
 					</Button>
 					<Button
+						aria-label="More options"
 						variant="secondary"
 						shape="square"
 						className="text-xs"

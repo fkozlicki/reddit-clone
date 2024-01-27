@@ -3,7 +3,11 @@ import React from 'react';
 
 const Logo = () => {
 	return (
-		<Link href="/" className="inline-flex items-center justify-start gap-2">
+		<Link
+			href="/"
+			className="inline-flex items-center justify-start gap-2"
+			aria-label="Reddit logo"
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 20 20"

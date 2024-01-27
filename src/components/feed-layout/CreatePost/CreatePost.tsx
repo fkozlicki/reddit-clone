@@ -27,8 +27,10 @@ const CreatePost = () => {
 					variant="secondary"
 					shape="square"
 					icon={<PhotoIcon width={18} />}
+					aria-label="Image post"
 				/>
 				<Button
+					aria-label="Link post"
 					size="large"
 					variant="secondary"
 					icon={<LinkIcon width={18} />}
