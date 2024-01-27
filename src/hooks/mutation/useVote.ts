@@ -13,11 +13,11 @@ type CommentVoteMutationVariables = {
 };
 
 export type PostVoteMutationResponse = {
-	makeVote: PostInfo;
+	votePost: PostInfo;
 };
 
 export type CommentVoteMutationResponse = {
-	makeCommentVote: CommentVote[];
+	voteComment: CommentVote[];
 };
 
 type VoteMutationVariables =
@@ -32,9 +32,26 @@ export const POST_VOTE_MUTATION = gql`
 	mutation ($value: Int!, $postId: String!) {
 		votePost(value: $value, postId: $postId) {
 			id
+			title
+			content
+			createdAt
+			comments {
+				id
+			}
 			votes {
 				userId
 				value
+			}
+			author {
+				id
+				name
+				image
+			}
+			community {
+				name
+			}
+			savedBy {
+				id
 			}
 		}
 	}
@@ -44,9 +61,26 @@ export const COMMENT_VOTE_MUTATION = gql`
 	mutation ($value: Int!, $commentId: String!) {
 		voteComment(value: $value, commentId: $commentId) {
 			id
+			title
+			content
+			createdAt
+			comments {
+				id
+			}
 			votes {
 				userId
 				value
+			}
+			author {
+				id
+				name
+				image
+			}
+			community {
+				name
+			}
+			savedBy {
+				id
 			}
 		}
 	}

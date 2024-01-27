@@ -2,18 +2,14 @@
 
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import useVote, {
-	CommentVoteMutationResponse,
-	PostVoteMutationResponse,
-} from '@/hooks/mutation/useVote';
-import { OverviewQueryResponse } from '@/hooks/query/useOverview';
-import { PostComment, PostVote } from '@/hooks/query/usePost';
+import useVote, { PostVoteMutationResponse } from '@/hooks/mutation/useVote';
+import { PostVote } from '@/hooks/query/usePost';
 import { POSTS_QUERY, PostsQueryResponse } from '@/hooks/query/usePosts';
 import {
 	ArrowDownCircleIcon,
 	ArrowUpCircleIcon,
 } from '@heroicons/react/24/outline';
-import { CommentVote } from '@prisma/client';
+import { randomBytes } from 'crypto';
 import { useSession } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 
@@ -27,29 +23,59 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
 	const [vote] = useVote(props.type, {
-		onError() {
+		onError(err) {
+			console.log(err);
 			toast.error("Couldn't vote");
 		},
-		refetchQueries: [
-			{
-				query: POSTS_QUERY,
-				variables: {
-					first: 5,
-					filter: {
-						votes: { some: { user: { name: session?.user.name }, value: 1 } },
+		update: (cache, result, options) => {
+			if (options.variables && 'postId' in options.variables) {
+				cache.updateQuery<PostsQueryResponse>(
+					{
+						query: POSTS_QUERY,
+						variables: {
+							first: 5,
+							filter: {
+								votes: {
+									some: {
+										user: { name: session?.user.name },
+										value: options.variables.value,
+									},
+								},
+							},
+						},
 					},
-				},
-			},
-			{
-				query: POSTS_QUERY,
-				variables: {
-					first: 5,
-					filter: {
-						votes: { some: { user: { name: session?.user.name }, value: -1 } },
-					},
-				},
-			},
-		],
+					(data) => {
+						if (!data || !result.data) {
+							return null;
+						}
+
+						const newPost = (result.data as PostVoteMutationResponse).votePost;
+
+						const added = newPost.votes.some(
+							(vote) => vote.userId === session?.user.id
+						);
+
+						return {
+							...data,
+							posts: {
+								...data.posts,
+								edges: added
+									? [
+											{
+												cursor: randomBytes(32).toString('base64'),
+												node: newPost,
+											},
+											...data.posts.edges,
+									  ]
+									: data.posts.edges.filter(
+											(edge) => edge.node.id !== newPost.id
+									  ),
+							},
+						};
+					}
+				);
+			}
+		},
 	});
 
 	const handleVote = async (value: 1 | -1) => {

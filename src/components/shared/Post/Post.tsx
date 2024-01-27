@@ -5,7 +5,11 @@ import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import useSavePost from '@/hooks/mutation/useSavePost';
-import { PostInfo } from '@/hooks/query/usePosts';
+import {
+	POSTS_QUERY,
+	PostInfo,
+	PostsQueryResponse,
+} from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import {
@@ -15,6 +19,7 @@ import {
 	ShareIcon,
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
+import { randomBytes } from 'crypto';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -28,6 +33,45 @@ const Post = ({ post, preview }: PostProps) => {
 	const [savePost, { loading: saveLoading }] = useSavePost({
 		variables: {
 			id: post.id,
+		},
+		update: (cache, result) => {
+			cache.updateQuery<PostsQueryResponse>(
+				{
+					query: POSTS_QUERY,
+					variables: {
+						first: 5,
+						filter: {
+							savedBy: { some: { name: session?.user.name } },
+						},
+					},
+				},
+				(data) => {
+					if (!data || !result.data) {
+						return null;
+					}
+					const saved = result.data?.save.savedBy.some(
+						(user) => user.id === session?.user.id
+					);
+
+					return {
+						...data,
+						posts: {
+							...data.posts,
+							edges: saved
+								? [
+										{
+											cursor: randomBytes(32).toString('base64'),
+											node: result.data?.save,
+										},
+										...data.posts.edges,
+								  ]
+								: data.posts.edges.filter(
+										(edge) => edge.node.id !== result.data?.save.id
+								  ),
+						},
+					};
+				}
+			);
 		},
 	});
 	const {
