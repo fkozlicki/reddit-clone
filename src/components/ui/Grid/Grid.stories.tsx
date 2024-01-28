@@ -3,7 +3,7 @@ import Grid from './Grid';
 import '../../../app/globals.css';
 
 const meta: Meta<typeof Grid> = {
-	title: 'Grid',
+	title: 'ui/Grid',
 	component: Grid,
 	tags: ['autodocs'],
 };

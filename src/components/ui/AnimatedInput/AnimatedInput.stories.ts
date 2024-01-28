@@ -3,7 +3,7 @@ import AnimatedInput from './AnimatedInput';
 import '../../../app/globals.css';
 
 const meta: Meta<typeof AnimatedInput> = {
-	title: 'inputs/AnimatedInput',
+	title: 'ui/AnimatedInput',
 	component: AnimatedInput,
 	tags: ['autodocs'],
 };
