@@ -1,15 +1,14 @@
 'use client';
 
-import React from 'react';
 import Button from '@/components/ui/Button/Button';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-import useCreatePost from '@/hooks/mutation/useCreatePost';
+import Editor from '@/components/ui/Editor/Editor';
 import TextField from '@/components/ui/TextField/TextField';
-import Textarea from '@/components/ui/Textarea/Textarea';
+import useCreatePost from '@/hooks/mutation/useCreatePost';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { z } from 'zod';
 
 interface PostFormProps {
 	communityId?: string;
@@ -30,6 +29,8 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		register,
 		formState: { isValid },
 		reset,
+		setValue,
+		watch,
 	} = useForm<CreatePostValues>({
 		resolver: zodResolver(createPostSchema),
 		defaultValues: {
@@ -44,9 +45,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			},
 		}) {
 			reset();
-			toast('Post created successfuly', {
-				icon: '✅',
-			});
+			toast.success('Post created successfuly');
 			push(`/r/${name}/comments/${id}`);
 		},
 	});
@@ -62,11 +61,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 				{...register('title')}
 				className="w-full mb-4"
 			/>
-			<Textarea
-				placeholder="Text"
-				{...register('content')}
-				className="mb-4 min-h-[100px]"
-			/>
+			<Editor onChange={(data) => setValue('content', data)} />
 			<Button
 				variant="primary"
 				className="block ml-auto"
