@@ -12,7 +12,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 				<textarea
 					ref={ref}
 					className={cn(
-						'border border-input bg-input rounded py-2 px-3 text-primary outline-none text-sm w-full no-scrollbar',
+						'border border-input bg-input rounded py-2 px-3 text-primary outline-none text-sm w-full no-scrollbar focus:border-post-hover',
 						className
 					)}
 					{...props}

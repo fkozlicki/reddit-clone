@@ -22,7 +22,7 @@ const CommentsSection = ({ comments, postId }: CommentsSectionProps) => {
 					<Comment key={comment.id} comment={comment} />
 				))
 			) : (
-				<div className="text-center">No comments yet.</div>
+				<div className="text-center text-primary">No comments yet.</div>
 			)}
 		</div>
 	);
