@@ -147,7 +147,12 @@ const Post = ({ post, preview }: PostProps) => {
 						<div className="px-2 pb-2 text-lg font-bold text-primary">
 							{title}
 						</div>
-						<p className="px-2 pb-2 text-primary">{content}</p>
+						<div
+							className="px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded"
+							dangerouslySetInnerHTML={{
+								__html: content,
+							}}
+						/>
 					</>
 				</Wrapper>
 				<div className="px-2 flex pb-1 gap-2">
