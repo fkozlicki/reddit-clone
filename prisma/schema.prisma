@@ -50,7 +50,7 @@ model User {
   comments             Comment[]
   commentVotes         CommentVote[]
   posts                Post[]
-  saved                Post[]        @relation("saved")
+  saved                SavedPost[]
   sessions             Session[]
   votes                Vote[]
   communities          Community[]   @relation("members")
@@ -66,17 +66,26 @@ model VerificationToken {
 }
 
 model Post {
-  id          String    @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   content     String
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime    @default(now())
   communityId String
   authorId    String
   comments    Comment[]
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  community   Community   @relation(fields: [communityId], references: [id], onDelete: Cascade)
   votes       Vote[]
-  savedBy     User[]    @relation("saved")
+  saved       SavedPost[]
+}
+
+model SavedPost {
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@id([postId, userId])
 }
 
 model Vote {
