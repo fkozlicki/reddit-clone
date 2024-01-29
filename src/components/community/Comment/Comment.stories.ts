@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Comment from './Comment';
-import '../../../app/globals.css';
 import { userEvent, within } from '@storybook/testing-library';
-import { COMMENT_VOTE_MUTATION } from '@/hooks/mutation/useVote';
+import '../../../app/globals.css';
+import Comment from './Comment';
 
 const meta: Meta<typeof Comment> = {
 	title: 'Comment',
@@ -35,8 +34,9 @@ const comment = {
 	author: { id: '123', name: 'John Doe', image: null },
 	content: 'Lorem ipsum dolor sit amet.',
 	createdAt: new Date(),
-	votes: [],
 	replies: [],
+	karma: 0,
+	voteValue: null,
 };
 
 export const Default: Story = {
@@ -72,7 +72,8 @@ export const UpVoted: Story = {
 	args: {
 		comment: {
 			...comment,
-			votes: [{ userId: '1', value: 1 }],
+			karma: 1,
+			voteValue: 1,
 		},
 	},
 };
@@ -86,7 +87,8 @@ export const DownVoted: Story = {
 	args: {
 		comment: {
 			...comment,
-			votes: [{ userId: '1', value: -1 }],
+			karma: -1,
+			voteValue: -1,
 		},
 	},
 };

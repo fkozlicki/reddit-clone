@@ -36,7 +36,8 @@ export const WithComments: Story = {
 				content: 'Lorem ipsum dolor sit amet.',
 				createdAt: new Date(),
 				replies: [],
-				votes: [],
+				karma: 0,
+				voteValue: null,
 			},
 			{
 				id: '2',
@@ -47,6 +48,8 @@ export const WithComments: Story = {
 				},
 				content: 'Lorem ipsum dolor sit amet.',
 				createdAt: new Date(),
+				karma: 0,
+				voteValue: null,
 				replies: [
 					{
 						author: {
@@ -57,11 +60,11 @@ export const WithComments: Story = {
 						content: '123',
 						createdAt: new Date(),
 						id: '4',
-						votes: [],
 						replies: [],
+						karma: 0,
+						voteValue: null,
 					},
 				],
-				votes: [],
 			},
 		],
 		postId: '1',

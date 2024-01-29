@@ -25,7 +25,7 @@ export const UpVoted: Story = {
 		type: 'post',
 		direction: 'row',
 		postId: '1',
-		vote: undefined,
+		voteValue: null,
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -77,7 +77,7 @@ export const DownVoted: Story = {
 		type: 'post',
 		direction: 'row',
 		postId: '1',
-		vote: undefined,
+		voteValue: null,
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
