@@ -1,34 +1,23 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
-import { Comment, Community, Post, User, Vote } from '@prisma/client';
+import { Comment, Post, User } from '@prisma/client';
+import { VoteValue } from '../mutation/useVote';
+import { PostPreview } from './usePosts';
 
-export type PostVote = Omit<Vote, 'id' | 'postId'>;
+export type PostAuthor = Pick<User, 'id' | 'name' | 'image'>;
 
-export type PostAuthor = {
-	id: User['id'];
-	name: User['name'];
-	image: User['image'];
+export type PostComment = Pick<Comment, 'id' | 'content' | 'createdAt'> & {
+	author: PostAuthor;
+	replies: PostComment[];
+	karma: number;
+	voteValue: VoteValue | null;
 };
 
-export type PostComment = {
-	id: Comment['id'];
-	content: Comment['content'];
-	createdAt: Comment['createdAt'];
-	author: PostAuthor;
-	votes: PostVote[];
-	replies: PostComment[];
+type PostDetails = PostPreview & {
+	comments: PostComment[];
 };
 
 type PostQueryResponse = {
-	post: Omit<Post, 'authorId' | 'communityId'> & {
-		__typename: 'Post';
-		comments: PostComment[];
-		votes: PostVote[];
-		author: PostAuthor;
-		community: {
-			name: Community['name'];
-		};
-		savedBy: { id: string }[];
-	};
+	post: PostDetails;
 };
 
 type PostQueryVariables = {
@@ -40,47 +29,43 @@ export const POST_QUERY = gql`
 		post(id: $id) {
 			id
 			title
-			createdAt
 			content
-			comments(where: { replyToId: null }) {
-				id
-				content
-				createdAt
-				author {
-					name
-					image
-				}
-				votes {
-					userId
-					value
-				}
-				replies {
-					author {
-						name
-						image
-					}
-					content
-					createdAt
-					id
-					votes {
-						userId
-						value
-					}
-				}
-			}
-			votes {
-				userId
-				value
-			}
+			createdAt
+			commentsCount
+			karma
+			voteValue
+			saved
 			author {
+				id
 				name
 				image
 			}
 			community {
 				name
 			}
-			savedBy {
+			comments(where: { replyToId: null }) {
 				id
+				content
+				createdAt
+				voteValue
+				karma
+				author {
+					id
+					name
+					image
+				}
+				replies {
+					id
+					content
+					createdAt
+					voteValue
+					karma
+					author {
+						id
+						name
+						image
+					}
+				}
 			}
 		}
 	}

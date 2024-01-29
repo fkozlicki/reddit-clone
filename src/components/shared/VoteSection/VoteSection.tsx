@@ -2,8 +2,10 @@
 
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import useVote, { PostVoteMutationResponse } from '@/hooks/mutation/useVote';
-import { PostVote } from '@/hooks/query/usePost';
+import useVote, {
+	PostVoteMutationResponse,
+	VoteValue,
+} from '@/hooks/mutation/useVote';
 import { POSTS_QUERY, PostsQueryResponse } from '@/hooks/query/usePosts';
 import {
 	ArrowDownCircleIcon,
@@ -16,15 +18,19 @@ import { toast } from 'react-hot-toast';
 type VoteSectionProps = {
 	direction: 'row' | 'column';
 	karma: number;
-	vote?: PostVote;
+	voteValue: VoteValue | null;
 } & ({ type: 'post'; postId: string } | { type: 'comment'; commentId: string });
 
-const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
+const VoteSection = ({
+	direction,
+	karma,
+	voteValue,
+	...props
+}: VoteSectionProps) => {
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
 	const [vote] = useVote(props.type, {
 		onError(err) {
-			console.log(err);
 			toast.error("Couldn't vote");
 		},
 		update: (cache, result, options) => {
@@ -51,9 +57,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 
 						const newPost = (result.data as PostVoteMutationResponse).votePost;
 
-						const added = newPost.votes.some(
-							(vote) => vote.userId === session?.user.id
-						);
+						const added = !!newPost.voteValue;
 
 						return {
 							...data,
@@ -78,7 +82,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 		},
 	});
 
-	const handleVote = async (value: 1 | -1) => {
+	const handleVote = async (value: VoteValue) => {
 		if (!session) {
 			dispatch({ type: 'openSignIn' });
 			return;
@@ -118,7 +122,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 				icon={
 					<ArrowUpCircleIcon
 						className={`w-6 group-hover:text-red-600 ${
-							props.vote?.value === 1 ? 'text-red-600' : 'text-primary'
+							voteValue === 1 ? 'text-red-600' : 'text-primary'
 						}`}
 					/>
 				}
@@ -135,7 +139,7 @@ const VoteSection = ({ direction, karma, ...props }: VoteSectionProps) => {
 				icon={
 					<ArrowDownCircleIcon
 						className={`w-6 group-hover:text-blue-600 ${
-							props.vote?.value === -1 ? 'text-blue-600' : 'text-primary'
+							voteValue === -1 ? 'text-blue-600' : 'text-primary'
 						}`}
 					/>
 				}

@@ -2,37 +2,44 @@
 
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
-import useUserCommunities from '@/hooks/query/useUserCommunities';
+import useCommunities from '@/hooks/query/useCommunities';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Community } from '@prisma/client';
 import Link from 'next/link';
 
 interface ChooseCommunityProps {
+	userName: string;
 	community?: Community;
 }
 
-const ChooseCommunity = ({ community }: ChooseCommunityProps) => {
-	const { data, loading, error } = useUserCommunities();
+const ChooseCommunity = ({ community, userName }: ChooseCommunityProps) => {
+	const { data, loading, error } = useCommunities({
+		variables: {
+			filter: { members: { some: { name: userName } } },
+		},
+	});
 
 	const items = loading
 		? [{ text: 'Loading data' }]
 		: error
 		? [{ text: "Couldn't load data" }]
-		: data!.user.communities.map(({ name, members, image }) => ({
-				text: (
-					<Link href={`/r/${name}/submit`}>
-						<div className="flex items-center gap-3">
-							<Avatar size={32} url={image} alt="" />
-							<div>
-								<div className="text-sm text-primary font-medium">{name}</div>
-								<div className="text-xs text-primary">
-									{members.length} members
+		: data!.communities
+				.filter((com) => com.id !== community?.id)
+				.map(({ name, membersCount, image }) => ({
+					text: (
+						<Link href={`/r/${name}/submit`}>
+							<div className="flex items-center gap-3">
+								<Avatar size={32} url={image} alt="" />
+								<div>
+									<div className="text-sm text-primary font-medium">{name}</div>
+									<div className="text-xs text-primary">
+										{membersCount} members
+									</div>
 								</div>
 							</div>
-						</div>
-					</Link>
-				),
-		  }));
+						</Link>
+					),
+				}));
 
 	return (
 		<div className="w-[275px]">

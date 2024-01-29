@@ -1,23 +1,29 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import { CommentVote, Vote } from '@prisma/client';
-import { PostInfo } from '../query/usePosts';
+import { PostPreview } from '../query/usePosts';
+
+export type VoteValue = 1 | -1;
 
 type PostVoteMutationVariables = {
-	value: 1 | -1;
+	value: VoteValue;
 	postId: Vote['postId'];
 };
 
 type CommentVoteMutationVariables = {
-	value: 1 | -1;
+	value: VoteValue;
 	commentId: CommentVote['commentId'];
 };
 
 export type PostVoteMutationResponse = {
-	votePost: PostInfo;
+	votePost: PostPreview;
 };
 
 export type CommentVoteMutationResponse = {
-	voteComment: CommentVote[];
+	voteComment: {
+		id: string;
+		karma: number;
+		voteValue: VoteValue | null;
+	};
 };
 
 type VoteMutationVariables =
@@ -35,13 +41,10 @@ export const POST_VOTE_MUTATION = gql`
 			title
 			content
 			createdAt
-			comments {
-				id
-			}
-			votes {
-				userId
-				value
-			}
+			commentsCount
+			karma
+			voteValue
+			saved
 			author {
 				id
 				name
@@ -49,9 +52,6 @@ export const POST_VOTE_MUTATION = gql`
 			}
 			community {
 				name
-			}
-			savedBy {
-				id
 			}
 		}
 	}
@@ -61,27 +61,8 @@ export const COMMENT_VOTE_MUTATION = gql`
 	mutation ($value: Int!, $commentId: String!) {
 		voteComment(value: $value, commentId: $commentId) {
 			id
-			title
-			content
-			createdAt
-			comments {
-				id
-			}
-			votes {
-				userId
-				value
-			}
-			author {
-				id
-				name
-				image
-			}
-			community {
-				name
-			}
-			savedBy {
-				id
-			}
+			voteValue
+			karma
 		}
 	}
 `;

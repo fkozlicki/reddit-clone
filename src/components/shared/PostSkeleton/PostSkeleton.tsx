@@ -10,7 +10,7 @@ const PostSkeleton = () => {
 					postId=""
 					direction="column"
 					karma={0}
-					vote={undefined}
+					voteValue={null}
 				/>
 			</div>
 			<div className="bg-primary flex-1 p-2">

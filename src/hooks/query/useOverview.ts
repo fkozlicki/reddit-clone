@@ -1,6 +1,6 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { CommentWithPost } from './useComments';
-import { PostInfo } from './usePosts';
+import { PostPreview } from './usePosts';
 
 export const OVERVIEW_QUERY = gql`
 	query Overview($name: String!, $first: Int, $after: ID) {
@@ -17,23 +17,17 @@ export const OVERVIEW_QUERY = gql`
 						title
 						content
 						createdAt
-						community {
-							name
-						}
-						comments {
-							id
-						}
-						votes {
-							userId
-							value
-						}
+						commentsCount
+						karma
+						voteValue
+						saved
 						author {
 							id
 							name
 							image
 						}
-						savedBy {
-							id
+						community {
+							name
 						}
 					}
 					... on Comment {
@@ -70,7 +64,7 @@ export type OverviewQueryResponse = {
 			endCursor: string;
 			hasNextPage: boolean;
 		};
-		edges: { cursor: string; node: CommentWithPost | PostInfo }[];
+		edges: { cursor: string; node: CommentWithPost | PostPreview }[];
 	};
 };
 

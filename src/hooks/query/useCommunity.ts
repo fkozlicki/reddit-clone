@@ -1,9 +1,10 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
-import { Community, Topic, User } from '@prisma/client';
+import { Community, Topic } from '@prisma/client';
+import { PostAuthor } from './usePost';
 
-export type CommunityData = Community & {
+export type CommunityData = Omit<Community, 'topicId'> & {
 	moderators: { id: string }[];
-	members: { id: string; image: User['image']; name: User['name'] }[];
+	members: PostAuthor[];
 	topic: Topic | null;
 };
 

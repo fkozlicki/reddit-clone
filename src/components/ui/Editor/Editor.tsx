@@ -1,9 +1,4 @@
-import {
-	Editor as DraftJsEditor,
-	EditorState,
-	RichUtils,
-	convertToRaw,
-} from 'draft-js';
+import { Editor as DraftJsEditor, EditorState, RichUtils } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import 'draft-js/dist/Draft.css';
 import { useEffect, useState } from 'react';
@@ -31,8 +26,6 @@ const Editor = ({ onChange }: EditorProps) => {
 	const toggleInlineStyle = (inlineStyle: string) => {
 		setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
 	};
-
-	console.log(convertToRaw(editorState.getCurrentContent()));
 
 	const styleMap = {
 		CODE: {

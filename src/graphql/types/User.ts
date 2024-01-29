@@ -24,34 +24,9 @@ builder.prismaObject('User', {
 		}),
 		votes: t.relation('votes'),
 		comments: t.relation('comments'),
-		communities: t.relation('communities'),
 		posts: t.relation('posts'),
 	}),
 });
-
-builder.queryField('user', (t) =>
-	t.prismaField({
-		type: 'User',
-		resolve: async (query, _parent, _args, ctx) => {
-			if (!ctx.session) {
-				throw new Error('You have to be logged in');
-			}
-
-			const user = await ctx.prisma.user.findFirst({
-				...query,
-				where: {
-					id: ctx.session.user.id,
-				},
-			});
-
-			if (!user) {
-				throw new Error('User does not exists');
-			}
-
-			return user;
-		},
-	})
-);
 
 builder.mutationField('updateUser', (t) =>
 	t.prismaField({

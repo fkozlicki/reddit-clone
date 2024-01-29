@@ -1,4 +1,5 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
+import { Comment } from '@prisma/client';
 
 const COMMENTS_QUERY = gql`
 	query Comments($filter: CommentFilter) {
@@ -23,11 +24,8 @@ const COMMENTS_QUERY = gql`
 	}
 `;
 
-export type CommentWithPost = {
+export type CommentWithPost = Pick<Comment, 'id' | 'content' | 'createdAt'> & {
 	__typename: 'Comment';
-	id: string;
-	content: string;
-	createdAt: string;
 	author: {
 		name: string;
 	};

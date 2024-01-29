@@ -29,11 +29,10 @@ const Comment = ({ comment }: CommentProps) => {
 		createdAt,
 		content,
 		id,
-		votes,
 		replies,
+		karma,
+		voteValue,
 	} = comment;
-	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
-	const userVote = votes.find((vote) => vote.userId === session?.user.id);
 
 	const toggleReplyFormOpen = () => {
 		setReplyFormOpen((prev) => !prev);
@@ -65,7 +64,7 @@ const Comment = ({ comment }: CommentProps) => {
 							commentId={id}
 							direction="row"
 							karma={karma}
-							vote={userVote}
+							voteValue={voteValue}
 						/>
 						<Button
 							variant="secondary"

@@ -24,7 +24,7 @@ export default async function Submit() {
 					<>
 						<div className="mb-4 font-medium text-primary">Create a post</div>
 						<div className="w-full h-px bg-primary my-4" />
-						<ChooseCommunity />
+						<ChooseCommunity userName={session.user.name} />
 						<PostForm />
 					</>
 				}

@@ -1,18 +1,18 @@
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
-import { Comment, Community, Post, User } from '@prisma/client';
-import { PostAuthor, PostVote } from './usePost';
+import { Community, Post } from '@prisma/client';
+import { PostAuthor } from './usePost';
+import { VoteValue } from '../mutation/useVote';
 
-export type PostInfo = Omit<Post, 'authorId' | 'communityId'> & {
+export type PostPreview = Omit<Post, 'authorId' | 'communityId'> & {
 	__typename: 'Post';
-	comments: {
-		id: Comment['id'];
-	}[];
-	votes: PostVote[];
 	author: PostAuthor;
 	community: {
 		name: Community['name'];
 	};
-	savedBy: { id: string }[];
+	voteValue: VoteValue | null;
+	saved: boolean;
+	karma: number;
+	commentsCount: number;
 };
 
 export type PostsQueryResponse = {
@@ -23,7 +23,7 @@ export type PostsQueryResponse = {
 		};
 		edges: {
 			cursor: string;
-			node: PostInfo;
+			node: PostPreview;
 		}[];
 	};
 };
@@ -51,13 +51,10 @@ export const POSTS_QUERY = gql`
 					title
 					content
 					createdAt
-					comments {
-						id
-					}
-					votes {
-						userId
-						value
-					}
+					commentsCount
+					karma
+					voteValue
+					saved
 					author {
 						id
 						name
@@ -65,9 +62,6 @@ export const POSTS_QUERY = gql`
 					}
 					community {
 						name
-					}
-					savedBy {
-						id
 					}
 				}
 			}

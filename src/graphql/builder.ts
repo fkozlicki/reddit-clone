@@ -29,3 +29,14 @@ builder.queryType({});
 builder.mutationType({});
 
 builder.addScalarType('Date', DateTimeResolver, {});
+
+export const UserFilter = builder.prismaWhere('User', {
+	fields: {
+		id: 'String',
+		name: 'String',
+	},
+});
+
+export const UserListFilter = builder.prismaListFilter(UserFilter, {
+	ops: ['every', 'some', 'none'],
+});

@@ -1,5 +1,5 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
-import { PostInfo } from '../query/usePosts';
+import { PostPreview } from '../query/usePosts';
 
 const SAVE_POST_MUTATION = gql`
 	mutation savePost($id: String!) {
@@ -8,12 +8,11 @@ const SAVE_POST_MUTATION = gql`
 			title
 			content
 			createdAt
+			karma
+			voteValue
+			saved
 			comments {
 				id
-			}
-			votes {
-				userId
-				value
 			}
 			author {
 				id
@@ -23,9 +22,6 @@ const SAVE_POST_MUTATION = gql`
 			community {
 				name
 			}
-			savedBy {
-				id
-			}
 		}
 	}
 `;
@@ -33,7 +29,7 @@ const SAVE_POST_MUTATION = gql`
 type SavePostVariables = { id: string };
 
 type SavePostResponse = {
-	save: PostInfo;
+	save: PostPreview;
 };
 
 export default function useSavePost(

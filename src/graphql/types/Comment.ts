@@ -1,5 +1,10 @@
-import { builder } from '../builder';
-import { AuthorFilter } from './Post';
+import { UserFilter, builder } from '../builder';
+
+const CommentFilter = builder.prismaWhere('Comment', {
+	fields: {
+		author: UserFilter,
+	},
+});
 
 export const Comment = builder.prismaObject('Comment', {
 	fields: (t) => ({
@@ -13,6 +18,34 @@ export const Comment = builder.prismaObject('Comment', {
 		votes: t.relation('votes'),
 		replies: t.relation('replies'),
 		postId: t.exposeString('postId'),
+		voteValue: t.int({
+			resolve: async (parent, args, ctx) => {
+				if (!ctx.session) {
+					return null;
+				}
+
+				return (
+					(
+						await ctx.prisma.commentVote.findFirst({
+							where: { commentId: parent.id, userId: ctx.session.user.id },
+						})
+					)?.value ?? null
+				);
+			},
+			nullable: true,
+		}),
+		karma: t.int({
+			resolve: async (parent, args, ctx) => {
+				const upVotesCount = await ctx.prisma.commentVote.count({
+					where: { commentId: parent.id, value: 1 },
+				});
+				const downVotesCount = await ctx.prisma.commentVote.count({
+					where: { commentId: parent.id, value: -1 },
+				});
+
+				return upVotesCount + downVotesCount * -1;
+			},
+		}),
 	}),
 });
 
@@ -43,12 +76,6 @@ builder.mutationField('createComment', (t) =>
 		},
 	})
 );
-
-const CommentFilter = builder.prismaWhere('Comment', {
-	fields: {
-		author: AuthorFilter,
-	},
-});
 
 builder.queryField('comments', (t) =>
 	t.prismaField({

@@ -1,10 +1,34 @@
-import { builder } from '../builder';
+import { UserFilter, UserListFilter, builder } from '../builder';
 import { CommunityWhere } from './Community';
 
 const CommentWhere = builder.inputType('CommentWhere', {
 	fields: (t) => ({
-		replyToId: t.string({}),
+		replyToId: t.string(),
 	}),
+});
+
+const PostVoteFilter = builder.prismaWhere('Vote', {
+	fields: {
+		value: 'Int',
+		user: UserFilter,
+	},
+});
+
+const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
+	ops: ['every', 'some', 'none'],
+});
+
+const PostFilter = builder.prismaWhere('Post', {
+	fields: {
+		community: CommunityWhere,
+		author: UserFilter,
+		votes: PostVoteListFilter,
+		savedBy: UserListFilter,
+	},
+});
+
+const PostSort = builder.enumType('PostSort', {
+	values: ['hot', 'top', 'new'],
 });
 
 export const Post = builder.prismaObject('Post', {
@@ -15,7 +39,6 @@ export const Post = builder.prismaObject('Post', {
 		createdAt: t.expose('createdAt', {
 			type: 'Date',
 		}),
-		votes: t.relation('votes'),
 		author: t.relation('author'),
 		comments: t.relation('comments', {
 			args: {
@@ -25,8 +48,49 @@ export const Post = builder.prismaObject('Post', {
 				where: { replyToId: args.where?.replyToId },
 			}),
 		}),
+		commentsCount: t.relationCount('comments'),
 		community: t.relation('community'),
-		savedBy: t.relation('savedBy'),
+		voteValue: t.int({
+			resolve: async (parent, args, ctx) => {
+				if (!ctx.session) {
+					return null;
+				}
+
+				return (
+					(
+						await ctx.prisma.vote.findFirst({
+							where: { postId: parent.id, userId: ctx.session.user.id },
+						})
+					)?.value ?? null
+				);
+			},
+			nullable: true,
+		}),
+		saved: t.boolean({
+			resolve: async (parent, args, ctx) => {
+				if (!ctx.session) {
+					return false;
+				}
+				return await ctx.prisma.savedPost
+					.findFirst({
+						where: { postId: parent.id, userId: ctx.session.user.id },
+					})
+					.then(Boolean);
+			},
+			nullable: true,
+		}),
+		karma: t.int({
+			resolve: async (parent, args, ctx) => {
+				const upVotesCount = await ctx.prisma.vote.count({
+					where: { postId: parent.id, value: 1 },
+				});
+				const downVotesCount = await ctx.prisma.vote.count({
+					where: { postId: parent.id, value: -1 },
+				});
+
+				return upVotesCount + downVotesCount * -1;
+			},
+		}),
 	}),
 });
 
@@ -59,41 +123,6 @@ builder.mutationField('createPost', (t) =>
 		},
 	})
 );
-
-export const AuthorFilter = builder.prismaWhere('User', {
-	fields: {
-		id: 'String',
-		name: 'String',
-	},
-});
-
-const PostVoteFilter = builder.prismaWhere('Vote', {
-	fields: {
-		value: 'Int',
-		user: AuthorFilter,
-	},
-});
-
-const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
-	ops: ['every', 'some', 'none'],
-});
-
-const AuthorListFilter = builder.prismaListFilter(AuthorFilter, {
-	ops: ['every', 'some', 'none'],
-});
-
-const PostFilter = builder.prismaWhere('Post', {
-	fields: {
-		community: CommunityWhere,
-		author: AuthorFilter,
-		votes: PostVoteListFilter,
-		savedBy: AuthorListFilter,
-	},
-});
-
-const PostSort = builder.enumType('PostSort', {
-	values: ['hot', 'top', 'new'],
-});
 
 builder.queryField('posts', (t) =>
 	t.prismaConnection({
@@ -179,22 +208,21 @@ builder.mutationField('save', (t) =>
 				where: {
 					id: args.id,
 				},
-				include: {
-					savedBy: true,
-				},
 			});
 
 			if (!post) {
 				throw new Error('Post not found');
 			}
 
-			const isSaved = post.savedBy
-				.map((user) => user.id)
-				.includes(ctx.session.user.id);
+			const userId = ctx.session.user.id;
 
-			const operation = isSaved
-				? { disconnect: { id: ctx.session.user.id } }
-				: { connect: { id: ctx.session.user.id } };
+			const savedPost = await ctx.prisma.savedPost.findFirst({
+				where: { postId: args.id, userId },
+			});
+
+			const operation = !!savedPost
+				? { delete: { postId_userId: { postId: args.id, userId } } }
+				: { create: { userId } };
 
 			const updated = await ctx.prisma.post.update({
 				...query,
@@ -202,7 +230,7 @@ builder.mutationField('save', (t) =>
 					id: args.id,
 				},
 				data: {
-					savedBy: operation,
+					saved: operation,
 				},
 			});
 

@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button/Button';
 import useSavePost from '@/hooks/mutation/useSavePost';
 import {
 	POSTS_QUERY,
-	PostInfo,
+	PostPreview,
 	PostsQueryResponse,
 } from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
@@ -24,7 +24,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 interface PostProps {
-	post: PostInfo;
+	post: PostPreview;
 	preview?: boolean;
 }
 
@@ -49,9 +49,10 @@ const Post = ({ post, preview }: PostProps) => {
 					if (!data || !result.data) {
 						return null;
 					}
-					const saved = result.data?.save.savedBy.some(
-						(user) => user.id === session?.user.id
-					);
+
+					const saved = result.data.save.saved;
+
+					const post = result.data.save;
 
 					return {
 						...data,
@@ -61,13 +62,11 @@ const Post = ({ post, preview }: PostProps) => {
 								? [
 										{
 											cursor: randomBytes(32).toString('base64'),
-											node: result.data?.save,
+											node: post,
 										},
 										...data.posts.edges,
 								  ]
-								: data.posts.edges.filter(
-										(edge) => edge.node.id !== result.data?.save.id
-								  ),
+								: data.posts.edges.filter((edge) => edge.node.id !== post.id),
 						},
 					};
 				}
@@ -75,22 +74,17 @@ const Post = ({ post, preview }: PostProps) => {
 		},
 	});
 	const {
-		votes,
+		karma,
 		community: { name: communityName },
 		author: { name: authorName, image: authorAvatar },
 		createdAt,
 		id,
 		title,
 		content,
-		comments,
-		savedBy,
+		commentsCount,
+		saved,
+		voteValue,
 	} = post;
-	const karma = votes.reduce((acc, vote) => acc + vote.value, 0);
-	const userVote = votes.find((vote) => vote.userId === session?.user.id);
-	const commentsCount = comments.length;
-
-	const saved =
-		session && savedBy.map((user) => user.id).includes(session.user.id);
 
 	return (
 		<div
@@ -105,7 +99,7 @@ const Post = ({ post, preview }: PostProps) => {
 					postId={id}
 					direction="column"
 					karma={karma}
-					vote={userVote}
+					voteValue={voteValue}
 				/>
 			</div>
 			<div className="bg-primary flex-1">
@@ -162,7 +156,7 @@ const Post = ({ post, preview }: PostProps) => {
 							postId={id}
 							direction="row"
 							karma={karma}
-							vote={userVote}
+							voteValue={voteValue}
 						/>
 					</div>
 					<Wrapper

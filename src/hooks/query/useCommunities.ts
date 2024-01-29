@@ -4,6 +4,7 @@ type CommunitiesQueryResponse = {
 	communities: {
 		id: string;
 		name: string;
+		image: string;
 		membersCount: number;
 	}[];
 };
@@ -14,11 +15,12 @@ type CommunitiesQueryVariables = {
 	take?: number;
 };
 
-const COMMUNITIES_QUERY = gql`
+export const COMMUNITIES_QUERY = gql`
 	query Communities($filter: CommunityFilter, $take: Int, $sort: String) {
 		communities(filter: $filter, take: $take, sort: $sort) {
 			id
 			name
+			image
 			membersCount
 		}
 	}
