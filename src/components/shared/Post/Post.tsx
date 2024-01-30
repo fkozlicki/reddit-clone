@@ -30,7 +30,7 @@ interface PostProps {
 
 const Post = ({ post, preview }: PostProps) => {
 	const { data: session } = useSession();
-	const [savePost, { loading: saveLoading }] = useSavePost({
+	const [savePost] = useSavePost({
 		variables: {
 			id: post.id,
 		},
@@ -72,6 +72,12 @@ const Post = ({ post, preview }: PostProps) => {
 				}
 			);
 		},
+		optimisticResponse: {
+			save: {
+				...post,
+				saved: !post.saved,
+			},
+		},
 	});
 	const {
 		karma,
@@ -96,7 +102,7 @@ const Post = ({ post, preview }: PostProps) => {
 			<div className="bg-post-side p-2 hidden sm:block">
 				<VoteSection
 					type="post"
-					postId={id}
+					post={post}
 					direction="column"
 					karma={karma}
 					voteValue={voteValue}
@@ -153,7 +159,7 @@ const Post = ({ post, preview }: PostProps) => {
 					<div className="sm:hidden flex items-center">
 						<VoteSection
 							type="post"
-							postId={id}
+							post={post}
 							direction="row"
 							karma={karma}
 							voteValue={voteValue}
@@ -198,7 +204,6 @@ const Post = ({ post, preview }: PostProps) => {
 							)
 						}
 						onClick={() => savePost()}
-						loading={saveLoading}
 					>
 						{saved ? 'Unsave' : 'Save'}
 					</Button>

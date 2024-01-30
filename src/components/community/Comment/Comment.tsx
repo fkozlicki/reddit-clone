@@ -61,7 +61,7 @@ const Comment = ({ comment }: CommentProps) => {
 					<div className="flex items-center gap-1">
 						<VoteSection
 							type="comment"
-							commentId={id}
+							comment={comment}
 							direction="row"
 							karma={karma}
 							voteValue={voteValue}

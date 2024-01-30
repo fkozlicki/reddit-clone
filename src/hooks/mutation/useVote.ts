@@ -1,6 +1,13 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import { CommentVote, Vote } from '@prisma/client';
-import { PostPreview } from '../query/usePosts';
+import {
+	POSTS_QUERY,
+	PostPreview,
+	PostsQueryResponse,
+} from '../query/usePosts';
+import { useSession } from 'next-auth/react';
+import { randomBytes } from 'crypto';
+import toast from 'react-hot-toast';
 
 export type VoteValue = 1 | -1;
 
@@ -71,10 +78,65 @@ type VoteType = 'post' | 'comment';
 
 export default function useVote(
 	type: VoteType,
-	options: MutationHookOptions<VoteMutationResponse, VoteMutationVariables>
+	options?: MutationHookOptions<VoteMutationResponse, VoteMutationVariables>
 ) {
+	const { data: session } = useSession();
+
 	return useMutation<VoteMutationResponse, VoteMutationVariables>(
 		type === 'post' ? POST_VOTE_MUTATION : COMMENT_VOTE_MUTATION,
-		options
+		{
+			...options,
+			onError() {
+				toast.error('Vote failed');
+			},
+			update: (cache, result, options) => {
+				if (options.variables && 'postId' in options.variables) {
+					cache.updateQuery<PostsQueryResponse>(
+						{
+							query: POSTS_QUERY,
+							variables: {
+								first: 5,
+								filter: {
+									votes: {
+										some: {
+											user: { name: session?.user.name },
+											value: options.variables.value,
+										},
+									},
+								},
+							},
+						},
+						(data) => {
+							if (!data || !result.data) {
+								return null;
+							}
+
+							const newPost = (result.data as PostVoteMutationResponse)
+								.votePost;
+
+							const added = !!newPost.voteValue;
+
+							return {
+								...data,
+								posts: {
+									...data.posts,
+									edges: added
+										? [
+												{
+													cursor: randomBytes(32).toString('base64'),
+													node: newPost,
+												},
+												...data.posts.edges,
+										  ]
+										: data.posts.edges.filter(
+												(edge) => edge.node.id !== newPost.id
+										  ),
+								},
+							};
+						}
+					);
+				}
+			},
+		}
 	);
 }

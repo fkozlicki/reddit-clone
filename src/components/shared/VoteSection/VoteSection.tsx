@@ -2,24 +2,23 @@
 
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import useVote, {
-	PostVoteMutationResponse,
-	VoteValue,
-} from '@/hooks/mutation/useVote';
-import { POSTS_QUERY, PostsQueryResponse } from '@/hooks/query/usePosts';
+import useVote, { VoteValue } from '@/hooks/mutation/useVote';
+import { PostComment } from '@/hooks/query/usePost';
+import { PostPreview } from '@/hooks/query/usePosts';
 import {
 	ArrowDownCircleIcon,
 	ArrowUpCircleIcon,
 } from '@heroicons/react/24/outline';
-import { randomBytes } from 'crypto';
 import { useSession } from 'next-auth/react';
-import { toast } from 'react-hot-toast';
 
 type VoteSectionProps = {
 	direction: 'row' | 'column';
 	karma: number;
 	voteValue: VoteValue | null;
-} & ({ type: 'post'; postId: string } | { type: 'comment'; commentId: string });
+} & (
+	| { type: 'post'; post: PostPreview }
+	| { type: 'comment'; comment: PostComment }
+);
 
 const VoteSection = ({
 	direction,
@@ -29,58 +28,7 @@ const VoteSection = ({
 }: VoteSectionProps) => {
 	const { data: session } = useSession();
 	const [, dispatch] = useModalsContext();
-	const [vote] = useVote(props.type, {
-		onError(err) {
-			toast.error("Couldn't vote");
-		},
-		update: (cache, result, options) => {
-			if (options.variables && 'postId' in options.variables) {
-				cache.updateQuery<PostsQueryResponse>(
-					{
-						query: POSTS_QUERY,
-						variables: {
-							first: 5,
-							filter: {
-								votes: {
-									some: {
-										user: { name: session?.user.name },
-										value: options.variables.value,
-									},
-								},
-							},
-						},
-					},
-					(data) => {
-						if (!data || !result.data) {
-							return null;
-						}
-
-						const newPost = (result.data as PostVoteMutationResponse).votePost;
-
-						const added = !!newPost.voteValue;
-
-						return {
-							...data,
-							posts: {
-								...data.posts,
-								edges: added
-									? [
-											{
-												cursor: randomBytes(32).toString('base64'),
-												node: newPost,
-											},
-											...data.posts.edges,
-									  ]
-									: data.posts.edges.filter(
-											(edge) => edge.node.id !== newPost.id
-									  ),
-							},
-						};
-					}
-				);
-			}
-		},
-	});
+	const [vote] = useVote(props.type);
 
 	const handleVote = async (value: VoteValue) => {
 		if (!session) {
@@ -90,11 +38,40 @@ const VoteSection = ({
 
 		const variables =
 			props.type === 'post'
-				? { value, postId: props.postId }
-				: { value, commentId: props.commentId };
+				? { value, postId: props.post.id }
+				: { value, commentId: props.comment.id };
 
 		vote({
 			variables,
+			optimisticResponse: {
+				...(props.type === 'post'
+					? {
+							votePost: {
+								...props.post,
+								karma:
+									props.post.karma +
+									(props.post.voteValue
+										? props.post.voteValue === value
+											? -value
+											: value * 2
+										: value),
+								voteValue: props.post.voteValue === value ? null : value,
+							},
+					  }
+					: {
+							voteComment: {
+								...props.comment,
+								karma:
+									props.comment.karma +
+									(props.comment.voteValue
+										? props.comment.voteValue === value
+											? -value
+											: value * 2
+										: value),
+								voteValue: props.comment.voteValue === value ? null : value,
+							},
+					  }),
+			},
 		});
 	};
 
