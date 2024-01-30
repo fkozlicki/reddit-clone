@@ -1,11 +1,6 @@
 import { UserFilter, UserListFilter, builder } from '../builder';
+import { CommentFilter } from './Comment';
 import { CommunityWhere } from './Community';
-
-const CommentWhere = builder.inputType('CommentWhere', {
-	fields: (t) => ({
-		replyToId: t.string(),
-	}),
-});
 
 const PostVoteFilter = builder.prismaWhere('Vote', {
 	fields: {
@@ -52,10 +47,10 @@ export const Post = builder.prismaObject('Post', {
 		author: t.relation('author'),
 		comments: t.relation('comments', {
 			args: {
-				where: t.arg({ type: CommentWhere }),
+				filter: t.arg({ type: CommentFilter }),
 			},
 			query: (args) => ({
-				where: { replyToId: args.where?.replyToId },
+				where: { replyToId: args.filter?.replyToId, id: args.filter?.id },
 			}),
 		}),
 		commentsCount: t.relationCount('comments'),

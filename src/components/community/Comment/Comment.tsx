@@ -6,23 +6,21 @@ import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import { PostComment } from '@/hooks/query/usePost';
+import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 interface CommentProps {
 	comment: PostComment;
+	highlight?: boolean;
 }
 
-const Comment = ({ comment }: CommentProps) => {
+const Comment = ({ comment, highlight }: CommentProps) => {
 	const [, dispatch] = useModalsContext();
-	const params = useParams();
 	const { data: session } = useSession();
 	const [replyFormOpen, setReplyFormOpen] = useState(false);
-
-	const postId = params.id as string;
 
 	const {
 		author: { name: authorName, image },
@@ -43,7 +41,9 @@ const Comment = ({ comment }: CommentProps) => {
 	};
 
 	return (
-		<div className="flex gap-2">
+		<div
+			className={cn('flex gap-2', { 'bg-blue-600/10 py-3 px-2': highlight })}
+		>
 			<div className="flex flex-col items-center">
 				<Avatar size={24} url={image} alt="avatar" />
 				<div className="w-0.5 flex-1 bg-gray-600"></div>
@@ -79,7 +79,7 @@ const Comment = ({ comment }: CommentProps) => {
 				<div>
 					{replyFormOpen && (
 						<div className="mb-2">
-							<CommentForm postId={postId} replyToId={id} />
+							<CommentForm postId={comment.postId} replyToId={id} />
 						</div>
 					)}
 					{replies?.map((reply, index) => (

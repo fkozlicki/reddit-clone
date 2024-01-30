@@ -10,6 +10,7 @@ export type PostComment = Pick<Comment, 'id' | 'content' | 'createdAt'> & {
 	replies: PostComment[];
 	karma: number;
 	voteValue: VoteValue | null;
+	postId: string;
 };
 
 type PostDetails = PostPreview & {
@@ -22,6 +23,7 @@ type PostQueryResponse = {
 
 type PostQueryVariables = {
 	id: Post['id'];
+	commentsFilter?: any;
 };
 
 export const POST_QUERY = gql`
@@ -31,13 +33,14 @@ export const POST_QUERY = gql`
 		createdAt
 		voteValue
 		karma
+		postId
 		author {
 			id
 			name
 			image
 		}
 	}
-	query Post($id: String!) {
+	query Post($id: String!, $commentsFilter: CommentFilter) {
 		post(id: $id) {
 			id
 			title
@@ -55,7 +58,7 @@ export const POST_QUERY = gql`
 			community {
 				name
 			}
-			comments(where: { replyToId: null }) {
+			comments(filter: $commentsFilter) {
 				...CommentFields
 				replies {
 					...CommentFields

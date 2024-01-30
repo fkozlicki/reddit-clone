@@ -1,21 +1,22 @@
 'use client';
 
-import React from 'react';
-import CommentsSection from '../CommentsSection/CommentsSection';
-import Post from '../../shared/Post/Post';
-import usePost from '@/hooks/query/usePost';
-import CommunityAbout from '../CommunityAbout/CommunityAbout';
+import Post from '@/components/shared/Post/Post';
 import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import usePost from '@/hooks/query/usePost';
+import React from 'react';
+import CommunityAbout from '../CommunityAbout/CommunityAbout';
+import Comment from '../Comment/Comment';
 
-interface PostDetailsProps {
-	id: string;
+interface CommentDetailsProps {
+	postId: string;
+	commentId: string;
 }
 
-const PostDetails = ({ id }: PostDetailsProps) => {
+const CommentDetails = ({ postId, commentId }: CommentDetailsProps) => {
 	const { data, loading, error } = usePost({
 		variables: {
-			id,
-			commentsFilter: { replyToId: null },
+			id: postId,
+			commentsFilter: { id: commentId },
 		},
 	});
 
@@ -45,9 +46,11 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 	return (
 		<div className="flex gap-4 justify-center flex-1 min-h-full">
 			<div className="w-full lg:max-w-[750px] flex flex-col">
-				<Post post={post} />
+				<Post post={post} toggleContent />
 				<div className="w-full h-5" />
-				<CommentsSection postId={post.id} comments={post.comments} />
+				<div className="bg-primary border border-post rounded py-4">
+					<Comment comment={post.comments[0]} highlight />
+				</div>
 			</div>
 			<div className="w-[312px] hidden lg:block flex-shrink-0">
 				<CommunityAbout withName cta="Join" />
@@ -56,4 +59,4 @@ const PostDetails = ({ id }: PostDetailsProps) => {
 	);
 };
 
-export default PostDetails;
+export default CommentDetails;

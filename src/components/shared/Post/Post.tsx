@@ -13,6 +13,8 @@ import {
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import {
+	ArrowsPointingInIcon,
+	ArrowsPointingOutIcon,
 	BookmarkIcon as BookmarkIconOutline,
 	ChatBubbleLeftIcon,
 	EllipsisHorizontalIcon,
@@ -22,13 +24,18 @@ import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 import { randomBytes } from 'crypto';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface PostProps {
 	post: PostPreview;
 	preview?: boolean;
+	toggleContent?: boolean;
 }
 
-const Post = ({ post, preview }: PostProps) => {
+const Post = ({ post, preview, toggleContent }: PostProps) => {
+	const [showContent, setShowContent] = useState<boolean>(
+		toggleContent ? false : true
+	);
 	const { data: session } = useSession();
 	const [savePost] = useSavePost({
 		variables: {
@@ -93,6 +100,10 @@ const Post = ({ post, preview }: PostProps) => {
 		voteValue,
 	} = post;
 
+	const toggleShowContent = () => {
+		setShowContent((prev) => !prev);
+	};
+
 	return (
 		<div
 			className={cn(
@@ -148,12 +159,30 @@ const Post = ({ post, preview }: PostProps) => {
 						<div className="px-2 pb-2 text-lg font-bold text-primary">
 							{title}
 						</div>
-						<div
-							className="px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded"
-							dangerouslySetInnerHTML={{
-								__html: content,
-							}}
-						/>
+						{toggleContent && (
+							<Button
+								onClick={toggleShowContent}
+								variant="secondary"
+								shape="square"
+								className="ml-2"
+								icon={
+									showContent ? (
+										<ArrowsPointingInIcon className="w-6" />
+									) : (
+										<ArrowsPointingOutIcon className="w-6" />
+									)
+								}
+								aria-label={showContent ? 'Hide content' : 'Show content'}
+							/>
+						)}
+						{showContent && (
+							<div
+								className="px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded"
+								dangerouslySetInnerHTML={{
+									__html: content,
+								}}
+							/>
+						)}
 					</>
 				</Wrapper>
 				<div className="px-2 flex pb-1 gap-2">
