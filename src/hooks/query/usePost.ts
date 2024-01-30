@@ -25,6 +25,18 @@ type PostQueryVariables = {
 };
 
 export const POST_QUERY = gql`
+	fragment CommentFields on Comment {
+		id
+		content
+		createdAt
+		voteValue
+		karma
+		author {
+			id
+			name
+			image
+		}
+	}
 	query Post($id: String!) {
 		post(id: $id) {
 			id
@@ -44,26 +56,14 @@ export const POST_QUERY = gql`
 				name
 			}
 			comments(where: { replyToId: null }) {
-				id
-				content
-				createdAt
-				voteValue
-				karma
-				author {
-					id
-					name
-					image
-				}
+				...CommentFields
 				replies {
-					id
-					content
-					createdAt
-					voteValue
-					karma
-					author {
-						id
-						name
-						image
+					...CommentFields
+					replies {
+						...CommentFields
+						replies {
+							...CommentFields
+						}
 					}
 				}
 			}
