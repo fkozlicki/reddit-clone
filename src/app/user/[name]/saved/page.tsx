@@ -5,5 +5,5 @@ export default function UserSavedPosts({
 }: {
 	params: { name: string };
 }) {
-	return <Feed filter={{ savedBy: { some: { name } } }} />;
+	return <Feed filter={{ saved: { some: { user: { name } } } }} sort="new" />;
 }

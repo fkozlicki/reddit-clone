@@ -41,8 +41,9 @@ const Post = ({ post, preview }: PostProps) => {
 					variables: {
 						first: 5,
 						filter: {
-							savedBy: { some: { name: session?.user.name } },
+							saved: { some: { user: { name: session?.user.name } } },
 						},
+						sort: 'new',
 					},
 				},
 				(data) => {

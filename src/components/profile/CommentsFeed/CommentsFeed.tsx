@@ -12,6 +12,7 @@ const CommentsFeed = ({ userName }: CommentsFeedProps) => {
 	const { data, loading, error } = useComments({
 		variables: {
 			filter: { author: { name: userName } },
+			sort: 'new',
 		},
 	});
 

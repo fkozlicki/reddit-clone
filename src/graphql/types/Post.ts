@@ -14,6 +14,16 @@ const PostVoteFilter = builder.prismaWhere('Vote', {
 	},
 });
 
+const SavedPostFilter = builder.prismaWhere('SavedPost', {
+	fields: {
+		user: UserFilter,
+	},
+});
+
+const SavedPostListFilter = builder.prismaListFilter(SavedPostFilter, {
+	ops: ['some'],
+});
+
 const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
 	ops: ['every', 'some', 'none'],
 });
@@ -23,11 +33,11 @@ const PostFilter = builder.prismaWhere('Post', {
 		community: CommunityWhere,
 		author: UserFilter,
 		votes: PostVoteListFilter,
-		savedBy: UserListFilter,
+		saved: SavedPostListFilter,
 	},
 });
 
-const PostSort = builder.enumType('PostSort', {
+export const Sort = builder.enumType('Sort', {
 	values: ['hot', 'top', 'new'],
 });
 
@@ -133,7 +143,7 @@ builder.queryField('posts', (t) =>
 				type: PostFilter,
 			}),
 			sort: t.arg({
-				type: PostSort,
+				type: Sort,
 			}),
 		},
 		resolve: async (query, _parent, args, ctx) => {

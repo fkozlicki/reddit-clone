@@ -38,7 +38,7 @@ type PostsQueryVariables = {
 export type FeedType = 'new' | 'hot' | 'top';
 
 export const POSTS_QUERY = gql`
-	query Posts($first: Int, $after: ID, $filter: PostFilter, $sort: PostSort) {
+	query Posts($first: Int, $after: ID, $filter: PostFilter, $sort: Sort) {
 		posts(first: $first, after: $after, filter: $filter, sort: $sort) {
 			pageInfo {
 				endCursor

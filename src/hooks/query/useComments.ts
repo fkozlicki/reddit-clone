@@ -2,8 +2,8 @@ import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { Comment } from '@prisma/client';
 
 const COMMENTS_QUERY = gql`
-	query Comments($filter: CommentFilter) {
-		comments(filter: $filter) {
+	query Comments($filter: CommentFilter, $sort: Sort) {
+		comments(filter: $filter, sort: $sort) {
 			id
 			content
 			createdAt
@@ -47,6 +47,7 @@ type CommentsQueryResponse = {
 
 type CommentsQueryVariables = {
 	filter?: any;
+	sort?: any;
 };
 
 export default function useComments(

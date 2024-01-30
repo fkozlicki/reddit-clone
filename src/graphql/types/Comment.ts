@@ -1,4 +1,5 @@
 import { UserFilter, builder } from '../builder';
+import { Sort } from './Post';
 
 const CommentFilter = builder.prismaWhere('Comment', {
 	fields: {
@@ -82,11 +83,13 @@ builder.queryField('comments', (t) =>
 		type: ['Comment'],
 		args: {
 			filter: t.arg({ type: CommentFilter }),
+			sort: t.arg({ type: Sort }),
 		},
 		resolve: async (query, _parent, args, ctx) => {
 			const comments = await ctx.prisma.comment.findMany({
 				...query,
 				where: args.filter ?? undefined,
+				orderBy: args.sort === 'new' ? { createdAt: 'desc' } : undefined,
 			});
 
 			return comments;
