@@ -2,6 +2,10 @@ import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import { Comment } from '@prisma/client';
 import { POST_QUERY, PostComment, PostQueryResponse } from '../query/usePost';
 import toast from 'react-hot-toast';
+import { COMMENTS_QUERY, CommentsQueryResponse } from '../query/useComments';
+import { useSession } from 'next-auth/react';
+import { OVERVIEW_QUERY, OverviewQueryResponse } from '../query/useOverview';
+import { randomBytes } from 'crypto';
 
 type CreateCommentVariables = {
 	postId: Comment['postId'];
@@ -41,6 +45,8 @@ export const CREATE_COMMENT_MUTATION = gql`
 export default function useCreateComment(
 	options: MutationHookOptions<CreateCommentResponse, CreateCommentVariables>
 ) {
+	const { data: session } = useSession();
+
 	return useMutation<CreateCommentResponse, CreateCommentVariables>(
 		CREATE_COMMENT_MUTATION,
 		{
@@ -53,6 +59,69 @@ export default function useCreateComment(
 
 				if (!newComment || !variables) {
 					return;
+				}
+
+				const postData = cache.readQuery<PostQueryResponse>({
+					query: POST_QUERY,
+					variables: {
+						id: variables.postId,
+						commentsFilter: { replyToId: null },
+					},
+				});
+
+				if (postData) {
+					cache.updateQuery<OverviewQueryResponse>(
+						{
+							query: OVERVIEW_QUERY,
+							variables: {
+								name: session!.user.name,
+								first: 10,
+							},
+						},
+						(data) => {
+							if (!data) {
+								return;
+							}
+
+							return {
+								overview: {
+									...data.overview,
+									edges: [
+										{
+											cursor: randomBytes(32).toString('hex'),
+											node: {
+												...newComment,
+												post: postData.post,
+											},
+										},
+										...data.overview.edges,
+									],
+								},
+							};
+						}
+					);
+
+					cache.updateQuery<CommentsQueryResponse>(
+						{
+							query: COMMENTS_QUERY,
+							variables: {
+								filter: { author: { name: session!.user.name } },
+								sort: 'new',
+							},
+						},
+						(data) => {
+							if (!data) {
+								return;
+							}
+
+							return {
+								comments: [
+									{ ...newComment, post: postData.post },
+									...data.comments,
+								],
+							};
+						}
+					);
 				}
 
 				cache.updateQuery<PostQueryResponse>(
