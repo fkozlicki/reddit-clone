@@ -30,7 +30,6 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		formState: { isValid },
 		reset,
 		setValue,
-		watch,
 	} = useForm<CreatePostValues>({
 		resolver: zodResolver(createPostSchema),
 		defaultValues: {
@@ -64,7 +63,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 			<Editor onChange={(data) => setValue('content', data)} />
 			<Button
 				variant="primary"
-				className="block ml-auto"
+				className="block ml-auto mt-4"
 				disabled={!isValid || loading}
 				loading={loading}
 			>

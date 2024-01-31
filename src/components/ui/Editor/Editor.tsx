@@ -45,6 +45,7 @@ const Editor = ({ onChange }: EditorProps) => {
 					editorState={editorState}
 					onToggle={toggleInlineStyle}
 				/>
+				<div className="w-px h-auto mx-1 my-1 border-r border-post" />
 				<BlockStyleControls
 					editorState={editorState}
 					onToggle={toggleBlockType}

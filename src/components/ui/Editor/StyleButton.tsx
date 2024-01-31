@@ -1,38 +1,37 @@
 import { cn } from '@/lib/utils';
-import clsx from 'clsx';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import Button from '../Button/Button';
 
 type StyleButtonProps = {
-	onClick?: () => void;
 	onToggle?: (style: string) => void;
 	active?: boolean;
 	className?: string;
 	style?: string;
 	label: string;
+	icon: ReactNode;
 };
 
-const StyleButton = (props: StyleButtonProps) => {
-	const handleMouseDown = (e: React.MouseEvent<HTMLSpanElement>) => {
-		e.preventDefault();
-		props?.onToggle!(props.style || '');
-	};
-
+const StyleButton = ({
+	label,
+	active,
+	onToggle,
+	style,
+	icon,
+}: StyleButtonProps) => {
 	const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
 		e.preventDefault();
-
-		if (props?.onClick) {
-			props.onClick();
-		}
+		onToggle!(style || '');
 	};
 
 	return (
-		<span
-			className={cn('px-1 text-gray-400', { 'text-black': props.active })}
-			onMouseDown={handleMouseDown}
+		<Button
+			shape="square"
+			variant="secondary"
+			className={cn('px-1 text-gray-400', { 'text-black': active })}
 			onClick={handleClick}
 		>
-			{props.label}
-		</span>
+			{icon}
+		</Button>
 	);
 };
 

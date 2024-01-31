@@ -1,16 +1,43 @@
 import React from 'react';
 import StyleButton from './StyleButton';
+import {
+	PiCodeBlockLight,
+	PiListBullets,
+	PiListNumbers,
+	PiQuotes,
+	PiTextH,
+} from 'react-icons/pi';
+import { EditorState } from 'draft-js';
 
 const BLOCK_TYPES = [
-	{ label: 'Heading', style: 'header-one' },
-	{ label: 'Bullet List', style: 'unordered-list-item' },
-	{ label: 'Number List', style: 'ordered-list-item' },
-	{ label: 'Blockquote', style: 'blockquote' },
-	{ label: 'Code Block', style: 'code-block' },
+	{ label: 'Heading', style: 'header-one', icon: <PiTextH size={20} /> },
+	{
+		label: 'Bullet List',
+		style: 'unordered-list-item',
+		icon: <PiListBullets size={20} />,
+	},
+	{
+		label: 'Number List',
+		style: 'ordered-list-item',
+		icon: <PiListNumbers size={20} />,
+	},
+	{ label: 'Blockquote', style: 'blockquote', icon: <PiQuotes size={20} /> },
+	{
+		label: 'Code Block',
+		style: 'code-block',
+		icon: <PiCodeBlockLight size={20} />,
+	},
 ];
 
-const BlockStyleControls = (props: any) => {
-	const { editorState } = props;
+interface BlockStyleControlsProps {
+	onToggle: (value: string) => void;
+	editorState: EditorState;
+}
+
+const BlockStyleControls = ({
+	editorState,
+	onToggle,
+}: BlockStyleControlsProps) => {
 	const selection = editorState.getSelection();
 	const blockType = editorState
 		.getCurrentContent()
@@ -19,13 +46,14 @@ const BlockStyleControls = (props: any) => {
 
 	return (
 		<div className="toolbar__controls">
-			{BLOCK_TYPES.map((type) => (
+			{BLOCK_TYPES.map(({ icon, label, style }) => (
 				<StyleButton
-					key={type.label}
-					active={type.style === blockType}
-					label={type.label}
-					onToggle={props.onToggle}
-					style={type.style}
+					key={label}
+					active={style === blockType}
+					label={label}
+					onToggle={onToggle}
+					style={style}
+					icon={icon}
 				/>
 			))}
 		</div>

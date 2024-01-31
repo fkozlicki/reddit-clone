@@ -1,24 +1,35 @@
 import React from 'react';
 import StyleButton from './StyleButton';
+import { PiTextItalic, PiCode, PiTextBBold } from 'react-icons/pi';
+import { EditorState } from 'draft-js';
 
 var INLINE_STYLES = [
-	{ label: 'Bold', style: 'BOLD' },
-	{ label: 'Italic', style: 'ITALIC' },
-	{ label: 'Inline code', style: 'CODE' },
+	{ label: 'Bold', style: 'BOLD', icon: <PiTextBBold size={20} /> },
+	{ label: 'Italic', style: 'ITALIC', icon: <PiTextItalic size={20} /> },
+	{ label: 'Inline code', style: 'CODE', icon: <PiCode size={20} /> },
 ];
 
-const InlineStyleControls = (props: any) => {
-	const currentStyle = props.editorState.getCurrentInlineStyle();
+interface InlineStyleControlsProps {
+	onToggle: (value: string) => void;
+	editorState: EditorState;
+}
+
+const InlineStyleControls = ({
+	editorState,
+	onToggle,
+}: InlineStyleControlsProps) => {
+	const currentStyle = editorState.getCurrentInlineStyle();
 
 	return (
 		<div className="toolbar__controls">
-			{INLINE_STYLES.map((type) => (
+			{INLINE_STYLES.map(({ icon, label, style }) => (
 				<StyleButton
-					key={type.label}
-					active={currentStyle.has(type.style)}
-					label={type.label}
-					onToggle={props.onToggle}
-					style={type.style}
+					key={label}
+					active={currentStyle.has(style)}
+					label={label}
+					onToggle={onToggle}
+					style={style}
+					icon={icon}
 				/>
 			))}
 		</div>
