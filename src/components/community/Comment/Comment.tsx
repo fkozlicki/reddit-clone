@@ -57,7 +57,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 							{calculateEllapsedTime(new Date(createdAt))}
 						</div>
 					</div>
-					<div className="mb-2 text-primary">{content}</div>
+					<div className="mb-2 text-primary break-all">{content}</div>
 					<div className="flex items-center gap-1">
 						<VoteSection
 							type="comment"

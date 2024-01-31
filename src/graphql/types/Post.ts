@@ -12,9 +12,11 @@ export const Post = builder.prismaObject('Post', {
 		comments: t.relation('comments', {
 			args: {
 				filter: t.arg({ type: CommentFilter }),
+				sort: t.arg({ type: Sort }),
 			},
 			query: (args) => ({
 				where: { replyToId: args.filter?.replyToId, id: args.filter?.id },
+				orderBy: args.sort === 'new' ? { createdAt: 'desc' } : undefined,
 			}),
 		}),
 		commentsCount: t.relationCount('comments'),

@@ -6,6 +6,7 @@ import { PostPreview } from './usePosts';
 export type PostAuthor = Pick<User, 'id' | 'name' | 'image'>;
 
 export type PostComment = Pick<Comment, 'id' | 'content' | 'createdAt'> & {
+	__typename: 'Comment';
 	author: PostAuthor;
 	replies: PostComment[];
 	karma: number;
@@ -17,7 +18,7 @@ type PostDetails = PostPreview & {
 	comments: PostComment[];
 };
 
-type PostQueryResponse = {
+export type PostQueryResponse = {
 	post: PostDetails;
 };
 
@@ -58,7 +59,7 @@ export const POST_QUERY = gql`
 			community {
 				name
 			}
-			comments(filter: $commentsFilter) {
+			comments(filter: $commentsFilter, sort: new) {
 				...CommentFields
 				replies {
 					...CommentFields

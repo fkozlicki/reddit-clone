@@ -46,8 +46,8 @@ const Feed = ({ sort, filter }: FeedProps) => {
 	return (
 		<div className="flex flex-col gap-6">
 			{data &&
-				data.posts.edges.map(({ node: post }) => (
-					<Post key={post.id} post={post} preview />
+				data.posts.edges.map(({ node: post }, index) => (
+					<Post key={index} post={post} preview />
 				))}
 			<div ref={ref}>
 				{loading && (

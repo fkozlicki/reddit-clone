@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 const commentSchema = z.object({
@@ -34,22 +33,39 @@ const CommentForm = ({ postId, replyToId }: CommentFormProps) => {
 	} = useForm<CommentValues>({
 		resolver: zodResolver(commentSchema),
 	});
-	const [createComment, { loading }] = useCreateComment({
+	const [createComment] = useCreateComment({
 		onCompleted() {
 			reset();
 		},
-		onError() {
-			toast.error("Couldn't create comment");
-		},
-		refetchQueries: ['Post'],
 	});
 
 	const onSubmit = (values: CommentValues) => {
+		if (!session) {
+			return;
+		}
+
 		createComment({
 			variables: {
 				postId,
 				content: values.content,
 				replyToId: replyToId ?? null,
+			},
+			optimisticResponse: {
+				createComment: {
+					__typename: 'Comment',
+					id: 'temp-id',
+					author: {
+						id: session.user.id,
+						name: session.user.name,
+						image: session.user.image as string,
+					},
+					content: values.content,
+					createdAt: new Date(),
+					karma: 0,
+					postId,
+					voteValue: null,
+					replies: [],
+				},
 			},
 		});
 	};
@@ -82,10 +98,9 @@ const CommentForm = ({ postId, replyToId }: CommentFormProps) => {
 				<div className="bg-post-side flex justify-end p-1">
 					<Button
 						variant="primary"
-						disabled={!isValid || loading}
+						disabled={!isValid}
 						size="small"
 						onClick={!session ? openSignIn : undefined}
-						loading={loading}
 						className="disabled:bg-gray-400 disabled:hover:bg-gray-400"
 					>
 						Comment
