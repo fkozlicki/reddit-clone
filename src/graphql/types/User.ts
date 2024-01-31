@@ -93,12 +93,18 @@ builder.queryField('overview', (t) =>
 						...(args.after
 							? { where: { createdAt: { lt: args.after } } }
 							: undefined),
+						orderBy: {
+							createdAt: 'desc',
+						},
 					},
 					comments: {
 						take: first,
 						...(args.after
 							? { where: { createdAt: { lt: args.after } } }
 							: undefined),
+						orderBy: {
+							createdAt: 'desc',
+						},
 					},
 				},
 			});
