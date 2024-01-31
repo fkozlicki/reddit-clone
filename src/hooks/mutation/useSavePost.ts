@@ -8,12 +8,10 @@ const SAVE_POST_MUTATION = gql`
 			title
 			content
 			createdAt
+			commentsCount
 			karma
 			voteValue
 			saved
-			comments {
-				id
-			}
 			author {
 				id
 				name
