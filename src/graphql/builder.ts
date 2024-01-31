@@ -30,6 +30,10 @@ builder.mutationType({});
 
 builder.addScalarType('Date', DateTimeResolver, {});
 
+export const NameFilter = builder.prismaFilter('String', {
+	ops: ['contains', 'is', 'equals'],
+});
+
 export const UserFilter = builder.prismaWhere('User', {
 	fields: {
 		id: 'String',
@@ -39,4 +43,58 @@ export const UserFilter = builder.prismaWhere('User', {
 
 export const UserListFilter = builder.prismaListFilter(UserFilter, {
 	ops: ['every', 'some', 'none'],
+});
+
+export const PostVoteFilter = builder.prismaWhere('Vote', {
+	fields: {
+		value: 'Int',
+		user: UserFilter,
+	},
+});
+
+export const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
+	ops: ['every', 'some', 'none'],
+});
+
+export const SavedPostFilter = builder.prismaWhere('SavedPost', {
+	fields: {
+		user: UserFilter,
+	},
+});
+
+export const SavedPostListFilter = builder.prismaListFilter(SavedPostFilter, {
+	ops: ['some'],
+});
+
+export const CommunityWhere = builder.prismaWhere('Community', {
+	fields: {
+		name: NameFilter,
+		topic: builder.prismaWhere('Topic', {
+			fields: {
+				name: 'String',
+			},
+		}),
+		members: UserListFilter,
+	},
+});
+
+export const PostFilter = builder.prismaWhere('Post', {
+	fields: {
+		community: CommunityWhere,
+		author: UserFilter,
+		votes: PostVoteListFilter,
+		saved: SavedPostListFilter,
+	},
+});
+
+export const CommentFilter = builder.prismaWhere('Comment', {
+	fields: {
+		author: UserFilter,
+		replyToId: 'String',
+		id: 'String',
+	},
+});
+
+export const Sort = builder.enumType('Sort', {
+	values: ['hot', 'top', 'new'],
 });

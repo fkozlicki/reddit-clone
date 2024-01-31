@@ -1,20 +1,4 @@
-import { UserListFilter, builder } from '../builder';
-
-const NameFilter = builder.prismaFilter('String', {
-	ops: ['contains', 'is', 'equals'],
-});
-
-export const CommunityWhere = builder.prismaWhere('Community', {
-	fields: {
-		name: NameFilter,
-		topic: builder.prismaWhere('Topic', {
-			fields: {
-				name: 'String',
-			},
-		}),
-		members: UserListFilter,
-	},
-});
+import { CommunityWhere, builder } from '../builder';
 
 builder.prismaObject('Community', {
 	fields: (t) => ({

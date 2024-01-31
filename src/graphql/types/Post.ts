@@ -1,40 +1,4 @@
-import { UserFilter, UserListFilter, builder } from '../builder';
-import { CommentFilter } from './Comment';
-import { CommunityWhere } from './Community';
-
-const PostVoteFilter = builder.prismaWhere('Vote', {
-	fields: {
-		value: 'Int',
-		user: UserFilter,
-	},
-});
-
-const SavedPostFilter = builder.prismaWhere('SavedPost', {
-	fields: {
-		user: UserFilter,
-	},
-});
-
-const SavedPostListFilter = builder.prismaListFilter(SavedPostFilter, {
-	ops: ['some'],
-});
-
-const PostVoteListFilter = builder.prismaListFilter(PostVoteFilter, {
-	ops: ['every', 'some', 'none'],
-});
-
-const PostFilter = builder.prismaWhere('Post', {
-	fields: {
-		community: CommunityWhere,
-		author: UserFilter,
-		votes: PostVoteListFilter,
-		saved: SavedPostListFilter,
-	},
-});
-
-export const Sort = builder.enumType('Sort', {
-	values: ['hot', 'top', 'new'],
-});
+import { CommentFilter, PostFilter, Sort, builder } from '../builder';
 
 export const Post = builder.prismaObject('Post', {
 	fields: (t) => ({

@@ -1,13 +1,4 @@
-import { UserFilter, builder } from '../builder';
-import { Sort } from './Post';
-
-export const CommentFilter = builder.prismaWhere('Comment', {
-	fields: {
-		author: UserFilter,
-		replyToId: 'String',
-		id: 'String',
-	},
-});
+import { CommentFilter, Sort, builder } from '../builder';
 
 export const Comment = builder.prismaObject('Comment', {
 	fields: (t) => ({
