@@ -42,7 +42,7 @@ const OverviewFeed = ({ name }: OverviewFeedProps) => {
 	}, [entry, loading, fetchMore, data]);
 
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-2">
 			{data &&
 				data.overview.edges.map((item) =>
 					item.node.__typename === 'Post' ? (

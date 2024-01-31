@@ -79,7 +79,7 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 							{calculateEllapsedTime(new Date(createdAt))}
 						</span>
 					</div>
-					<div className="font-light mb-1">{content}</div>
+					<span className="font-light mb-1 break-all">{content}</span>
 					<div className="text-xs flex gap-2">
 						<Link href="">Reply</Link>
 						<Link href="">Share</Link>
