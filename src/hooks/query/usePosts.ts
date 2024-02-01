@@ -28,7 +28,7 @@ export type PostsQueryResponse = {
 	};
 };
 
-type PostsQueryVariables = {
+export type PostsQueryVariables = {
 	first?: number;
 	after?: string;
 	sort?: any;

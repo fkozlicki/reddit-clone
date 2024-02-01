@@ -6,5 +6,5 @@ export default function UserPosts({
 }: {
 	params: { name: string };
 }) {
-	return <Feed sort="hot" filter={{ author: { name } }} />;
+	return <Feed sort="new" filter={{ author: { name } }} />;
 }
