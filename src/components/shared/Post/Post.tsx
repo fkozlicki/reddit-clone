@@ -5,11 +5,7 @@ import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import useSavePost from '@/hooks/mutation/useSavePost';
-import {
-	POSTS_QUERY,
-	PostPreview,
-	PostsQueryResponse,
-} from '@/hooks/query/usePosts';
+import { PostPreview } from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import {
@@ -21,10 +17,9 @@ import {
 	ShareIcon,
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
-import { randomBytes } from 'crypto';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
+import SharePostModal from '../SharePostModal/SharePostModal';
 
 interface PostProps {
 	post: PostPreview;
@@ -36,49 +31,10 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 	const [showContent, setShowContent] = useState<boolean>(
 		toggleContent ? false : true
 	);
-	const { data: session } = useSession();
+	const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
 	const [savePost] = useSavePost({
 		variables: {
 			id: post.id,
-		},
-		update: (cache, result) => {
-			cache.updateQuery<PostsQueryResponse>(
-				{
-					query: POSTS_QUERY,
-					variables: {
-						first: 5,
-						filter: {
-							saved: { some: { user: { name: session?.user.name } } },
-						},
-						sort: 'new',
-					},
-				},
-				(data) => {
-					if (!data || !result.data) {
-						return null;
-					}
-
-					const saved = result.data.save.saved;
-
-					const post = result.data.save;
-
-					return {
-						...data,
-						posts: {
-							...data.posts,
-							edges: saved
-								? [
-										{
-											cursor: randomBytes(32).toString('base64'),
-											node: post,
-										},
-										...data.posts.edges,
-								  ]
-								: data.posts.edges.filter((edge) => edge.node.id !== post.id),
-						},
-					};
-				}
-			);
 		},
 		optimisticResponse: {
 			save: {
@@ -102,6 +58,14 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 
 	const toggleShowContent = () => {
 		setShowContent((prev) => !prev);
+	};
+
+	const openSharePostModal = () => {
+		setShareModalOpen(true);
+	};
+
+	const closeSharePostModal = () => {
+		setShareModalOpen(false);
 	};
 
 	return (
@@ -213,6 +177,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						</Button>
 					</Wrapper>
 					<Button
+						onClick={openSharePostModal}
 						variant="secondary"
 						icon={<ShareIcon width={18} />}
 						shape="square"
@@ -244,6 +209,13 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						className="text-xs"
 						icon={<EllipsisHorizontalIcon width={18} />}
 					/>
+					{shareModalOpen && (
+						<SharePostModal
+							path={`r/${communityName}/comments/${id}`}
+							open={shareModalOpen}
+							onClose={closeSharePostModal}
+						/>
+					)}
 				</div>
 			</div>
 		</div>
