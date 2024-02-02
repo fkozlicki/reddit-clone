@@ -82,7 +82,7 @@ const CommunityDescriptionForm = ({
 						<div className="flex items-center gap-1">
 							<Button
 								disabled={loading}
-								variant="secondary"
+								variant="text"
 								size="small"
 								shape="square"
 								onClick={closeDescriptionInput}
@@ -93,7 +93,7 @@ const CommunityDescriptionForm = ({
 								disabled={loading}
 								loading={loading}
 								shape="square"
-								variant="secondary"
+								variant="text"
 								size="small"
 							>
 								Save

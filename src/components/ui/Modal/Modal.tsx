@@ -45,7 +45,7 @@ const Modal = ({
 				<div className="flex items-center justify-between mb-6">
 					<div>{title}</div>
 					<Button
-						variant="secondary"
+						variant="text"
 						onClick={onClose}
 						icon={<XMarkIcon width={18} />}
 						aria-label="Close"

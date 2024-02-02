@@ -91,7 +91,7 @@ const VoteSection = ({
 		>
 			<Button
 				aria-label="Up Vote"
-				variant="secondary"
+				variant="text"
 				shape="square"
 				size="small"
 				onClick={onUpvote}
@@ -108,7 +108,7 @@ const VoteSection = ({
 			<div className="text-[12px] font-semibold text-primary">{karma}</div>
 			<Button
 				aria-label="Down Vote"
-				variant="secondary"
+				variant="text"
 				shape="square"
 				size="small"
 				onClick={onDownvote}

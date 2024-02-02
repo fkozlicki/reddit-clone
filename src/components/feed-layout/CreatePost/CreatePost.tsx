@@ -18,13 +18,13 @@ const CreatePost = () => {
 				<TextField
 					onClick={() => push('/submit')}
 					placeholder="Create Post"
-					className="w-full text-sm hover:border-button focus:border-button"
+					className="w-full text-sm hover:border-post-hover focus:border-post-hover"
 				/>
 			</div>
 			<div className="flex">
 				<Button
 					size="large"
-					variant="secondary"
+					variant="text"
 					shape="square"
 					icon={<PhotoIcon width={18} />}
 					aria-label="Image post"
@@ -32,7 +32,7 @@ const CreatePost = () => {
 				<Button
 					aria-label="Link post"
 					size="large"
-					variant="secondary"
+					variant="text"
 					icon={<LinkIcon width={18} />}
 					shape="square"
 				/>

@@ -41,7 +41,7 @@ const TopCommunities = ({ topicName }: TopCommunitiesProps) => {
 								<div className="text-xs">{community.membersCount}</div>
 							</div>
 						</div>
-						<Button variant="secondary">Join</Button>
+						<Button variant="text">Join</Button>
 					</div>
 				))}
 			</div>

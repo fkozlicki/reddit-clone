@@ -51,7 +51,7 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 						<li
 							key={index}
 							className={cn(
-								'text-sm px-4 py-2 hover:bg-primary-hover flex gap-2 relative [&>a]:after:absolute [&>a]:after:w-full [&>a]:after:h-full [&>a]:after:left-0 [&>a]:after:top-0 text-primary',
+								'text-sm px-4 py-2 hover:bg-btn-text flex gap-2 relative [&>a]:after:absolute [&>a]:after:w-full [&>a]:after:h-full [&>a]:after:left-0 [&>a]:after:top-0 text-primary',
 								{
 									'cursor-pointer': onClick,
 								}

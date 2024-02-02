@@ -28,14 +28,22 @@ export const Primary: Story = {
 export const Secondary: Story = {
 	args: {
 		children: 'Button',
-		variant: 'secondary',
+		variant: 'text',
 	},
 };
 
 export const IconButton: Story = {
 	args: {
 		children: 'Button',
-		variant: 'secondary',
+		variant: 'outline',
 		icon: <StarIcon width="1em" height="1em" />,
+	},
+};
+
+export const Loading: Story = {
+	args: {
+		children: 'Button',
+		variant: 'outline',
+		loading: true,
 	},
 };

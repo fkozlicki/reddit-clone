@@ -92,7 +92,7 @@ const Navbar = ({ session }: NavbarProps) => {
 						},
 					]}
 				>
-					<div className="flex gap-4 p-1 rounded hover:bg-primary-hover cursor-pointer">
+					<div className="flex gap-4 p-1 rounded hover:bg-btn-text cursor-pointer">
 						<div className="flex items-center gap-2">
 							<Avatar url={session.user.image} alt="avatar" size={32} />
 							<div className="flex flex-col items-start">

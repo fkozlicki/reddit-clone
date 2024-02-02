@@ -1,13 +1,13 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
-import { Community, Post } from '@prisma/client';
+import { Post } from '@prisma/client';
+import { randomBytes } from 'crypto';
+import { OVERVIEW_QUERY, OverviewQueryResponse } from '../query/useOverview';
 import {
 	POSTS_QUERY,
 	PostPreview,
 	PostsQueryResponse,
 	PostsQueryVariables,
 } from '../query/usePosts';
-import { randomBytes } from 'crypto';
-import { OVERVIEW_QUERY, OverviewQueryResponse } from '../query/useOverview';
 
 type CreatePostVariables = {
 	title: Post['title'];

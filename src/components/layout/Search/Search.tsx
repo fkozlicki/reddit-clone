@@ -52,7 +52,7 @@ const Search = () => {
 					value={search}
 					onFocus={() => setOpen(true)}
 					onChange={updateSearch}
-					className="w-full rounded-3xl hover:border-button focus:border-button z-10 relative"
+					className="w-full rounded-3xl hover:border-post-hover focus:border-post-hover z-10 relative"
 					placeholder="Search Reddit"
 				/>
 				{open && (
@@ -67,7 +67,7 @@ const Search = () => {
 									<Link
 										href={`/r/${node.community.name}/comments/${node.id}`}
 										key={node.id}
-										className="p-2 hover:bg-primary-hover text-primary"
+										className="p-2 hover:bg-btn-text text-primary"
 									>
 										<div className="text-xs font-medium">
 											r/{node.community.name}
@@ -82,7 +82,7 @@ const Search = () => {
 											<Link
 												href={`/r/${data.name}`}
 												key={data.id}
-												className="flex items-center gap-2 p-2 hover:bg-primary-hover text-primary"
+												className="flex items-center gap-2 p-2 hover:bg-btn-text text-primary"
 											>
 												<Avatar size={24} />
 												<div>

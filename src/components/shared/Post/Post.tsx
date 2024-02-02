@@ -126,7 +126,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						{toggleContent && (
 							<Button
 								onClick={toggleShowContent}
-								variant="secondary"
+								variant="text"
 								shape="square"
 								className="ml-2"
 								icon={
@@ -168,7 +168,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						)}
 					>
 						<Button
-							variant="secondary"
+							variant="text"
 							icon={<ChatBubbleLeftIcon width={18} />}
 							shape="square"
 							className="text-xs"
@@ -178,7 +178,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 					</Wrapper>
 					<Button
 						onClick={openSharePostModal}
-						variant="secondary"
+						variant="text"
 						icon={<ShareIcon width={18} />}
 						shape="square"
 						className="text-xs hidden sm:inline-block"
@@ -186,7 +186,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						Share
 					</Button>
 					<Button
-						variant="secondary"
+						variant="text"
 						shape="square"
 						className={cn('text-xs hidden sm:inline-block', {
 							'text-yellow-500 font-bold': saved,
@@ -204,7 +204,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 					</Button>
 					<Button
 						aria-label="More options"
-						variant="secondary"
+						variant="text"
 						shape="square"
 						className="text-xs"
 						icon={<EllipsisHorizontalIcon width={18} />}

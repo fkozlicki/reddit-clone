@@ -21,8 +21,8 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 					<Link href={`${prefix ? `/${prefix}` : ''}/best`}>
 						<Button
 							icon={<StarIcon width={20} />}
-							variant="secondary"
-							className={highlighted === 'best' ? 'bg-primary-hover' : ''}
+							variant="text"
+							className={highlighted === 'best' ? 'bg-btn-text' : ''}
 						>
 							Best
 						</Button>
@@ -31,26 +31,26 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 				<Link href={`${prefix ? `/${prefix}` : ''}/hot`}>
 					<Button
 						icon={<FireIcon width={20} />}
-						variant="secondary"
-						className={highlighted === 'hot' ? 'bg-primary-hover' : ''}
+						variant="text"
+						className={highlighted === 'hot' ? 'bg-btn-text' : ''}
 					>
 						Hot
 					</Button>
 				</Link>
 				<Link href={`${prefix ? `/${prefix}` : ''}/new`}>
 					<Button
-						variant="secondary"
+						variant="text"
 						icon={<BoltIcon width={20} />}
-						className={highlighted === 'new' ? 'bg-primary-hover' : ''}
+						className={highlighted === 'new' ? 'bg-btn-text' : ''}
 					>
 						New
 					</Button>
 				</Link>
 				<Link href={`${prefix ? `/${prefix}` : ''}/top`}>
 					<Button
-						variant="secondary"
+						variant="text"
 						icon={<BarsArrowUpIcon width={20} />}
-						className={highlighted === 'top' ? 'bg-primary-hover' : ''}
+						className={highlighted === 'top' ? 'bg-btn-text' : ''}
 					>
 						Top
 					</Button>

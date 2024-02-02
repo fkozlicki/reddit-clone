@@ -10,7 +10,10 @@ const PremiumCTA = () => {
 					The best Reddit experience, with monthly Coins
 				</p>
 			</div>
-			<Button variant="primary" className="w-full">
+			<Button
+				variant="primary"
+				className="w-full bg-orange hover:bg-orange-hover text-white"
+			>
 				Try Now
 			</Button>
 		</div>

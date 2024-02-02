@@ -26,7 +26,7 @@ const StyleButton = ({
 	return (
 		<Button
 			shape="square"
-			variant="secondary"
+			variant="text"
 			className={cn('px-1 text-gray-400', { 'text-black': active })}
 			onClick={handleClick}
 		>

@@ -23,7 +23,7 @@ const Sidebar = () => {
 				</div>
 				<Link
 					href="/"
-					className="block text-sm px-5 py-2 hover:bg-primary-hover text-primary"
+					className="block text-sm px-5 py-2 hover:bg-btn-text text-primary"
 				>
 					Popular
 				</Link>
@@ -34,7 +34,7 @@ const Sidebar = () => {
 					<Link key={index} href={`/t/${name}`}>
 						<Button
 							className="w-full rounded-none justify-start"
-							variant="secondary"
+							variant="text"
 							icon={<StarIcon width={20} />}
 						>
 							{name}

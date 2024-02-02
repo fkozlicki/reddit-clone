@@ -90,7 +90,7 @@ const CommunityAbout = ({
 								/>
 								<Button
 									onClick={openSettings}
-									variant="secondary"
+									variant="text"
 									size="small"
 									className="text-white hover:bg-[#006dd3]"
 									shape="square"

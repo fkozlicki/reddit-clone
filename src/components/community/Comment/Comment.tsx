@@ -67,7 +67,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 							voteValue={voteValue}
 						/>
 						<Button
-							variant="secondary"
+							variant="text"
 							className="rounded"
 							icon={<ChatBubbleLeftIcon width={18} />}
 							onClick={session ? toggleReplyFormOpen : openSignIn}

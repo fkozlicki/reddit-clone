@@ -10,12 +10,10 @@ module.exports = {
 			boxShadow: {
 				tab: 'inset 0 -2px 0 0 var(--color-bg-button)',
 			},
-			colors: {
-				button: 'var(--color-bg-button)',
-			},
 			textColor: {
 				primary: 'var(--color-text-primary)',
 				'primary-inverse': 'var(--color-text-primary-inverse)',
+				'primary-light': 'var(--color-text-primary-light)',
 			},
 			backgroundColor: {
 				primary: 'var(--color-bg-primary)',
@@ -25,11 +23,16 @@ module.exports = {
 				details: 'var(--color-bg-details)',
 				'post-side': 'var(--color-bg-post-side)',
 				orange: 'var(--color-bg-orange)',
+				'orange-hover': 'var(--color-bg-orange-hover)',
+				'btn-text': 'var(--color-btn-text-bg)',
+				'btn-primary': 'var(--color-btn-primary)',
+				'btn-primary-hover': 'var(--color-btn-primary-hover)',
 			},
 			borderColor: {
 				input: 'var(--color-border-input)',
 				post: 'var(--color-border-post)',
 				'post-hover': 'var(--color-border-post-hover)',
+				'text-btn': 'var(--color-btn-text-bg)',
 			},
 		},
 	},

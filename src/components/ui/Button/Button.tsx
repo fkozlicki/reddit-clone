@@ -1,15 +1,16 @@
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 const button = cva(
-	'border relative disabled:cursor-not-allowed font-medium outline-none text-primary inline-flex items-center justify-center',
+	'border relative disabled:cursor-not-allowed font-medium outline-none text-primary inline-flex items-center justify-center disabled:opacity-50',
 	{
 		variants: {
 			variant: {
-				default: 'border-post hover:bg-primary-hover hover:border-input',
-				primary: 'bg-button text-primary-inverse border-0',
-				secondary: 'hover:bg-primary-hover border-0',
+				outline: 'border-text-btn hover:bg-btn-text',
+				primary:
+					'bg-btn-primary hover:bg-btn-primary-hover text-primary-inverse border-0',
+				text: 'hover:bg-btn-text border-0 disabled:hover:bg-transparent',
 			},
 			size: {
 				small: 'text-xs h-6 min-w-[24px] px-2',
@@ -22,7 +23,7 @@ const button = cva(
 			},
 		},
 		defaultVariants: {
-			variant: 'default',
+			variant: 'outline',
 			size: 'medium',
 			shape: 'circle',
 		},
@@ -39,7 +40,7 @@ interface ButtonProps
 
 const Button = ({
 	className,
-	variant = 'default',
+	variant = 'outline',
 	size = 'medium',
 	shape = 'circle',
 	children,
@@ -73,8 +74,8 @@ const Button = ({
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
-						width="1em"
-						height="1em"
+						width="1.2em"
+						height="1.2em"
 					>
 						<circle
 							className="opacity-25"
