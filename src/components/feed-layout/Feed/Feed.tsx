@@ -44,31 +44,35 @@ const Feed = ({ sort, filter }: FeedProps) => {
 	}, [entry, loading, fetchMore, data]);
 
 	return (
-		<div className="flex flex-col gap-6">
-			{data &&
-				data.posts.edges.map(({ node: post }, index) => (
-					<Post key={index} post={post} preview />
-				))}
+		<div className="flex flex-col gap-4">
+			{data && (
+				<>
+					{data.posts.edges.length > 0 ? (
+						<>
+							{data.posts.edges.map(({ node: post }, index) => (
+								<Post key={index} post={post} preview />
+							))}
+							{!loading && (
+								<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
+									No more posts
+								</div>
+							)}
+						</>
+					) : (
+						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
+							No posts
+						</div>
+					)}
+				</>
+			)}
 			<div ref={ref}>
 				{loading && (
-					<div className="flex flex-col gap-6">
+					<div className="flex flex-col gap-4">
 						{Array.from({ length: 3 }).map((_, index) => (
 							<PostSkeleton key={index} />
 						))}
 					</div>
 				)}
-				{data && data.posts.edges.length === 0 && (
-					<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
-						No posts
-					</div>
-				)}
-				{data &&
-					data.posts.edges.length > 0 &&
-					!data.posts.pageInfo.hasNextPage && (
-						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
-							No more posts
-						</div>
-					)}
 			</div>
 		</div>
 	);

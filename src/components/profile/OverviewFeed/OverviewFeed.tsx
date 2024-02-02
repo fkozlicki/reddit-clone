@@ -42,35 +42,39 @@ const OverviewFeed = ({ name }: OverviewFeedProps) => {
 	}, [entry, loading, fetchMore, data]);
 
 	return (
-		<div className="flex flex-col gap-2">
-			{data &&
-				data.overview.edges.map((item) =>
-					item.node.__typename === 'Post' ? (
-						<Post key={item.node.id} post={item.node} preview />
+		<div className="flex flex-col gap-4">
+			{data && (
+				<>
+					{data.overview.edges.length > 0 ? (
+						<>
+							{data.overview.edges.map((item) =>
+								item.node.__typename === 'Post' ? (
+									<Post key={item.node.id} post={item.node} preview />
+								) : (
+									<CommentPreview key={item.node.id} comment={item.node} />
+								)
+							)}
+							{!loading && (
+								<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
+									No more posts and comments
+								</div>
+							)}
+						</>
 					) : (
-						<CommentPreview key={item.node.id} comment={item.node} />
-					)
-				)}
+						<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
+							No posts and comments yet
+						</div>
+					)}
+				</>
+			)}
 			<div ref={ref}>
 				{loading && (
-					<div className="flex flex-col gap-6">
+					<div className="flex flex-col gap-4">
 						{Array.from({ length: 2 }).map((_, index) => (
 							<PostSkeleton key={index} />
 						))}
 					</div>
 				)}
-				{data && data.overview.edges.length === 0 && (
-					<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
-						No posts and comments yet
-					</div>
-				)}
-				{data &&
-					data.overview.edges.length > 0 &&
-					!data.overview.pageInfo.hasNextPage && (
-						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
-							No more posts and comments
-						</div>
-					)}
 			</div>
 		</div>
 	);
