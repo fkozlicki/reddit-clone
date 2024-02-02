@@ -3,6 +3,38 @@ import { Community, Post } from '@prisma/client';
 import { PostAuthor } from './usePost';
 import { VoteValue } from '../mutation/useVote';
 
+export const POSTS_QUERY = gql`
+	query Posts($first: Int, $after: ID, $filter: PostFilter, $sort: Sort) {
+		posts(first: $first, after: $after, filter: $filter, sort: $sort) {
+			pageInfo {
+				endCursor
+				hasNextPage
+			}
+			edges {
+				cursor
+				node {
+					id
+					title
+					content
+					createdAt
+					commentsCount
+					karma
+					voteValue
+					saved
+					author {
+						id
+						name
+						image
+					}
+					community {
+						name
+					}
+				}
+			}
+		}
+	}
+`;
+
 export type PostPreview = Omit<Post, 'authorId' | 'communityId'> & {
 	__typename: 'Post';
 	author: PostAuthor;
@@ -36,38 +68,6 @@ export type PostsQueryVariables = {
 };
 
 export type FeedType = 'new' | 'hot' | 'top';
-
-export const POSTS_QUERY = gql`
-	query Posts($first: Int, $after: ID, $filter: PostFilter, $sort: Sort) {
-		posts(first: $first, after: $after, filter: $filter, sort: $sort) {
-			pageInfo {
-				endCursor
-				hasNextPage
-			}
-			edges {
-				cursor
-				node {
-					id
-					title
-					content
-					createdAt
-					commentsCount
-					karma
-					voteValue
-					saved
-					author {
-						id
-						name
-						image
-					}
-					community {
-						name
-					}
-				}
-			}
-		}
-	}
-`;
 
 export default function usePosts(
 	options: QueryHookOptions<PostsQueryResponse, PostsQueryVariables>

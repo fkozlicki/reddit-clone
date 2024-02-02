@@ -72,8 +72,9 @@ builder.mutationField('createComment', (t) =>
 );
 
 builder.queryField('comments', (t) =>
-	t.prismaField({
-		type: ['Comment'],
+	t.prismaConnection({
+		type: 'Comment',
+		cursor: 'id',
 		args: {
 			filter: t.arg({ type: CommentFilter }),
 			sort: t.arg({ type: Sort }),
