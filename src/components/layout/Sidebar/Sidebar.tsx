@@ -33,7 +33,7 @@ const Sidebar = () => {
 				{data?.topics.map(({ name }, index) => (
 					<Link key={index} href={`/t/${name}`}>
 						<Button
-							className="w-full rounded-none text-start"
+							className="w-full rounded-none justify-start"
 							variant="secondary"
 							icon={<StarIcon width={20} />}
 						>

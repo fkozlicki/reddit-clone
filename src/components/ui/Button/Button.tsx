@@ -3,7 +3,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 const button = cva(
-	'border relative disabled:cursor-not-allowed font-medium outline-none text-primary',
+	'border relative disabled:cursor-not-allowed font-medium outline-none text-primary inline-flex items-center justify-center',
 	{
 		variants: {
 			variant: {
@@ -14,7 +14,7 @@ const button = cva(
 			size: {
 				small: 'text-xs h-6 min-w-[24px] px-2',
 				medium: 'py-1 px-3 text-sm h-8 min-w-[32px]',
-				large: 'py-[10px] px-5 text-sm h-10 min-w-[40px]',
+				large: 'py-[10px] px-5 text-sm h-[38px] min-w-[38px]',
 			},
 			shape: {
 				circle: 'rounded-full',
@@ -59,22 +59,12 @@ const Button = ({
 			{...props}
 		>
 			<div
-				className={cn('contents', {
+				className={cn('flex items-center gap-1', {
 					invisible: loading,
 				})}
 			>
-				{icon && (
-					<span
-						className={cn('inline-block align-middle', {
-							'mr-1': children,
-						})}
-					>
-						{icon}
-					</span>
-				)}
-				{children && (
-					<span className="inline-block align-middle">{children}</span>
-				)}
+				{icon && <span>{icon}</span>}
+				{children && <span>{children}</span>}
 			</div>
 			{loading && (
 				<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
