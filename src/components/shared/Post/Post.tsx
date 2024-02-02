@@ -19,7 +19,7 @@ import {
 import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useState } from 'react';
-import SharePostModal from '../SharePostModal/SharePostModal';
+import SharePostModal from '../ShareModal/ShareModal';
 
 interface PostProps {
 	post: PostPreview;
@@ -209,13 +209,11 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						className="text-xs"
 						icon={<EllipsisHorizontalIcon width={18} />}
 					/>
-					{shareModalOpen && (
-						<SharePostModal
-							path={`r/${communityName}/comments/${id}`}
-							open={shareModalOpen}
-							onClose={closeSharePostModal}
-						/>
-					)}
+					<SharePostModal
+						path={`/r/${communityName}/comments/${id}`}
+						open={shareModalOpen}
+						onClose={closeSharePostModal}
+					/>
 				</div>
 			</div>
 		</div>

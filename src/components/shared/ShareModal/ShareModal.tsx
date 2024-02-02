@@ -4,16 +4,18 @@ import TextField from '@/components/ui/TextField/TextField';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-interface SharePostModalProps {
+interface ShareModalProps {
 	path: string;
 	open: boolean;
 	onClose: () => void;
 }
 
-const SharePostModal = ({ open, onClose, path }: SharePostModalProps) => {
+const ShareModal = ({ open, onClose, path }: ShareModalProps) => {
 	const [copied, setCopied] = useState<boolean>(false);
 
-	const link = `${location.href}${path}`;
+	const link = `${location.origin}${path}`;
+
+	console.log(location);
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(link);
@@ -22,7 +24,7 @@ const SharePostModal = ({ open, onClose, path }: SharePostModalProps) => {
 	};
 
 	return (
-		<Modal open={open} onClose={onClose} title="Share Post" footer={false}>
+		<Modal open={open} onClose={onClose} title="Share" footer={false}>
 			<div className="flex gap-2">
 				<TextField readOnly={true} value={link} />
 				<Button
@@ -39,4 +41,4 @@ const SharePostModal = ({ open, onClose, path }: SharePostModalProps) => {
 	);
 };
 
-export default SharePostModal;
+export default ShareModal;
