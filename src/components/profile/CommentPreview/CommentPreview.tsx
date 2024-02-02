@@ -1,15 +1,18 @@
+import ShareModal from '@/components/shared/ShareModal/ShareModal';
+import Button from '@/components/ui/Button/Button';
 import { CommentWithPost } from '@/hooks/query/useComments';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 interface CommentPreviewProps {
 	comment: CommentWithPost;
 }
 
 const CommentPreview = ({ comment }: CommentPreviewProps) => {
+	const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
 	const { push } = useRouter();
 
 	const {
@@ -25,17 +28,32 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 		},
 	} = comment;
 	const postLink = `/r/${communityName}/comments/${postId}`;
+	const commentLink = `${postLink}/${commentId}`;
 
 	const goToPost = () => {
 		push(postLink);
 	};
 
 	const goToComment = () => {
-		push(`${postLink}/${commentId}`);
+		push(commentLink);
+	};
+
+	const openShareModal = (event: MouseEvent) => {
+		event.stopPropagation();
+		setShareModalOpen(true);
+	};
+
+	const closeShareModal = () => {
+		setShareModalOpen(false);
 	};
 
 	return (
 		<div className="bg-primary">
+			<ShareModal
+				open={shareModalOpen}
+				onClose={closeShareModal}
+				path={commentLink}
+			/>
 			<div
 				onClick={goToPost}
 				className="flex p-2 border border-post hover:border-post-hover"
@@ -79,10 +97,23 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 							{calculateEllapsedTime(new Date(createdAt))}
 						</span>
 					</div>
-					<span className="font-light mb-1 break-all">{content}</span>
+					<div className="mb-1">
+						<span className="font-light break-all">{content}</span>
+					</div>
 					<div className="text-xs flex gap-2">
-						<Link href="">Reply</Link>
-						<Link href="">Share</Link>
+						<Link href={commentLink}>
+							<Button variant="text" size="small" shape="square">
+								Reply
+							</Button>
+						</Link>
+						<Button
+							onClick={openShareModal}
+							variant="text"
+							size="small"
+							shape="square"
+						>
+							Share
+						</Button>
 					</div>
 				</div>
 			</div>
