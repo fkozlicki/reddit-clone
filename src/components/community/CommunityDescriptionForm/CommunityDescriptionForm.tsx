@@ -66,7 +66,7 @@ const CommunityDescriptionForm = ({
 		<div
 			ref={formWrapper}
 			onClick={openDescriptionInput}
-			className="p-2 border border-input mb-3 rounded hover:border-primary cursor-pointer"
+			className="p-2 border border-input mb-3 rounded hover:border-primary cursor-pointer bg-primary"
 		>
 			{descriptionInputOpen ? (
 				<form onSubmit={handleSubmit(onSubmit)}>

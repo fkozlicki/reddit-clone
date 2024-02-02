@@ -6,6 +6,13 @@ const meta: Meta<typeof PremiumCTA> = {
 	title: 'PremiumCTA',
 	component: PremiumCTA,
 	tags: ['autodocs'],
+	decorators: (Story) => {
+		return (
+			<div className="max-w-[300px]">
+				<Story />
+			</div>
+		);
+	},
 };
 
 export default meta;

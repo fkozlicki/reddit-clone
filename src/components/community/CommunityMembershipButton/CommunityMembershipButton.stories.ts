@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import CommunityMembershipButton from './CommunityMembershipButton';
 import '../../../app/globals.css';
-import { COMMUNITY_MEMBERS_QUERY } from '@/hooks/query/useCommunityMembers';
+import CommunityMembershipButton from './CommunityMembershipButton';
 
 const meta: Meta<typeof CommunityMembershipButton> = {
 	title: 'CommunityMembershipButton',
@@ -26,32 +25,14 @@ export const Default: Story = {
 				status: 'authenticated',
 			},
 		},
-		apolloClient: {
-			mocks: [
-				{
-					request: {
-						query: COMMUNITY_MEMBERS_QUERY,
-						variables: { name: 'MyFirstCommunity' },
-					},
-					result: {
-						data: {
-							community: {
-								members: [
-									{
-										id: '123',
-										email: 'user@local',
-										name: 'John Doe',
-									},
-								],
-							},
-						},
-					},
-				},
-			],
-		},
 	},
 	args: {
 		name: 'MyFirstCommunity',
+		members: [
+			{
+				id: '123',
+			},
+		],
 	},
 };
 
@@ -69,31 +50,13 @@ export const Joined: Story = {
 				status: 'authenticated',
 			},
 		},
-		apolloClient: {
-			mocks: [
-				{
-					request: {
-						query: COMMUNITY_MEMBERS_QUERY,
-						variables: { name: 'MyFirstCommunity' },
-					},
-					result: {
-						data: {
-							community: {
-								members: [
-									{
-										id: '123',
-										email: 'user@local',
-										name: 'John Doe',
-									},
-								],
-							},
-						},
-					},
-				},
-			],
-		},
 	},
 	args: {
 		name: 'MyFirstCommunity',
+		members: [
+			{
+				id: '123',
+			},
+		],
 	},
 };

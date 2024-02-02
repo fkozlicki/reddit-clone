@@ -6,7 +6,7 @@ import { useClickAway } from '@/hooks/useClickAway';
 import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
-const modal = cva('bg-white p-4 min-w-[500px] rounded-md');
+const modal = cva('bg-primary p-4 min-w-[500px] rounded-md');
 
 interface ModalProps
 	extends HTMLAttributes<HTMLDivElement>,
@@ -40,10 +40,10 @@ const Modal = ({
 	}
 
 	return ReactDOM.createPortal(
-		<div className="fixed w-screen h-screen bg-black/40 flex justify-center items-center top-0 z-20">
+		<div className="fixed w-screen h-screen bg-black/60 flex justify-center items-center top-0 z-20">
 			<div ref={content} className={cn(modal({ className }))}>
 				<div className="flex items-center justify-between mb-6">
-					<div>{title}</div>
+					<div className="text-primary">{title}</div>
 					<Button
 						variant="text"
 						onClick={onClose}

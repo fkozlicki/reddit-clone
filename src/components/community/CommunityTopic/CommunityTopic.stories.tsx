@@ -9,7 +9,7 @@ const meta: Meta<typeof CommunityTopic> = {
 	tags: ['autodocs'],
 	decorators: [
 		(Story) => (
-			<div className="w-[320px]">
+			<div className="w-[320px] min-h-[150px]">
 				<Story />
 			</div>
 		),

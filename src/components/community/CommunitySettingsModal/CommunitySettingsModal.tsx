@@ -100,7 +100,7 @@ const CommunitySettingsModal = ({
 					{community.members.map((user) => (
 						<div key={user.id} className="flex gap-2 p-2 bg-primary rounded">
 							<Avatar size={32} url={user.image} alt="" />
-							<div className="text-sm">{user.name}</div>
+							<div className="text-sm text-primary">{user.name}</div>
 						</div>
 					))}
 				</div>

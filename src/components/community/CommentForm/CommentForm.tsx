@@ -101,7 +101,6 @@ const CommentForm = ({ postId, replyToId }: CommentFormProps) => {
 						disabled={!isValid}
 						size="small"
 						onClick={!session ? openSignIn : undefined}
-						className="disabled:bg-gray-400 disabled:hover:bg-gray-400"
 					>
 						Comment
 					</Button>
