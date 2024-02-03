@@ -27,6 +27,8 @@ export const WithComments: Story = {
 	args: {
 		comments: [
 			{
+				__typename: 'Comment',
+				postId: '123',
 				id: '1',
 				author: {
 					id: '123',
@@ -40,6 +42,8 @@ export const WithComments: Story = {
 				voteValue: null,
 			},
 			{
+				__typename: 'Comment',
+				postId: '123',
 				id: '2',
 				author: {
 					id: '456',
@@ -52,6 +56,8 @@ export const WithComments: Story = {
 				voteValue: null,
 				replies: [
 					{
+						__typename: 'Comment',
+						postId: '123',
 						author: {
 							id: '789',
 							name: 'John Doe',
