@@ -8,6 +8,7 @@ import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
+import ChatRoom from '@/components/shared/ChatRoom/ChatRoom';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
 			<Providers>
 				<body className={inter.className}>
 					<Toaster position="top-center" />
+					{session && <ChatRoom />}
 					<div className="fixed w-full top-0 z-20">
 						<Navbar session={session} />
 					</div>
