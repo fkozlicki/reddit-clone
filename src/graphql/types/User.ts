@@ -2,7 +2,7 @@ import { builder } from '../builder';
 import { Comment } from './Comment';
 import { Post } from './Post';
 
-builder.prismaObject('User', {
+export const User = builder.prismaObject('User', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		email: t.exposeString('email'),
