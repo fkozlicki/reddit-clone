@@ -7,13 +7,13 @@ import Link from 'next/link';
 import React from 'react';
 
 interface TopCommunitiesProps {
-	topicName: string;
+	topicSlug: string;
 }
 
-const TopCommunities = ({ topicName }: TopCommunitiesProps) => {
+const TopCommunities = ({ topicSlug }: TopCommunitiesProps) => {
 	const { data } = useCommunities({
 		variables: {
-			filter: { topic: { name: topicName } },
+			filter: { topic: { slug: topicSlug } },
 			take: 5,
 			sort: 'members',
 		},

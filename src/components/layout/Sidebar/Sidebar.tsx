@@ -30,8 +30,8 @@ const Sidebar = () => {
 				<div className="text-[10px] uppercase px-5 pb-1 pt-3 text-primary">
 					topics
 				</div>
-				{data?.topics.map(({ name }, index) => (
-					<Link key={index} href={`/t/${name}`}>
+				{data?.topics.map(({ slug, name }, index) => (
+					<Link key={index} href={`/t/${slug}`}>
 						<Button
 							className="w-full rounded-none justify-start"
 							variant="text"

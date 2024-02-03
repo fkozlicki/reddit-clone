@@ -71,7 +71,7 @@ export const CommunityWhere = builder.prismaWhere('Community', {
 		name: NameFilter,
 		topic: builder.prismaWhere('Topic', {
 			fields: {
-				name: 'String',
+				slug: 'String',
 			},
 		}),
 		members: UserListFilter,

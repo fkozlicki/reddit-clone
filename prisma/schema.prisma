@@ -137,5 +137,6 @@ model Community {
 model Topic {
   id          String      @id @default(cuid())
   name        String      @unique
+  slug        String      @unique
   communities Community[]
 }

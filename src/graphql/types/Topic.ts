@@ -4,6 +4,7 @@ builder.prismaObject('Topic', {
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		name: t.exposeString('name'),
+		slug: t.exposeString('slug'),
 		communities: t.relation('communities'),
 	}),
 });
