@@ -17,13 +17,13 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 	try {
 		const s3 = new S3({
 			signatureVersion: 'v4',
-			region: process.env.AWS_REGION,
-			accessKeyId: process.env.AWS_ACCESS_KEY,
-			secretAccessKey: process.env.AWS_SECRET_KEY,
+			region: process.env._AWS_REGION,
+			accessKeyId: process.env._AWS_ACCESS_KEY,
+			secretAccessKey: process.env._AWS_SECRET_KEY,
 		});
 
 		const preSignedUrl = s3.getSignedUrl('putObject', {
-			Bucket: `${process.env.AWS_BUCKET_NAME}${folder}`,
+			Bucket: `${process.env._AWS_BUCKET_NAME}${folder}`,
 			Key: file,
 			ContentType: fileType,
 			Expires: 5 * 60,
