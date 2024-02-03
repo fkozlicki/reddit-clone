@@ -1709,6 +1709,11 @@
   resolved "https://registry.yarnpkg.com/@pothos/plugin-relay/-/plugin-relay-3.46.0.tgz#39ba94fb6d737a0310d8179f72242aa331b44497"
   integrity sha512-EOmyqAsMy/vWgitPWcQRDUvLBcZF5M/RrFxoFeI/VWnRpUJPr8XmHh28jb70G8Wzfg56btPpTY440doSKb60og==
 
+"@pothos/plugin-smart-subscriptions@^3.7.2":
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/@pothos/plugin-smart-subscriptions/-/plugin-smart-subscriptions-3.7.2.tgz#206c627c14973f248948cbaaec4500cdeef9ac19"
+  integrity sha512-LA4qme4T2VJaGhJWtU2F+jjLf16ceW+74hMDlDDiWJa+Skah369doBuQOeNnq/zE41DPKow4hLRTijdZXctrwA==
+
 "@prisma/client@^4.15.0":
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.16.2.tgz#3bb9ebd49b35c8236b3d468d0215192267016e2b"
