@@ -54,8 +54,6 @@ builder.queryField('community', (t) =>
 	})
 );
 
-const sleep = async (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 builder.queryField('communities', (t) =>
 	t.prismaField({
 		type: ['Community'],
@@ -67,7 +65,6 @@ builder.queryField('communities', (t) =>
 			sort: t.arg({ type: 'String' }),
 		},
 		resolve: async (query, _parent, args, ctx) => {
-			await sleep(500);
 			const communities = await ctx.prisma.community.findMany({
 				...query,
 				where: args.filter ?? undefined,
