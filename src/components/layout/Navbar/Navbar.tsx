@@ -1,12 +1,13 @@
 'use client';
 
 import Logo from '@/components/layout/Logo/Logo';
-import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import { Session } from 'next-auth';
-import AuthModal from '../AuthModal/AuthModal';
 import Search from '../Search/Search';
-import UserDropdown from '../UserDropdown/UserDropdown';
+import dynamic from 'next/dynamic';
+const Button = dynamic(() => import('@/components/ui/Button/Button'));
+const AuthModal = dynamic(() => import('../AuthModal/AuthModal'));
+const UserDropdown = dynamic(() => import('../UserDropdown/UserDropdown'));
 
 interface NavbarProps {
 	session: Session | null;

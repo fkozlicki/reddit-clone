@@ -1,10 +1,13 @@
-import CreatePost from '@/components/feed-layout/CreatePost/CreatePost';
 import HomeCTA from '@/components/feed-layout/HomeCTA/HomeCTA';
 import PremiumCTA from '@/components/feed-layout/PremiumCTA/PremiumCTA';
 import Grid from '@/components/ui/Grid/Grid';
 import { getServerSession } from 'next-auth';
 import { ReactNode } from 'react';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import dynamic from 'next/dynamic';
+const CreatePost = dynamic(
+	() => import('@/components/feed-layout/CreatePost/CreatePost')
+);
 
 export default async function FeedLayout({
 	children,

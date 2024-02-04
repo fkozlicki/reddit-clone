@@ -1,6 +1,5 @@
 import Providers from '@/components/Providers';
 import Navbar from '@/components/layout/Navbar/Navbar';
-import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
@@ -8,6 +7,8 @@ import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
+import dynamic from 'next/dynamic';
+const Sidebar = dynamic(() => import('@/components/layout/Sidebar/Sidebar'));
 
 const inter = Inter({ subsets: ['latin'] });
 

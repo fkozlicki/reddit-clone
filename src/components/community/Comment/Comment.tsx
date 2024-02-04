@@ -1,6 +1,5 @@
 'use client';
 
-import CommentForm from '@/components/community/CommentForm/CommentForm';
 import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
@@ -10,7 +9,11 @@ import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
 import { ChatCircle } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
+const CommentForm = dynamic(
+	() => import('@/components/community/CommentForm/CommentForm')
+);
 
 interface CommentProps {
 	comment: PostComment;
@@ -82,7 +85,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 							<CommentForm postId={comment.postId} replyToId={id} />
 						</div>
 					)}
-					{replies?.map((reply, index) => (
+					{replies.map((reply, index) => (
 						<Comment key={index} comment={reply} />
 					))}
 				</div>
