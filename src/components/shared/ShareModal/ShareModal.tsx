@@ -15,8 +15,6 @@ const ShareModal = ({ open, onClose, path }: ShareModalProps) => {
 
 	const link = `${location.origin}${path}`;
 
-	console.log(location);
-
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(link);
 		setCopied(true);
