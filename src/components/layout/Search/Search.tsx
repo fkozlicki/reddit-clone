@@ -1,23 +1,25 @@
 'use client';
 
-import Avatar from '@/components/ui/Avatar/Avatar';
 import TextField from '@/components/ui/TextField/TextField';
 import { useLazyCommunities } from '@/hooks/query/useCommunities';
 import usePosts from '@/hooks/query/usePosts';
 import { useClickAway } from '@/hooks/useClickAway';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
+import CommunityResult from './CommunityResult/CommunityResult';
+import PostResult from './PostResult/PostResult';
+import ResultSkeleton from './ResultSkeleton/ResultSkeleton';
 
 const Search = () => {
 	const [search, setSearch] = useState<string>('');
 	const pathname = usePathname();
 	const [open, setOpen] = useState<boolean>(false);
-	const [getCommunities, { data: communities }] = useLazyCommunities();
+	const [getCommunities, { data: communities, loading: loadingCommunities }] =
+		useLazyCommunities();
 	const ref = useClickAway<HTMLDivElement>(() => {
 		setOpen(false);
 	});
-	const { data } = usePosts({
+	const { data, loading: loadingPosts } = usePosts({
 		variables: {
 			first: 3,
 			sort: 'hot',
@@ -61,35 +63,26 @@ const Search = () => {
 							Popular posts
 						</div>
 						<div className="flex flex-col">
+							{(loadingCommunities || loadingPosts) &&
+								Array.from({ length: 3 }).map((_, index) => (
+									<ResultSkeleton key={index} />
+								))}
 							{data &&
 								search.length === 0 &&
+								!loadingPosts &&
 								data.posts.edges.map(({ node }) => (
-									<Link
-										href={`/r/${node.community.name}/comments/${node.id}`}
+									<PostResult
 										key={node.id}
-										className="p-2 hover:bg-btn-text text-primary"
-									>
-										<div className="text-xs font-medium">
-											r/{node.community.name}
-										</div>
-										<div>{node.title}</div>
-									</Link>
+										title={node.title}
+										postId={node.id}
+										communityName={node.community.name}
+									/>
 								))}
-							{communities && search.length > 0 && (
+							{communities && search.length > 0 && !loadingCommunities && (
 								<>
 									{communities.communities.length > 0 ? (
 										communities.communities.map((data) => (
-											<Link
-												href={`/r/${data.name}`}
-												key={data.id}
-												className="flex items-center gap-2 p-2 hover:bg-btn-text text-primary"
-											>
-												<Avatar size={24} />
-												<div>
-													<div className="text-sm font-medium">{data.name}</div>
-													<div className="text-xs">Community </div>
-												</div>
-											</Link>
+											<CommunityResult key={data.id} name={data.name} />
 										))
 									) : (
 										<div className="text-primary text-center px-2 py-4">
