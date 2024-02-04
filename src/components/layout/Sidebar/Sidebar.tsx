@@ -3,9 +3,9 @@
 import React from 'react';
 import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
-import { StarIcon } from '@heroicons/react/24/solid';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useTopics from '@/hooks/query/useTopics';
+import { Star } from '@phosphor-icons/react';
 
 const Sidebar = () => {
 	const [, dispatch] = useModalsContext();
@@ -35,7 +35,7 @@ const Sidebar = () => {
 						<Button
 							className="w-full rounded-none justify-start"
 							variant="text"
-							icon={<StarIcon width={20} />}
+							icon={<Star weight="fill" size={20} />}
 						>
 							{name}
 						</Button>

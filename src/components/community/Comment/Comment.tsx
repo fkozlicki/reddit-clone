@@ -8,7 +8,7 @@ import { useModalsContext } from '@/contexts/ModalsContext';
 import { PostComment } from '@/hooks/query/usePost';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { ChatCircle } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -69,7 +69,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 						<Button
 							variant="text"
 							className="rounded"
-							icon={<ChatBubbleLeftIcon width={18} />}
+							icon={<ChatCircle size={18} />}
 							onClick={session ? toggleReplyFormOpen : openSignIn}
 						>
 							Reply

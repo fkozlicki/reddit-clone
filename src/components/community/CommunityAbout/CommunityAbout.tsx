@@ -4,7 +4,6 @@ import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useCommunity from '@/hooks/query/useCommunity';
 import { formatDate } from '@/utils/formatDate';
-import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -15,6 +14,7 @@ import Avatar from '@/components/ui/Avatar/Avatar';
 import Link from 'next/link';
 import CommunityDescriptionForm from '../CommunityDescriptionForm/CommunityDescriptionForm';
 import CommunitySettingsModal from '../CommunitySettingsModal/CommunitySettingsModal';
+import { CalendarBlank } from '@phosphor-icons/react';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -120,7 +120,7 @@ const CommunityAbout = ({
 					<div className="text-sm text-primary mb-4">{description}</div>
 				)}
 				<div className="flex items-center gap-4 text-primary">
-					<CalendarDaysIcon width={20} />
+					<CalendarBlank size={20} />
 					<span className="text-sm">
 						Created {formatDate(new Date(createdAt))}
 					</span>

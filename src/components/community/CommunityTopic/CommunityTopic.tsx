@@ -1,7 +1,7 @@
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
 import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import useTopics from '@/hooks/query/useTopics';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { CaretDown } from '@phosphor-icons/react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -52,7 +52,7 @@ const CommunityTopic = ({ initialTopic, communityId }: CommunityTopicProps) => {
 						<div className="text-primary">
 							{loadingSave ? 'Saving...' : topic ?? 'Add topic'}
 						</div>
-						<ChevronDownIcon width={16} />
+						<CaretDown size={16} />
 					</div>
 				</button>
 			</Dropdown>

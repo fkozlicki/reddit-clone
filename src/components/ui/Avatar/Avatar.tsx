@@ -1,4 +1,4 @@
-import { UserIcon } from '@heroicons/react/24/outline';
+import { User as UserIcon } from '@phosphor-icons/react';
 import { User } from 'next-auth';
 import Image from 'next/image';
 import React from 'react';
@@ -23,7 +23,7 @@ const Avatar = ({ url, alt, size }: AvatarProps) => {
 			className="bg-gray-400 rounded-full text-white flex items-center justify-center"
 			style={{ width: size, height: size }}
 		>
-			<UserIcon width={16} />
+			<UserIcon size={18} />
 		</div>
 	);
 };

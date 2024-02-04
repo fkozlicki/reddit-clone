@@ -1,11 +1,11 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
-import { LinkIcon, PhotoIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Avatar from '../../ui/Avatar/Avatar';
 import TextField from '../../ui/TextField/TextField';
+import { ImageSquare, Link } from '@phosphor-icons/react';
 
 const CreatePost = () => {
 	const { push } = useRouter();
@@ -26,14 +26,14 @@ const CreatePost = () => {
 					size="large"
 					variant="text"
 					shape="square"
-					icon={<PhotoIcon width={18} />}
+					icon={<ImageSquare size={20} />}
 					aria-label="Image post"
 				/>
 				<Button
 					aria-label="Link post"
 					size="large"
 					variant="text"
-					icon={<LinkIcon width={18} />}
+					icon={<Link size={20} />}
 					shape="square"
 				/>
 			</div>

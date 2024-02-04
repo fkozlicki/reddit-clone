@@ -1,4 +1,3 @@
-import { StarIcon } from '@heroicons/react/24/outline';
 import { Meta, StoryObj } from '@storybook/react';
 import '../../../app/globals.css';
 import Dropdown from './Dropdown';

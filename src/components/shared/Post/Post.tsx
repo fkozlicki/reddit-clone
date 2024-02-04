@@ -8,18 +8,17 @@ import useSavePost from '@/hooks/mutation/useSavePost';
 import { PostPreview } from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import {
-	ArrowsPointingInIcon,
-	ArrowsPointingOutIcon,
-	BookmarkIcon as BookmarkIconOutline,
-	ChatBubbleLeftIcon,
-	EllipsisHorizontalIcon,
-	ShareIcon,
-} from '@heroicons/react/24/outline';
-import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useState } from 'react';
 import SharePostModal from '../ShareModal/ShareModal';
+import {
+	ArrowsIn,
+	ArrowsOut,
+	BookmarkSimple,
+	ChatCircle,
+	DotsThree,
+	Share,
+} from '@phosphor-icons/react';
 
 interface PostProps {
 	post: PostPreview;
@@ -130,11 +129,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 								shape="square"
 								className="ml-2"
 								icon={
-									showContent ? (
-										<ArrowsPointingInIcon className="w-6" />
-									) : (
-										<ArrowsPointingOutIcon className="w-6" />
-									)
+									showContent ? <ArrowsIn size={20} /> : <ArrowsOut size={20} />
 								}
 								aria-label={showContent ? 'Hide content' : 'Show content'}
 							/>
@@ -169,7 +164,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 					>
 						<Button
 							variant="text"
-							icon={<ChatBubbleLeftIcon width={18} />}
+							icon={<ChatCircle size={20} />}
 							shape="square"
 							className="text-xs"
 						>
@@ -179,7 +174,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 					<Button
 						onClick={openSharePostModal}
 						variant="text"
-						icon={<ShareIcon width={18} />}
+						icon={<Share size={20} />}
 						shape="square"
 						className="text-xs hidden sm:inline-block"
 					>
@@ -192,11 +187,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 							'text-yellow-500 font-bold': saved,
 						})}
 						icon={
-							saved ? (
-								<BookmarkIconSolid width={18} />
-							) : (
-								<BookmarkIconOutline width={18} />
-							)
+							<BookmarkSimple size={20} weight={saved ? 'fill' : 'regular'} />
 						}
 						onClick={() => savePost()}
 					>
@@ -207,7 +198,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						variant="text"
 						shape="square"
 						className="text-xs"
-						icon={<EllipsisHorizontalIcon width={18} />}
+						icon={<DotsThree size={18} weight="bold" />}
 					/>
 					<SharePostModal
 						path={`/r/${communityName}/comments/${id}`}

@@ -1,6 +1,6 @@
 'use client';
 
-import { CameraIcon } from '@heroicons/react/24/outline';
+import { CameraPlus } from '@phosphor-icons/react';
 import { User } from '@prisma/client';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
@@ -87,7 +87,7 @@ const UploadImage = ({ image, folder, onUpload }: UploadImageProps) => {
 							></path>
 						</svg>
 					) : (
-						<CameraIcon className="w-5 h-5 text-primary" />
+						<CameraPlus size={20} className="text-primary" />
 					)}
 				</div>
 				<input

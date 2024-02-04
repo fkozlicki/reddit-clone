@@ -1,11 +1,11 @@
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { ChatCircle } from '@phosphor-icons/react';
 
 const CommentSkeleton = () => {
 	return (
 		<div className="w-full overflow-hidden bg-primary">
 			<div className="flex w-full p-2 items-center border-post border hover:border-post-hover">
-				<ChatBubbleLeftIcon
-					width={20}
+				<ChatCircle
+					size={20}
 					className="mr-2 basis-5 flex-shrink-0 text-primary"
 				/>
 				<div className="h-4 bg-gray-300/70 rounded w-full animate-pulse"></div>
