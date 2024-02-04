@@ -22,7 +22,7 @@ export const Post = builder.prismaObject('Post', {
 		commentsCount: t.relationCount('comments'),
 		community: t.relation('community'),
 		voteValue: t.int({
-			resolve: async (parent, args, ctx) => {
+			resolve: async (parent, _args, ctx) => {
 				if (!ctx.session) {
 					return null;
 				}
@@ -38,7 +38,7 @@ export const Post = builder.prismaObject('Post', {
 			nullable: true,
 		}),
 		saved: t.boolean({
-			resolve: async (parent, args, ctx) => {
+			resolve: async (parent, _args, ctx) => {
 				if (!ctx.session) {
 					return false;
 				}
@@ -48,7 +48,6 @@ export const Post = builder.prismaObject('Post', {
 					})
 					.then(Boolean);
 			},
-			nullable: true,
 		}),
 		karma: t.int({
 			resolve: async (parent, args, ctx) => {

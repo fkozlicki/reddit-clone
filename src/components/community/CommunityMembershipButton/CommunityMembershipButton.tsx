@@ -3,47 +3,48 @@
 import Button from '@/components/ui/Button/Button';
 import { useModalsContext } from '@/contexts/ModalsContext';
 import useChangeMembership from '@/hooks/mutation/useChangeMembership';
+import { CommunityInfo } from '@/hooks/query/useCommunities';
 import { cn } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 import { ButtonHTMLAttributes, useState } from 'react';
 
 interface CommunityMembershipButtonProps
 	extends ButtonHTMLAttributes<HTMLButtonElement> {
-	communityName: string;
-	members: { id: string }[];
+	community: CommunityInfo;
 }
 
 const CommunityMembershipButton = ({
-	communityName,
 	className,
-	members,
+	community,
 }: CommunityMembershipButtonProps) => {
 	const [, dispatch] = useModalsContext();
 	const { data: session } = useSession();
 	const [text, setText] = useState<string>('Joined');
-	const [changeMembership, { loading: leaveLoading }] = useChangeMembership({
+	const [changeMembership] = useChangeMembership({
 		variables: {
-			name: communityName,
+			name: community.name,
 		},
-		refetchQueries: ['Community'],
+		optimisticResponse: {
+			changeMembership: {
+				id: community.id,
+				joined: !community.joined,
+				membersCount: community.membersCount + (community.joined ? -1 : 1),
+			},
+		},
 	});
 
-	const isMember = members.some((member) => member.id === session?.user.id);
-
-	const openSignIn = () => {
-		dispatch({ type: 'openSignIn' });
+	const onClick = () => {
+		session ? changeMembership() : dispatch({ type: 'openSignIn' });
 	};
 
 	return (
 		<Button
 			onMouseEnter={() => setText('Leave')}
 			onMouseLeave={() => setText('Joined')}
-			onClick={session ? () => changeMembership() : openSignIn}
-			disabled={leaveLoading}
-			loading={leaveLoading}
+			onClick={onClick}
 			className={cn('min-w-[75px]', className)}
 		>
-			{isMember ? text : 'Join'}
+			{community.joined ? text : 'Join'}
 		</Button>
 	);
 };

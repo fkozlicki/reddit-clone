@@ -3,9 +3,10 @@ import { Community, Topic } from '@prisma/client';
 import { PostAuthor } from './usePost';
 
 export type CommunityData = Omit<Community, 'topicId'> & {
-	moderators: { id: string }[];
-	members: PostAuthor[];
+	moderators: PostAuthor[];
+	membersCount: number;
 	topic: Topic | null;
+	joined: boolean;
 };
 
 type CommunityQueryResponse = {
@@ -24,13 +25,12 @@ export const COMMUNITY_QUERY = gql`
 			description
 			createdAt
 			image
-			members {
-				id
-				image
-				name
-			}
+			membersCount
+			joined
 			moderators {
 				id
+				name
+				image
 			}
 			topic {
 				id

@@ -35,12 +35,7 @@ const CommunityHeader = ({ name }: CommunityHeaderProps) => {
 							<div className="text-2xl font-bold text-primary">{name}</div>
 							<div className="text-sm text-primary">r/{name}</div>
 						</div>
-						{data && (
-							<CommunityMembershipButton
-								members={data.community.members}
-								communityName={name}
-							/>
-						)}
+						{data && <CommunityMembershipButton community={data.community} />}
 					</div>
 				</div>
 			</div>

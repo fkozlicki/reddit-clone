@@ -69,10 +69,10 @@ const CommunityAbout = ({
 		id,
 		name: communityName,
 		createdAt,
-		members,
 		topic,
 		description,
 		image,
+		membersCount,
 	} = data.community;
 
 	return (
@@ -127,7 +127,7 @@ const CommunityAbout = ({
 				</div>
 				<div className="w-full h-px border-b border-input my-4" />
 				<div className="text-primary">
-					<div>{members.length}</div>
+					<div>{membersCount}</div>
 					<div className="text-xs">Memebers</div>
 				</div>
 				{editable && isModerator && (
@@ -152,8 +152,7 @@ const CommunityAbout = ({
 						) : (
 							<CommunityMembershipButton
 								className="w-full"
-								members={members}
-								communityName={name}
+								community={data.community}
 							/>
 						)}
 					</>

@@ -1,12 +1,15 @@
 import { QueryHookOptions, gql, useLazyQuery, useQuery } from '@apollo/client';
 
+export type CommunityInfo = {
+	id: string;
+	name: string;
+	image: string | null;
+	membersCount: number;
+	joined: boolean;
+};
+
 type CommunitiesQueryResponse = {
-	communities: {
-		id: string;
-		name: string;
-		image: string;
-		membersCount: number;
-	}[];
+	communities: CommunityInfo[];
 };
 
 type CommunitiesQueryVariables = {
@@ -22,6 +25,7 @@ export const COMMUNITIES_QUERY = gql`
 			name
 			image
 			membersCount
+			joined
 		}
 	}
 `;

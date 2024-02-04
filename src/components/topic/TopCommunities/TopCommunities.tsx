@@ -1,10 +1,9 @@
 'use client';
 
+import CommunityMembershipButton from '@/components/community/CommunityMembershipButton/CommunityMembershipButton';
 import Avatar from '@/components/ui/Avatar/Avatar';
-import Button from '@/components/ui/Button/Button';
 import useCommunities from '@/hooks/query/useCommunities';
 import Link from 'next/link';
-import React from 'react';
 
 interface TopCommunitiesProps {
 	topicSlug: string;
@@ -21,17 +20,17 @@ const TopCommunities = ({ topicSlug }: TopCommunitiesProps) => {
 
 	return (
 		<div className="bg-primary border border-post p-4">
-			<div className="text-xs uppercase font-semibold text-gray-700 mb-4">
-				Communities
+			<div className="text-xs uppercase font-semibold text-primary mb-4">
+				top communities
 			</div>
-			<div className="flex flex-col gap-1">
+			<div className="flex flex-col gap-4">
 				{data?.communities.map((community) => (
 					<div key={community.id} className="flex justify-between items-center">
 						<div className="flex items-center gap-2">
 							<Link href={`/r/${community.name}`}>
 								<Avatar size={32} />
 							</Link>
-							<div className="">
+							<div className="flex flex-col justify-center text-primary">
 								<Link
 									className="text-sm hover:underline"
 									href={`/r/${community.name}`}
@@ -41,7 +40,7 @@ const TopCommunities = ({ topicSlug }: TopCommunitiesProps) => {
 								<div className="text-xs">{community.membersCount}</div>
 							</div>
 						</div>
-						<Button variant="text">Join</Button>
+						<CommunityMembershipButton community={community} />
 					</div>
 				))}
 			</div>

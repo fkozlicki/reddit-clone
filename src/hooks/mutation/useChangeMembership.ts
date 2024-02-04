@@ -1,5 +1,4 @@
 import { MutationHookOptions, gql, useMutation } from '@apollo/client';
-import { User } from '@prisma/client';
 
 type CommunityMutationVariables = {
 	name: string;
@@ -7,18 +6,18 @@ type CommunityMutationVariables = {
 
 type CommunityMutationResponse = {
 	changeMembership: {
-		members: {
-			id: User['id'];
-		}[];
+		id: string;
+		membersCount: number;
+		joined: boolean;
 	};
 };
 
 const CHANGE_MEMBERSHIP_MUTATION = gql`
 	mutation ($name: String!) {
 		changeMembership(name: $name) {
-			members {
-				id
-			}
+			id
+			membersCount
+			joined
 		}
 	}
 `;
