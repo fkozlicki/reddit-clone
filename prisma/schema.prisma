@@ -38,10 +38,10 @@ model Session {
 }
 
 model User {
-  id                   String         @id @default(cuid())
-  email                String         @unique
-  createdAt            DateTime       @default(now())
-  name                 String         @unique
+  id                   String        @id @default(cuid())
+  email                String        @unique
+  createdAt            DateTime      @default(now())
+  name                 String        @unique
   displayName          String?
   about                String?
   emailVerified        DateTime?
@@ -53,10 +53,11 @@ model User {
   saved                SavedPost[]
   sessions             Session[]
   votes                Vote[]
-  communities          Community[]    @relation("members")
-  moderatedCommunities Community[]    @relation("moderators")
-  conversations        Conversation[]
-  messages             Message[]
+  communities          Community[]   @relation("members")
+  moderatedCommunities Community[]   @relation("moderators")
+  Conversation         Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId       String?
+  Message              Message[]
 }
 
 model VerificationToken {
@@ -77,14 +78,14 @@ model Post {
   comments    Comment[]
   author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   community   Community   @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  votes       Vote[]
   saved       SavedPost[]
+  votes       Vote[]
 }
 
 model SavedPost {
   postId String
-  post   Post   @relation(fields: [postId], references: [id])
   userId String
+  post   Post   @relation(fields: [postId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
 
   @@id([postId, userId])
@@ -138,6 +139,7 @@ model Community {
 model Topic {
   id          String      @id @default(cuid())
   name        String      @unique
+  slug        String      @unique
   communities Community[]
 }
 

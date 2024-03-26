@@ -37,6 +37,7 @@
 		"eslint-config-next": "13.4.10",
 		"graphql": "^16.7.1",
 		"graphql-scalars": "^1.22.2",
+		"graphql-sse": "^2.5.2",
 		"graphql-yoga": "^4.0.3",
 		"next": "^14.0.4",
 		"next-auth": "^4.22.1",

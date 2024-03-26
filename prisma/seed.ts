@@ -5,15 +5,15 @@ async function main() {
 	// topics
 	await prisma.topic.createMany({
 		data: [
-			{ name: 'Resilience' },
-			{ name: 'Self care' },
-			{ name: 'Sports' },
-			{ name: 'Games' },
-			{ name: 'Wellness tips' },
-			{ name: 'Crypto' },
-			{ name: 'Motivation' },
-			{ name: 'Productivity Hacks' },
-			{ name: 'Minimalism' },
+			{ name: 'Resilience', slug: 'resilience' },
+			{ name: 'Self care', slug: 'self_care' },
+			{ name: 'Sports', slug: 'sports' },
+			{ name: 'Games', slug: 'games' },
+			{ name: 'Wellness tips', slug: 'wellness_tips' },
+			{ name: 'Crypto', slug: 'crypto' },
+			{ name: 'Motivation', slug: 'motivation' },
+			{ name: 'Productivity Hacks', slug: 'productivity_hacks' },
+			{ name: 'Minimalism', slug: 'minimalism' },
 		],
 	});
 	// users
