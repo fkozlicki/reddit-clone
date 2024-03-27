@@ -1685,7 +1685,7 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@pothos/core@^3.30.0":
+"@pothos/core@^3.41.0":
   version "3.41.0"
   resolved "https://registry.yarnpkg.com/@pothos/core/-/core-3.41.0.tgz#992bf91665f9aabf328f7cbbf12f1819c1888b07"
   integrity sha512-Nb7uPDTXVjdrWqHs5aoD1r6JEdQ9FnJYlf7gv47o1b/bb8rVDAZQaviVvaChal7YQcyFGgCFb0/YNNHLNBEjNw==
@@ -1697,10 +1697,10 @@
   dependencies:
     "@prisma/generator-helper" "^4.16.1"
 
-"@pothos/plugin-prisma@^3.52.0":
-  version "3.63.1"
-  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.63.1.tgz#fe052a5cacae028d19d7bc3ff46760c1cacd63db"
-  integrity sha512-WbbB6Hn1v8lop/krhMYN1Fjz8CoQeZE/emDs/BgEmtXud1qr174hm+x1aX5U7oyGJ2z67z6RfCyHbpOAx8zo3w==
+"@pothos/plugin-prisma@^3.65.0":
+  version "3.65.0"
+  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.65.0.tgz#461221c68efb93d0a2626d4cf09626238b1a5d82"
+  integrity sha512-1XYI139dceyzbEYW6wLVxhREFHHCmH2JLVCqRCn8Q9nAz7yfMYEfAA9nA/XhM5gJYoC0WAsrHgYQ4uBM+tH5BA==
   dependencies:
     "@prisma/generator-helper" "^5.6.0"
 
@@ -1708,11 +1708,6 @@
   version "3.46.0"
   resolved "https://registry.yarnpkg.com/@pothos/plugin-relay/-/plugin-relay-3.46.0.tgz#39ba94fb6d737a0310d8179f72242aa331b44497"
   integrity sha512-EOmyqAsMy/vWgitPWcQRDUvLBcZF5M/RrFxoFeI/VWnRpUJPr8XmHh28jb70G8Wzfg56btPpTY440doSKb60og==
-
-"@pothos/plugin-smart-subscriptions@^3.7.2":
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/@pothos/plugin-smart-subscriptions/-/plugin-smart-subscriptions-3.7.2.tgz#206c627c14973f248948cbaaec4500cdeef9ac19"
-  integrity sha512-LA4qme4T2VJaGhJWtU2F+jjLf16ceW+74hMDlDDiWJa+Skah369doBuQOeNnq/zE41DPKow4hLRTijdZXctrwA==
 
 "@prisma/client@^4.15.0":
   version "4.16.2"
@@ -8820,10 +8815,10 @@ react-hot-toast@^2.4.1:
   dependencies:
     goober "^2.1.10"
 
-react-icons@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.0.1.tgz#1694e11bfa2a2888cab47dcc30154ce90485feee"
-  integrity sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==
+react-intersection-observer@^9.8.1:
+  version "9.8.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.8.1.tgz#9c3631c0c9acd624a2af1c192318752ea73b5d91"
+  integrity sha512-QzOFdROX8D8MH3wE3OVKH0f3mLjKTtEN1VX/rkNuECCff+aKky0pIjulDhr3Ewqj5el/L+MhBkM3ef0Tbt+qUQ==
 
 react-is@18.1.0:
   version "18.1.0"
