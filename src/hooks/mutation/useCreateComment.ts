@@ -115,10 +115,16 @@ export default function useCreateComment(
 							}
 
 							return {
-								comments: [
-									{ ...newComment, post: postData.post },
+								comments: {
 									...data.comments,
-								],
+									edges: [
+										{
+											cursor: randomBytes(32).toString('hex'),
+											node: { ...newComment, post: postData.post },
+										},
+										...data.comments.edges,
+									],
+								},
 							};
 						}
 					);

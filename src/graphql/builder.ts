@@ -25,8 +25,8 @@ export const builder = new SchemaBuilder<{
 });
 
 builder.queryType({});
+
 builder.mutationType({});
-builder.subscriptionType({});
 
 builder.addScalarType('Date', DateTimeResolver, {});
 
@@ -71,7 +71,7 @@ export const CommunityWhere = builder.prismaWhere('Community', {
 		name: NameFilter,
 		topic: builder.prismaWhere('Topic', {
 			fields: {
-				name: 'String',
+				slug: 'String',
 			},
 		}),
 		members: UserListFilter,

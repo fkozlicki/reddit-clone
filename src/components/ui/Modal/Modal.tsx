@@ -1,10 +1,10 @@
 import React, { HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@/components/ui/Button/Button';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useClickAway } from '@/hooks/useClickAway';
 import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { X } from '@phosphor-icons/react';
 
 const modal = cva('bg-primary p-4 min-w-[500px] rounded-md');
 
@@ -47,7 +47,7 @@ const Modal = ({
 					<Button
 						variant="text"
 						onClick={onClose}
-						icon={<XMarkIcon width={18} />}
+						icon={<X size={18} />}
 						aria-label="Close"
 						shape="square"
 						size="small"

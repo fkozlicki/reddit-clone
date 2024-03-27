@@ -1,7 +1,7 @@
-import { StarIcon } from '@heroicons/react/24/outline';
 import { Meta, StoryObj } from '@storybook/react';
 import '../../../app/globals.css';
 import Button from './Button';
+import { Star } from '@phosphor-icons/react';
 
 const meta: Meta<typeof Button> = {
 	title: 'ui/Button',
@@ -36,7 +36,7 @@ export const IconButton: Story = {
 	args: {
 		children: 'Button',
 		variant: 'outline',
-		icon: <StarIcon width="1em" height="1em" />,
+		icon: <Star size={18} />,
 	},
 };
 

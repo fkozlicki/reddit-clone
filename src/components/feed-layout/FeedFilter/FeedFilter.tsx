@@ -1,10 +1,7 @@
+'use client';
+
 import Button from '@/components/ui/Button/Button';
-import {
-	BarsArrowUpIcon,
-	BoltIcon,
-	FireIcon,
-	StarIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowFatLineUp, Flame, Rocket, Seal } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 export interface FeedFilterProps {
@@ -20,7 +17,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 				{best && (
 					<Link href={`${prefix ? `/${prefix}` : ''}/best`}>
 						<Button
-							icon={<StarIcon width={20} />}
+							icon={<Rocket size={20} />}
 							variant="text"
 							className={highlighted === 'best' ? 'bg-btn-text' : ''}
 						>
@@ -30,7 +27,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 				)}
 				<Link href={`${prefix ? `/${prefix}` : ''}/hot`}>
 					<Button
-						icon={<FireIcon width={20} />}
+						icon={<Flame size={20} />}
 						variant="text"
 						className={highlighted === 'hot' ? 'bg-btn-text' : ''}
 					>
@@ -40,7 +37,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 				<Link href={`${prefix ? `/${prefix}` : ''}/new`}>
 					<Button
 						variant="text"
-						icon={<BoltIcon width={20} />}
+						icon={<Seal size={20} />}
 						className={highlighted === 'new' ? 'bg-btn-text' : ''}
 					>
 						New
@@ -49,7 +46,7 @@ const FeedFilter = ({ prefix, best, highlighted }: FeedFilterProps) => {
 				<Link href={`${prefix ? `/${prefix}` : ''}/top`}>
 					<Button
 						variant="text"
-						icon={<BarsArrowUpIcon width={20} />}
+						icon={<ArrowFatLineUp size={20} />}
 						className={highlighted === 'top' ? 'bg-btn-text' : ''}
 					>
 						Top

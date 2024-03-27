@@ -3,7 +3,7 @@
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
 import useCommunities from '@/hooks/query/useCommunities';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { CaretDown } from '@phosphor-icons/react';
 import { Community } from '@prisma/client';
 import Link from 'next/link';
 
@@ -51,7 +51,7 @@ const ChooseCommunity = ({ community, userName }: ChooseCommunityProps) => {
 							{community?.name ?? 'Choose a community'}
 						</div>
 					</div>
-					<ChevronDownIcon width={16} className="text-primary" />
+					<CaretDown size={18} className="text-primary" />
 				</div>
 			</Dropdown>
 		</div>

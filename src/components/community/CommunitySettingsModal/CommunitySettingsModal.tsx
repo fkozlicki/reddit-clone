@@ -86,19 +86,19 @@ const CommunitySettingsModal = ({
 			onOk={onSave}
 		>
 			<form>
-				<Label>Name</Label>
+				<Label className="mb-2 inline-block">Name</Label>
 				<TextField {...register('name')} className="mb-4" />
-				<Label>Image</Label>
+				<Label className="mb-2 inline-block">Image</Label>
 				<UploadImage
 					folder={`/communities/${community.id}`}
 					image={community.image}
 					onUpload={onUpload}
 				/>
 				<div className="h-4" />
-				<Label>Moderators</Label>
-				<div className="w-full bg-input rounded p-2 flex flex-col gap-2 max-h-48 overflow-auto">
-					{community.members.map((user) => (
-						<div key={user.id} className="flex gap-2 p-2 bg-primary rounded">
+				<Label className="mb-2 inline-block">Moderators</Label>
+				<div className="w-full flex flex-col gap-2 max-h-48 overflow-auto">
+					{community.moderators.map((user) => (
+						<div key={user.id} className="flex gap-2 p-2 bg-input rounded">
 							<Avatar size={32} url={user.image} alt="" />
 							<div className="text-sm text-primary">{user.name}</div>
 						</div>

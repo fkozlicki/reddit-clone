@@ -1,6 +1,5 @@
 'use client';
 
-import CommentForm from '@/components/community/CommentForm/CommentForm';
 import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
@@ -8,9 +7,13 @@ import { useModalsContext } from '@/contexts/ModalsContext';
 import { PostComment } from '@/hooks/query/usePost';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { ChatCircle } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
+const CommentForm = dynamic(
+	() => import('@/components/community/CommentForm/CommentForm')
+);
 
 interface CommentProps {
 	comment: PostComment;
@@ -69,7 +72,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 						<Button
 							variant="text"
 							className="rounded"
-							icon={<ChatBubbleLeftIcon width={18} />}
+							icon={<ChatCircle size={18} />}
 							onClick={session ? toggleReplyFormOpen : openSignIn}
 						>
 							Reply
@@ -82,7 +85,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 							<CommentForm postId={comment.postId} replyToId={id} />
 						</div>
 					)}
-					{replies?.map((reply, index) => (
+					{replies.map((reply, index) => (
 						<Comment key={index} comment={reply} />
 					))}
 				</div>

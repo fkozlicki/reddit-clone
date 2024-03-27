@@ -1,31 +1,31 @@
 import React from 'react';
 import StyleButton from './StyleButton';
 import {
-	PiCodeBlockLight,
-	PiListBullets,
-	PiListNumbers,
-	PiQuotes,
-	PiTextH,
-} from 'react-icons/pi';
+	CodeBlock,
+	ListBullets,
+	ListNumbers,
+	Quotes,
+	TextH,
+} from '@phosphor-icons/react';
 import { EditorState } from 'draft-js';
 
 const BLOCK_TYPES = [
-	{ label: 'Heading', style: 'header-one', icon: <PiTextH size={20} /> },
+	{ label: 'Heading', style: 'header-one', icon: <TextH size={20} /> },
 	{
 		label: 'Bullet List',
 		style: 'unordered-list-item',
-		icon: <PiListBullets size={20} />,
+		icon: <ListBullets size={20} />,
 	},
 	{
 		label: 'Number List',
 		style: 'ordered-list-item',
-		icon: <PiListNumbers size={20} />,
+		icon: <ListNumbers size={20} />,
 	},
-	{ label: 'Blockquote', style: 'blockquote', icon: <PiQuotes size={20} /> },
+	{ label: 'Blockquote', style: 'blockquote', icon: <Quotes size={20} /> },
 	{
 		label: 'Code Block',
 		style: 'code-block',
-		icon: <PiCodeBlockLight size={20} />,
+		icon: <CodeBlock size={20} />,
 	},
 ];
 

@@ -2,7 +2,7 @@ import ShareModal from '@/components/shared/ShareModal/ShareModal';
 import Button from '@/components/ui/Button/Button';
 import { CommentWithPost } from '@/hooks/query/useComments';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { ChatCircle } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { MouseEvent, useState } from 'react';
@@ -58,8 +58,8 @@ const CommentPreview = ({ comment }: CommentPreviewProps) => {
 				onClick={goToPost}
 				className="flex p-2 border border-post hover:border-post-hover"
 			>
-				<ChatBubbleLeftIcon
-					width={20}
+				<ChatCircle
+					size={20}
 					className="mr-2 basis-5 flex-shrink-0 text-primary"
 				/>
 				<div className="flex items-center text-xs text-gray-400 flex-wrap">

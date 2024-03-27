@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import '../../../app/globals.css';
 import Comment from './Comment';
+import { PostComment } from '@/hooks/query/usePost';
 
 const meta: Meta<typeof Comment> = {
 	title: 'Comment',
@@ -29,7 +30,8 @@ const meta: Meta<typeof Comment> = {
 export default meta;
 type Story = StoryObj<typeof Comment>;
 
-const comment = {
+const comment: PostComment = {
+	__typename: 'Comment',
 	id: '1',
 	author: { id: '123', name: 'John Doe', image: null },
 	content: 'Lorem ipsum dolor sit amet.',
@@ -37,6 +39,7 @@ const comment = {
 	replies: [],
 	karma: 0,
 	voteValue: null,
+	postId: '123',
 };
 
 export const Default: Story = {

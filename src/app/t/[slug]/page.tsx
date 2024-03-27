@@ -6,12 +6,12 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 export default async function Topic({
-	params: { name },
+	params: { slug },
 }: {
-	params: { name: string };
+	params: { slug: string };
 }) {
 	const topic = await prisma.topic.findUnique({
-		where: { name },
+		where: { slug },
 	});
 
 	if (!topic) {
@@ -21,8 +21,8 @@ export default async function Topic({
 	return (
 		<div className="py-6">
 			<Grid
-				left={<Feed filter={{ community: { topic: { name } } }} />}
-				right={<TopCommunities topicName={name} />}
+				left={<Feed filter={{ community: { topic: { slug } } }} />}
+				right={<TopCommunities topicSlug={slug} />}
 			/>
 		</div>
 	);

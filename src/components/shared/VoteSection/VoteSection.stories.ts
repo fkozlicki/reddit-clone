@@ -24,7 +24,6 @@ export const UpVoted: Story = {
 		karma: 2,
 		type: 'post',
 		direction: 'row',
-		postId: '1',
 		voteValue: null,
 	},
 	play: async ({ canvasElement }) => {
@@ -76,7 +75,6 @@ export const DownVoted: Story = {
 		karma: 20,
 		type: 'post',
 		direction: 'row',
-		postId: '1',
 		voteValue: null,
 	},
 	play: async ({ canvasElement }) => {

@@ -10,6 +10,7 @@ export const TOPICS_QUERY = gql`
 		topics {
 			id
 			name
+			slug
 		}
 	}
 `;

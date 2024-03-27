@@ -1,11 +1,12 @@
 'use client';
 
-import { CameraIcon } from '@heroicons/react/24/outline';
+import { CameraPlus } from '@phosphor-icons/react';
 import { User } from '@prisma/client';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { Image as ImageIcon } from '@phosphor-icons/react';
 
 interface UploadImageProps {
 	image: User['image'];
@@ -60,7 +61,9 @@ const UploadImage = ({ image, folder, onUpload }: UploadImageProps) => {
 				{image ? (
 					<Image src={image} alt="" width={128} height={128} priority={true} />
 				) : (
-					<div className="w-32 h-32 bg-gray-500"></div>
+					<div className="w-32 h-32 grid place-items-center text-primary">
+						<ImageIcon size={72} weight="thin" className="opacity-80" />
+					</div>
 				)}
 				<div className="absolute grid place-items-center right-2 bottom-2 rounded-full w-8 h-8 border border-primary">
 					{loading ? (
@@ -87,7 +90,7 @@ const UploadImage = ({ image, folder, onUpload }: UploadImageProps) => {
 							></path>
 						</svg>
 					) : (
-						<CameraIcon className="w-5 h-5 text-primary" />
+						<CameraPlus size={20} className="text-primary" />
 					)}
 				</div>
 				<input

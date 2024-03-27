@@ -90,7 +90,7 @@ export default function useVote(
 				toast.error('Vote failed');
 			},
 			update: (cache, result, options) => {
-				if (options.variables && 'postId' in options.variables) {
+				function updatePosts(value: number) {
 					cache.updateQuery<PostsQueryResponse>(
 						{
 							query: POSTS_QUERY,
@@ -100,7 +100,7 @@ export default function useVote(
 									votes: {
 										some: {
 											user: { name: session?.user.name },
-											value: options.variables.value,
+											value,
 										},
 									},
 								},
@@ -114,7 +114,7 @@ export default function useVote(
 							const newPost = (result.data as PostVoteMutationResponse)
 								.votePost;
 
-							const added = !!newPost.voteValue;
+							const added = newPost.voteValue === value;
 
 							return {
 								...data,
@@ -136,6 +136,9 @@ export default function useVote(
 						}
 					);
 				}
+
+				updatePosts(1);
+				updatePosts(-1);
 			},
 		}
 	);

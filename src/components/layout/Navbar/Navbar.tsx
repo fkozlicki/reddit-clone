@@ -17,10 +17,11 @@ import {
 	UserIcon,
 } from '@heroicons/react/24/outline';
 import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
-import AuthModal from '../AuthModal/AuthModal';
 import Search from '../Search/Search';
+import dynamic from 'next/dynamic';
+
+const AuthModal = dynamic(() => import('../AuthModal/AuthModal'));
+const UserDropdown = dynamic(() => import('../UserDropdown/UserDropdown'));
 
 interface NavbarProps {
 	session: Session | null;

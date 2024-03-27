@@ -1,5 +1,6 @@
 import { useClickAway } from '@/hooks/useClickAway';
 import { cn } from '@/lib/utils';
+import { CaretDown } from '@phosphor-icons/react';
 import { cva } from 'class-variance-authority';
 import React, {
 	HTMLAttributes,
@@ -13,10 +14,14 @@ const dropdown = cva(
 	'absolute top-full right-0 py-2 shadow bg-primary z-20 w-full'
 );
 
+const listItemClassNames =
+	'text-sm px-4 py-2 hover:bg-btn-text flex gap-2 relative [&>a]:after:absolute [&>a]:after:w-full [&>a]:after:h-full [&>a]:after:left-0 [&>a]:after:top-0 text-primary items-center';
+
 type DropdownItem = {
 	text: ReactNode;
 	icon?: ReactNode;
 	onClick?: () => void;
+	items?: DropdownItem[];
 };
 
 interface DropdownProps extends HTMLAttributes<HTMLUListElement> {
@@ -29,6 +34,7 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 	const dropdownRef = useClickAway<HTMLDivElement>(() => {
 		setOpen(false);
 	});
+	const [showInnerList, setShowInnerList] = useState<boolean>(false);
 
 	const toggleDropdown = () => {
 		setOpen((prev) => !prev);
@@ -46,26 +52,51 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 				},
 			})}
 			{open && (
-				<ul className={cn(dropdown({ className }))} {...props}>
-					{items.map(({ icon, text, onClick }, index) => (
-						<li
-							key={index}
-							className={cn(
-								'text-sm px-4 py-2 hover:bg-btn-text flex gap-2 relative [&>a]:after:absolute [&>a]:after:w-full [&>a]:after:h-full [&>a]:after:left-0 [&>a]:after:top-0 text-primary',
-								{
-									'cursor-pointer': onClick,
-								}
-							)}
-							onClick={() => {
-								onClick && onClick();
-								toggleDropdown();
-							}}
-						>
-							{icon && icon}
-							{text}
-						</li>
-					))}
-				</ul>
+				<div className={cn(dropdown({ className }))}>
+					<ul {...props}>
+						{items.map(({ icon, text, onClick, items }, index) => (
+							<li key={index}>
+								<span
+									className={cn(listItemClassNames, {
+										'cursor-pointer': onClick || items,
+									})}
+									onClick={() => {
+										if (items) {
+											setShowInnerList((prev) => !prev);
+										} else {
+											toggleDropdown();
+										}
+										onClick && onClick();
+									}}
+								>
+									{icon && icon}
+									{text}
+									{items && <CaretDown className="ml-auto" size={18} />}
+								</span>
+								{items && showInnerList && (
+									<ul>
+										{items.map(({ icon, text, onClick }, index) => (
+											<li key={index}>
+												<span
+													className={cn(listItemClassNames, 'pl-11', {
+														'cursor-pointer': onClick,
+													})}
+													onClick={() => {
+														onClick && onClick();
+														toggleDropdown();
+													}}
+												>
+													{icon && icon}
+													{text}
+												</span>
+											</li>
+										))}
+									</ul>
+								)}
+							</li>
+						))}
+					</ul>
+				</div>
 			)}
 		</div>
 	);

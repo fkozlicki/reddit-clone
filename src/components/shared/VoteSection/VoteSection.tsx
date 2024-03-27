@@ -5,10 +5,7 @@ import { useModalsContext } from '@/contexts/ModalsContext';
 import useVote, { VoteValue } from '@/hooks/mutation/useVote';
 import { PostComment } from '@/hooks/query/usePost';
 import { PostPreview } from '@/hooks/query/usePosts';
-import {
-	ArrowDownCircleIcon,
-	ArrowUpCircleIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowFatDown, ArrowFatUp } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
 
 type VoteSectionProps = {
@@ -97,8 +94,9 @@ const VoteSection = ({
 				onClick={onUpvote}
 				className="group"
 				icon={
-					<ArrowUpCircleIcon
-						className={`w-6 group-hover:text-red-600 ${
+					<ArrowFatUp
+						size={20}
+						className={`group-hover:text-red-600 ${
 							voteValue === 1 ? 'text-red-600' : 'text-primary'
 						}`}
 					/>
@@ -114,8 +112,9 @@ const VoteSection = ({
 				onClick={onDownvote}
 				className="group"
 				icon={
-					<ArrowDownCircleIcon
-						className={`w-6 group-hover:text-blue-600 ${
+					<ArrowFatDown
+						size={20}
+						className={`group-hover:text-blue-600 ${
 							voteValue === -1 ? 'text-blue-600' : 'text-primary'
 						}`}
 					/>

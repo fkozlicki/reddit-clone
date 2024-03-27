@@ -8,7 +8,6 @@ builder.prismaObject('Community', {
 			type: 'String',
 			nullable: true,
 		}),
-		members: t.relation('members'),
 		membersCount: t.relationCount('members'),
 		posts: t.relation('posts'),
 		topic: t.relation('topic', {
@@ -22,6 +21,13 @@ builder.prismaObject('Community', {
 			nullable: true,
 		}),
 		moderators: t.relation('moderators'),
+		joined: t.boolean({
+			select: {
+				members: true,
+			},
+			resolve: (parent, _args, ctx) =>
+				parent.members.some((member) => member.id === ctx.session?.user.id),
+		}),
 	}),
 });
 

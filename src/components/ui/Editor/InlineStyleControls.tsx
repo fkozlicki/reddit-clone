@@ -1,12 +1,12 @@
 import React from 'react';
 import StyleButton from './StyleButton';
-import { PiTextItalic, PiCode, PiTextBBold } from 'react-icons/pi';
+import { TextItalic, Code, TextB } from '@phosphor-icons/react';
 import { EditorState } from 'draft-js';
 
 var INLINE_STYLES = [
-	{ label: 'Bold', style: 'BOLD', icon: <PiTextBBold size={20} /> },
-	{ label: 'Italic', style: 'ITALIC', icon: <PiTextItalic size={20} /> },
-	{ label: 'Inline code', style: 'CODE', icon: <PiCode size={20} /> },
+	{ label: 'Bold', style: 'BOLD', icon: <TextB weight="bold" size={20} /> },
+	{ label: 'Italic', style: 'ITALIC', icon: <TextItalic size={20} /> },
+	{ label: 'Inline code', style: 'CODE', icon: <Code size={20} /> },
 ];
 
 interface InlineStyleControlsProps {

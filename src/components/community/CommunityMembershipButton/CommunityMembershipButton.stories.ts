@@ -27,12 +27,13 @@ export const Default: Story = {
 		},
 	},
 	args: {
-		name: 'MyFirstCommunity',
-		members: [
-			{
-				id: '123',
-			},
-		],
+		community: {
+			id: '123',
+			image: null,
+			joined: false,
+			membersCount: 12,
+			name: 'MyFirstCommunity',
+		},
 	},
 };
 
@@ -52,11 +53,12 @@ export const Joined: Story = {
 		},
 	},
 	args: {
-		name: 'MyFirstCommunity',
-		members: [
-			{
-				id: '123',
-			},
-		],
+		community: {
+			id: '123',
+			image: null,
+			joined: false,
+			membersCount: 12,
+			name: 'MyFirstCommunity',
+		},
 	},
 };
