@@ -1,20 +1,73 @@
 import { builder } from '../builder';
-import { User } from './User';
+import { Message } from './Message';
 
 export const Conversation = builder.prismaObject('Conversation', {
+	include: {},
 	fields: (t) => ({
 		id: t.exposeID('id'),
-		message: t.relation('messages'),
+		messages: t.relation('messages'),
 		participants: t.relation('participants'),
-		receiver: t.field({
-			type: User,
-			select: {
-				participants: true,
+		lastMessage: t.field({
+			type: Message,
+			resolve: async (parent, args, ctx) => {
+				const lastMessage = await ctx.prisma.message.findFirst({
+					where: {
+						conversationId: parent.id,
+					},
+					orderBy: {
+						createdAt: 'desc',
+					},
+				});
+				return lastMessage!;
 			},
-			resolve: (conversation, args, ctx) =>
-				conversation.participants.find(
-					(user) => user.id !== ctx.session?.user.id
-				)!,
 		}),
 	}),
 });
+
+builder.mutationField('createConversation', (t) =>
+	t.prismaField({
+		type: 'Conversation',
+		args: {
+			userId: t.arg.string({ required: true }),
+		},
+		resolve: async (query, parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('Auth required');
+			}
+
+			const conversation = await ctx.prisma.conversation.create({
+				...query,
+				data: {
+					participants: {
+						connect: [{ id: args.userId }, { id: ctx.session.user.id }],
+					},
+				},
+			});
+
+			return conversation;
+		},
+	})
+);
+
+builder.queryField('conversations', (t) =>
+	t.prismaField({
+		type: ['Conversation'],
+		resolve: async (query, parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('Auth required');
+			}
+
+			const conversations = await ctx.prisma.conversation.findMany({
+				where: {
+					participants: {
+						some: {
+							id: ctx.session.user.id,
+						},
+					},
+				},
+			});
+
+			return conversations;
+		},
+	})
+);

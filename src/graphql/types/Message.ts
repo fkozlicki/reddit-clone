@@ -11,11 +11,41 @@ export const Message = builder.prismaObject('Message', {
 	}),
 });
 
+builder.queryField('messages', (t) =>
+	t.prismaConnection({
+		type: 'Message',
+		cursor: 'id',
+		args: {
+			conversationId: t.arg.string({ required: true }),
+			after: t.arg.string(),
+		},
+		resolve: async (query, parent, args, ctx) => {
+			if (!ctx.session) {
+				throw new Error('Auth required');
+			}
+
+			const messages = ctx.prisma.message.findMany({
+				...query,
+				where: {
+					conversation: {
+						id: args.conversationId,
+					},
+				},
+				orderBy: {
+					createdAt: 'desc',
+				},
+			});
+
+			return messages;
+		},
+	})
+);
+
 builder.mutationField('createMessage', (t) =>
 	t.prismaField({
 		type: 'Message',
 		args: {
-			receiverId: t.arg.string({ required: true }),
+			conversationId: t.arg.string({ required: true }),
 			content: t.arg.string({ required: true }),
 		},
 		resolve: async (query, _parent, args, ctx) => {
@@ -23,45 +53,19 @@ builder.mutationField('createMessage', (t) =>
 				throw new Error('You have to be logged in');
 			}
 
-			const { content, receiverId } = args;
+			const { content, conversationId } = args;
 
-			const receiver = await ctx.prisma.user.findUnique({
+			const conversation = await ctx.prisma.conversation.findUnique({
 				where: {
-					id: receiverId,
+					id: conversationId,
+				},
+				include: {
+					participants: true,
 				},
 			});
 
-			if (!receiver) {
-				throw new Error('Reveiver does not exist');
-			}
-
-			let converation;
-
-			const existingConversation = await ctx.prisma.conversation.findFirst({
-				where: {
-					AND: [
-						{ participants: { some: { id: receiverId } } },
-						{ participants: { some: { id: ctx.session.user.id } } },
-					],
-				},
-			});
-
-			if (existingConversation) {
-				converation = existingConversation;
-			} else {
-				const newConversation = await ctx.prisma.conversation.create({
-					data: {
-						participants: {
-							connect: [
-								{
-									id: receiverId,
-								},
-								{ id: ctx.session.user.id },
-							],
-						},
-					},
-				});
-				converation = newConversation;
+			if (!conversation) {
+				throw new Error('Not found');
 			}
 
 			const message = await ctx.prisma.message.create({
@@ -69,11 +73,17 @@ builder.mutationField('createMessage', (t) =>
 				data: {
 					authorId: ctx.session.user.id,
 					content,
-					conversationId: converation.id,
+					conversationId,
 				},
 			});
 
-			ctx.pubsub.publish('NEW_MESSAGE', message);
+			// send to conversation
+			ctx.pubsub.publish('coversation:messages', conversationId, message);
+
+			// send to every user
+			conversation.participants.forEach((member) => {
+				ctx.pubsub.publish('user:message', member.id, message);
+			});
 
 			return message;
 		},
@@ -83,7 +93,11 @@ builder.mutationField('createMessage', (t) =>
 builder.subscriptionField('message', (t) =>
 	t.prismaField({
 		type: 'Message',
-		subscribe: (root, args, ctx) => ctx.pubsub.subscribe('NEW_MESSAGE'),
+		args: {
+			conversationId: t.arg.string({ required: true }),
+		},
+		subscribe: (root, args, ctx) =>
+			ctx.pubsub.subscribe('coversation:messages', args.conversationId),
 		resolve: (query, parent, args, ctx) => {
 			return parent;
 		},

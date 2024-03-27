@@ -1,56 +1,23 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
-import TextField from '@/components/ui/TextField/TextField';
 import { useChatContext } from '@/contexts/ChatContext';
-import useCreateMessage from '@/hooks/mutation/useCreateMessage';
-import useIncomingMessage from '@/hooks/subscription/useIncomingMessage';
+
 import {
 	ChatBubbleLeftEllipsisIcon,
-	PaperAirplaneIcon,
+	ChatBubbleOvalLeftEllipsisIcon,
 	XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const messageSchema = z.object({
-	content: z.string().min(1),
-});
-
-type MessageValues = z.infer<typeof messageSchema>;
+import ChatForm from './ChatForm';
+import ChatMessages from './ChatMessages';
+import ChatsList from './ChatsList';
 
 const ChatRoom = () => {
-	const [messages, setMessages] = useState([]);
-	const [{ open, user }, dispatch] = useChatContext();
-	const { register, handleSubmit, reset } = useForm<MessageValues>({
-		resolver: zodResolver(messageSchema),
-	});
-	const [createMessage, { data, loading }] = useCreateMessage();
-	const { data: incomingMessageData } = useIncomingMessage();
-
-	useEffect(() => {
-		if (incomingMessageData) {
-			console.log(incomingMessageData.message);
-		}
-	}, [incomingMessageData]);
+	const [{ open, user, conversationId }, dispatch] = useChatContext();
 
 	const closeChat = () => {
 		dispatch({ type: 'setUser', payload: undefined });
 		dispatch({ type: 'setOpen', payload: false });
-	};
-
-	const sendMessage = ({ content }: MessageValues) => {
-		createMessage({
-			variables: {
-				receiverId: user?.id,
-				content,
-			},
-			onCompleted() {
-				reset();
-			},
-		});
 	};
 
 	if (!open) {
@@ -67,6 +34,7 @@ const ChatRoom = () => {
 						icon={<ChatBubbleLeftEllipsisIcon className="w-4" />}
 					/>
 				</div>
+				<ChatsList />
 			</div>
 			<div className="flex-1 flex flex-col">
 				<div className="p-2 flex justify-between border-b border-input items-center">
@@ -79,24 +47,20 @@ const ChatRoom = () => {
 						/>
 					</div>
 				</div>
-				<div className="flex-1 flex flex-col">
-					<div className="flex-1">empty</div>
-					<div className="p-2 border-t border-input">
-						<form
-							onSubmit={handleSubmit(sendMessage)}
-							className="flex items-center gap-2"
-						>
-							<TextField
-								{...register('content')}
-								className="rounded-full"
-								placeholder="Message"
-							/>
-							<Button
-								type="submit"
-								icon={<PaperAirplaneIcon className="w-5" />}
-							/>
-						</form>
-					</div>
+				<div className="flex flex-col h-full overflow-y-auto">
+					{conversationId ? (
+						<ChatMessages conversationId={conversationId} />
+					) : (
+						<div className="flex-1 flex items-center justify-center">
+							<div className="flex flex-col items-center">
+								<ChatBubbleOvalLeftEllipsisIcon width={64} />
+								<span>Select chat</span>
+							</div>
+						</div>
+					)}
+					{user && (
+						<ChatForm userId={user.id} conversationId={conversationId} />
+					)}
 				</div>
 			</div>
 		</div>
