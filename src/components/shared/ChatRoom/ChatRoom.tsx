@@ -2,15 +2,10 @@
 
 import Button from '@/components/ui/Button/Button';
 import { useChatContext } from '@/contexts/ChatContext';
-
-import {
-	ChatBubbleLeftEllipsisIcon,
-	ChatBubbleOvalLeftEllipsisIcon,
-	XMarkIcon,
-} from '@heroicons/react/24/outline';
 import ChatForm from './ChatForm';
 import ChatMessages from './ChatMessages';
 import ChatsList from './ChatsList';
+import { ChatCircle, ChatCircleDots, X } from '@phosphor-icons/react';
 
 const ChatRoom = () => {
 	const [{ open, user, conversationId }, dispatch] = useChatContext();
@@ -29,10 +24,7 @@ const ChatRoom = () => {
 			<div className="border-r border-input min-w-[220px]">
 				<div className="border-b border-input p-3 flex justify-between items-center">
 					<div className="text-lg font-semibold">Chats</div>
-					<Button
-						variant="text"
-						icon={<ChatBubbleLeftEllipsisIcon className="w-4" />}
-					/>
+					<Button variant="text" icon={<ChatCircle size={16} />} />
 				</div>
 				<ChatsList />
 			</div>
@@ -40,11 +32,7 @@ const ChatRoom = () => {
 				<div className="p-2 flex justify-between border-b border-input items-center">
 					<div className="font-semibold text-sm">{user?.name}</div>
 					<div>
-						<Button
-							onClick={closeChat}
-							variant="text"
-							icon={<XMarkIcon className="w-5" />}
-						/>
+						<Button onClick={closeChat} variant="text" icon={<X size={20} />} />
 					</div>
 				</div>
 				<div className="flex flex-col h-full overflow-y-auto">
@@ -53,7 +41,7 @@ const ChatRoom = () => {
 					) : (
 						<div className="flex-1 flex items-center justify-center">
 							<div className="flex flex-col items-center">
-								<ChatBubbleOvalLeftEllipsisIcon width={64} />
+								<ChatCircleDots size={64} />
 								<span>Select chat</span>
 							</div>
 						</div>

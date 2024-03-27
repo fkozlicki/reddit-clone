@@ -6,8 +6,8 @@ import { useChatContext } from '@/contexts/ChatContext';
 import useCreateConversation from '@/hooks/mutation/useCreateConversation';
 import useCreateMessage from '@/hooks/mutation/useCreateMessage';
 import { CONVERSATIONS_QUERY } from '@/hooks/query/useConversations';
-import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PaperPlaneRight } from '@phosphor-icons/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -97,7 +97,7 @@ const ChatForm = ({ userId, conversationId }: ChatFormProps) => {
 				<Button
 					disabled={loading}
 					type="submit"
-					icon={<PaperAirplaneIcon className="w-5" />}
+					icon={<PaperPlaneRight size={20} />}
 				/>
 			</form>
 		</div>

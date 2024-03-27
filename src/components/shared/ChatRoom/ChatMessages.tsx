@@ -3,7 +3,7 @@
 import useMessages, { MessageItem } from '@/hooks/query/useMessages';
 import { cn } from '@/lib/utils';
 import { gql } from '@apollo/client';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { CircleNotch } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -111,7 +111,7 @@ const ChatMessages = ({ conversationId }: { conversationId: string }) => {
 						</div>
 					))}
 					<div ref={ref} className="flex justify-center">
-						{loading && <ArrowPathIcon width={16} className="animate-spin" />}
+						{loading && <CircleNotch width={16} className="animate-spin" />}
 						{!(loading || data.messages.pageInfo.hasNextPage) && (
 							<div className="text-sm">No more messages</div>
 						)}
