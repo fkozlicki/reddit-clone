@@ -1,11 +1,15 @@
 'use client';
 
 import Logo from '@/components/layout/Logo/Logo';
+import Button from '@/components/ui/Button/Button';
+import { useChatContext } from '@/contexts/ChatContext';
 import { useModalsContext } from '@/contexts/ModalsContext';
+import { useThemeContext } from '@/contexts/ThemeContext';
+import { ChatCircle } from '@phosphor-icons/react';
 import { Session } from 'next-auth';
-import Search from '../Search/Search';
 import dynamic from 'next/dynamic';
-const Button = dynamic(() => import('@/components/ui/Button/Button'));
+import Search from '../Search/Search';
+
 const AuthModal = dynamic(() => import('../AuthModal/AuthModal'));
 const UserDropdown = dynamic(() => import('../UserDropdown/UserDropdown'));
 
@@ -15,6 +19,7 @@ interface NavbarProps {
 
 const Navbar = ({ session }: NavbarProps) => {
 	const [{ signIn }, dispatch] = useModalsContext();
+	const [, dispatchChat] = useChatContext();
 
 	const openModal = () => {
 		dispatch({ type: 'openSignIn' });
@@ -22,6 +27,10 @@ const Navbar = ({ session }: NavbarProps) => {
 
 	const closeModal = () => {
 		dispatch({ type: 'closeSignIn' });
+	};
+
+	const openChat = () => {
+		dispatchChat({ type: 'setOpen', payload: true });
 	};
 
 	return (
@@ -35,8 +44,13 @@ const Navbar = ({ session }: NavbarProps) => {
 					Log in
 				</Button>
 			)}
-			{session && <UserDropdown session={session} />}
-			{!session && <AuthModal open={signIn} onClose={closeModal} />}
+			{session && (
+				<div className="flex items-center gap-4">
+					<Button onClick={openChat} icon={<ChatCircle size={20} />} />
+					<UserDropdown session={session} />
+				</div>
+			)}
+			<AuthModal open={!session && signIn} onClose={closeModal} />
 		</div>
 	);
 };

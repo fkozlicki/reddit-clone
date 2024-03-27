@@ -1685,7 +1685,7 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@pothos/core@^3.30.0":
+"@pothos/core@^3.41.0":
   version "3.41.0"
   resolved "https://registry.yarnpkg.com/@pothos/core/-/core-3.41.0.tgz#992bf91665f9aabf328f7cbbf12f1819c1888b07"
   integrity sha512-Nb7uPDTXVjdrWqHs5aoD1r6JEdQ9FnJYlf7gv47o1b/bb8rVDAZQaviVvaChal7YQcyFGgCFb0/YNNHLNBEjNw==
@@ -1697,10 +1697,10 @@
   dependencies:
     "@prisma/generator-helper" "^4.16.1"
 
-"@pothos/plugin-prisma@^3.52.0":
-  version "3.63.1"
-  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.63.1.tgz#fe052a5cacae028d19d7bc3ff46760c1cacd63db"
-  integrity sha512-WbbB6Hn1v8lop/krhMYN1Fjz8CoQeZE/emDs/BgEmtXud1qr174hm+x1aX5U7oyGJ2z67z6RfCyHbpOAx8zo3w==
+"@pothos/plugin-prisma@^3.65.0":
+  version "3.65.0"
+  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.65.0.tgz#461221c68efb93d0a2626d4cf09626238b1a5d82"
+  integrity sha512-1XYI139dceyzbEYW6wLVxhREFHHCmH2JLVCqRCn8Q9nAz7yfMYEfAA9nA/XhM5gJYoC0WAsrHgYQ4uBM+tH5BA==
   dependencies:
     "@prisma/generator-helper" "^5.6.0"
 
@@ -6363,6 +6363,11 @@ graphql-scalars@^1.22.2:
   dependencies:
     tslib "^2.5.0"
 
+graphql-sse@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/graphql-sse/-/graphql-sse-2.5.2.tgz#5dcd16c9ad7e1fd844d3163de51fcbcc681bbb23"
+  integrity sha512-KCTl7HpD12xQrbXGdLrc1BL0ybfB6M83lxRO1mqT31pvOY01ZuWgiJKTY8+NAX8sgEMPVrnXXOXh9LqYDgNI+g==
+
 graphql-tag@^2.12.6:
   version "2.12.6"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
@@ -8804,6 +8809,11 @@ react-hot-toast@^2.4.1:
   integrity sha512-j8z+cQbWIM5LY37pR6uZR6D4LfseplqnuAO4co4u8917hBUvXlEqyP1ZzqVLcqoyUesZZv/ImreoCeHVDpE5pQ==
   dependencies:
     goober "^2.1.10"
+
+react-intersection-observer@^9.8.1:
+  version "9.8.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.8.1.tgz#9c3631c0c9acd624a2af1c192318752ea73b5d91"
+  integrity sha512-QzOFdROX8D8MH3wE3OVKH0f3mLjKTtEN1VX/rkNuECCff+aKky0pIjulDhr3Ewqj5el/L+MhBkM3ef0Tbt+qUQ==
 
 react-is@18.1.0:
   version "18.1.0"

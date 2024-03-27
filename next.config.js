@@ -9,6 +9,7 @@ const nextConfig = {
 			'redditv2.s3.eu-central-1.amazonaws.com',
 		],
 	},
+	reactStrictMode: false,
 };
 
 module.exports = nextConfig;
