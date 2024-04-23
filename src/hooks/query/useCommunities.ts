@@ -8,7 +8,7 @@ export type CommunityInfo = {
 	joined: boolean;
 };
 
-type CommunitiesQueryResponse = {
+export type CommunitiesQueryResponse = {
 	communities: CommunityInfo[];
 };
 
