@@ -34,23 +34,25 @@ const Navbar = ({ session }: NavbarProps) => {
 	};
 
 	return (
-		<div className="flex justify-between items-center px-4 h-12 border-b border-input bg-primary z-50">
-			<Logo />
-			<div className="w-2 h-full" />
-			<Search />
-			<div className="w-2 h-full" />
-			{!session && (
-				<Button onClick={openModal} variant="primary" className="w-[120px]">
-					Log in
-				</Button>
-			)}
-			{session && (
-				<div className="flex items-center gap-4">
-					<Button onClick={openChat} icon={<ChatCircle size={20} />} />
-					<UserDropdown session={session} />
-				</div>
-			)}
-			<AuthModal open={!session && signIn} onClose={closeModal} />
+		<div className="fixed w-full top-0 z-20">
+			<div className="flex justify-between items-center px-4 h-12 border-b border-input bg-primary z-50">
+				<Logo />
+				<div className="w-2 h-full" />
+				<Search />
+				<div className="w-2 h-full" />
+				{!session && (
+					<Button onClick={openModal} variant="primary" className="w-[120px]">
+						Log in
+					</Button>
+				)}
+				{session && (
+					<div className="flex items-center gap-4">
+						<Button onClick={openChat} icon={<ChatCircle size={20} />} />
+						<UserDropdown session={session} />
+					</div>
+				)}
+				<AuthModal open={!session && signIn} onClose={closeModal} />
+			</div>
 		</div>
 	);
 };

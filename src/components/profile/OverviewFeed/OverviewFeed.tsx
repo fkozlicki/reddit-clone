@@ -61,7 +61,7 @@ const OverviewFeed = ({ name }: OverviewFeedProps) => {
 							)}
 						</>
 					) : (
-						<div className="text-center mb-4 bg-primary p-3 border border-post rounded">
+						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
 							No posts and comments yet
 						</div>
 					)}
