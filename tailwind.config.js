@@ -8,7 +8,7 @@ module.exports = {
 	theme: {
 		extend: {
 			boxShadow: {
-				tab: 'inset 0 -2px 0 0 var(--color-bg-button)',
+				tab: 'inset 0 -2px 0 0 var(--color-text-primary)',
 			},
 			textColor: {
 				primary: 'var(--color-text-primary)',
