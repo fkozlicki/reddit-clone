@@ -1,4 +1,3 @@
-import Feed from '@/components/feed-layout/Feed/Feed';
 import OverviewFeed from '@/components/profile/OverviewFeed/OverviewFeed';
 
 export default function User({
