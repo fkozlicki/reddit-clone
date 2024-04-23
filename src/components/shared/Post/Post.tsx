@@ -42,18 +42,6 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 			},
 		},
 	});
-	const {
-		karma,
-		community: { name: communityName },
-		author: { name: authorName, image: authorAvatar },
-		createdAt,
-		id,
-		title,
-		content,
-		commentsCount,
-		saved,
-		voteValue,
-	} = post;
 
 	const toggleShowContent = () => {
 		setShowContent((prev) => !prev);
@@ -66,6 +54,19 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 	const closeSharePostModal = () => {
 		setShareModalOpen(false);
 	};
+
+	const {
+		karma,
+		community: { name: communityName },
+		author: { name: authorName, image: authorAvatar },
+		createdAt,
+		id,
+		title,
+		content,
+		commentsCount,
+		saved,
+		voteValue,
+	} = post;
 
 	return (
 		<div
@@ -136,7 +137,13 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						)}
 						{showContent && (
 							<div
-								className="px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded"
+								className={cn(
+									'px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded',
+									{
+										'max-h-[250px] overflow-hidden [mask-image:linear-gradient(180deg,#000_60%,transparent)]':
+											preview,
+									}
+								)}
 								dangerouslySetInnerHTML={{
 									__html: content,
 								}}
