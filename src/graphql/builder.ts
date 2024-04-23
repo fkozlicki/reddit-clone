@@ -28,6 +28,8 @@ builder.queryType({});
 
 builder.mutationType({});
 
+builder.subscriptionType({});
+
 builder.addScalarType('Date', DateTimeResolver, {});
 
 export const NameFilter = builder.prismaFilter('String', {

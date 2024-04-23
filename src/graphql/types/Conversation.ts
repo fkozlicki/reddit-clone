@@ -2,7 +2,6 @@ import { builder } from '../builder';
 import { Message } from './Message';
 
 export const Conversation = builder.prismaObject('Conversation', {
-	include: {},
 	fields: (t) => ({
 		id: t.exposeID('id'),
 		messages: t.relation('messages'),
@@ -58,6 +57,7 @@ builder.queryField('conversations', (t) =>
 			}
 
 			const conversations = await ctx.prisma.conversation.findMany({
+				...query,
 				where: {
 					participants: {
 						some: {

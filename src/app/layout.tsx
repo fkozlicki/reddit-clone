@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
 import dynamic from 'next/dynamic';
+import ChatRoom from '@/components/shared/ChatRoom/ChatRoom';
 const Sidebar = dynamic(() => import('@/components/layout/Sidebar/Sidebar'));
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,19 +31,14 @@ export default async function RootLayout({
 			<Providers>
 				<body className={inter.className}>
 					<Toaster position="top-center" />
-					<div className="fixed w-full top-0 z-20">
-						<Navbar session={session} />
-					</div>
+					<Navbar session={session} />
+					<ChatRoom />
 					<main
 						className={cn('pt-12 min-h-screen bg-secondary', {
 							'xl:pl-[270px] flex': !session,
 						})}
 					>
-						{!session && (
-							<div className="hidden xl:block fixed top-12 left-0">
-								<Sidebar />
-							</div>
-						)}
+						{!session && <Sidebar />}
 						<div className="flex-1">{children}</div>
 					</main>
 					<div id="portal" />

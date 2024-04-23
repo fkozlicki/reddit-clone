@@ -2,6 +2,7 @@
 
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
+import { useChatContext } from '@/contexts/ChatContext';
 import { formatDate } from '@/utils/formatDate';
 import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
@@ -14,6 +15,12 @@ interface UserAboutProps {
 
 const UserAbout = ({ user }: UserAboutProps) => {
 	const { data: session } = useSession();
+	const [, dispatch] = useChatContext();
+
+	const setChatUser = () => {
+		dispatch({ type: 'setUser', payload: user });
+		dispatch({ type: 'setOpen', payload: true });
+	};
 
 	return (
 		<div className="bg-primary rounded overflow-hidden text-primary border border-post">
@@ -49,6 +56,15 @@ const UserAbout = ({ user }: UserAboutProps) => {
 							</Button>
 						</Link>
 					</>
+				)}
+				{session?.user.id !== user.id && (
+					<Button
+						onClick={setChatUser}
+						variant="primary"
+						className="w-full mt-4"
+					>
+						Chat
+					</Button>
 				)}
 			</div>
 		</div>
