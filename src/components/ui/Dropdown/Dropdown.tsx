@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 
 const dropdown = cva(
-	'absolute top-full right-0 py-2 shadow bg-primary z-20 w-full'
+	'absolute top-full right-0 py-2 shadow-xl bg-primary z-20 w-full'
 );
 
 const listItemClassNames =
@@ -52,51 +52,49 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 				},
 			})}
 			{open && (
-				<div className={cn(dropdown({ className }))}>
-					<ul {...props}>
-						{items.map(({ icon, text, onClick, items }, index) => (
-							<li key={index}>
-								<span
-									className={cn(listItemClassNames, {
-										'cursor-pointer': onClick || items,
-									})}
-									onClick={() => {
-										if (items) {
-											setShowInnerList((prev) => !prev);
-										} else {
-											toggleDropdown();
-										}
-										onClick && onClick();
-									}}
-								>
-									{icon && icon}
-									{text}
-									{items && <CaretDown className="ml-auto" size={18} />}
-								</span>
-								{items && showInnerList && (
-									<ul className="max-h-[336px] overflow-auto mobile-scrollbar mobile-scrollbar-vertical">
-										{items.map(({ icon, text, onClick }, index) => (
-											<li key={index}>
-												<span
-													className={cn(listItemClassNames, 'pl-11', {
-														'cursor-pointer': onClick,
-													})}
-													onClick={() => {
-														onClick && onClick();
-														toggleDropdown();
-													}}
-												>
-													{icon && icon}
-													{text}
-												</span>
-											</li>
-										))}
-									</ul>
-								)}
-							</li>
-						))}
-					</ul>
-				</div>
+				<ul className={cn(dropdown({ className }))} {...props}>
+					{items.map(({ icon, text, onClick, items }, index) => (
+						<li key={index}>
+							<span
+								className={cn(listItemClassNames, {
+									'cursor-pointer': onClick || items,
+								})}
+								onClick={() => {
+									if (items) {
+										setShowInnerList((prev) => !prev);
+									} else {
+										toggleDropdown();
+									}
+									onClick && onClick();
+								}}
+							>
+								{icon && icon}
+								{text}
+								{items && <CaretDown className="ml-auto" size={18} />}
+							</span>
+							{items && showInnerList && (
+								<ul className="max-h-[336px] overflow-auto mobile-scrollbar mobile-scrollbar-vertical">
+									{items.map(({ icon, text, onClick }, index) => (
+										<li key={index}>
+											<span
+												className={cn(listItemClassNames, 'pl-11', {
+													'cursor-pointer': onClick,
+												})}
+												onClick={() => {
+													onClick && onClick();
+													toggleDropdown();
+												}}
+											>
+												{icon && icon}
+												{text}
+											</span>
+										</li>
+									))}
+								</ul>
+							)}
+						</li>
+					))}
+				</ul>
 			)}
 		</div>
 	);

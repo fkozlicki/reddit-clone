@@ -23,27 +23,40 @@ const ChooseCommunity = ({ community, userName }: ChooseCommunityProps) => {
 		? [{ text: 'Loading data' }]
 		: error
 		? [{ text: "Couldn't load data" }]
-		: data!.communities
-				.filter((com) => com.id !== community?.id)
-				.map(({ name, membersCount, image }) => ({
-					text: (
-						<Link href={`/r/${name}/submit`}>
-							<div className="flex items-center gap-3">
-								<Avatar size={32} url={image} alt="" />
-								<div>
-									<div className="text-sm text-primary font-medium">{name}</div>
-									<div className="text-xs text-primary">
-										{membersCount} members
+		: [
+				...data!.communities
+					.filter((com) => com.id !== community?.id)
+					.map(({ name, membersCount, image }) => ({
+						text: (
+							<Link href={`/r/${name}/submit`}>
+								<div className="flex items-center gap-3">
+									<Avatar size={32} url={image} alt="" />
+									<div>
+										<div className="text-sm text-primary font-medium">
+											{name}
+										</div>
+										<div className="text-xs text-primary">
+											{membersCount} members
+										</div>
 									</div>
 								</div>
-							</div>
-						</Link>
-					),
-				}));
+							</Link>
+						),
+					})),
+				{
+					text:
+						data!.communities.length > 0
+							? 'No more communities'
+							: 'No communities to choose',
+				},
+		  ];
 
 	return (
 		<div className="w-[275px]">
-			<Dropdown items={items}>
+			<Dropdown
+				items={items}
+				className="max-h-[350px] overflow-auto mobile-scrollbar mobile-scrollbar-vertical"
+			>
 				<div className="flex items-center justify-between p-2 mb-2 border border-input rounded bg-primary cursor-pointer">
 					<div className="flex gap-2">
 						<Avatar size={20} url={community?.image} alt="" />
