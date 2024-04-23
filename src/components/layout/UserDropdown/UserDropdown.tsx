@@ -2,7 +2,6 @@
 
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Dropdown from '@/components/ui/Dropdown/Dropdown';
-import { useThemeContext } from '@/contexts/ThemeContext';
 import useTopics from '@/hooks/query/useTopics';
 import {
 	Binoculars,
@@ -15,19 +14,19 @@ import {
 } from '@phosphor-icons/react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
-import React from 'react';
 
 interface UserDropdownProps {
 	session: Session;
 }
 
 const UserDropdown = ({ session }: UserDropdownProps) => {
-	const { theme, changeTheme } = useThemeContext();
+	const { theme, setTheme } = useTheme();
 	const { data } = useTopics();
 
 	const toggleTheme = () => {
-		changeTheme(theme === 'light' ? 'dark' : 'light');
+		setTheme(theme === 'light' ? 'dark' : 'light');
 	};
 
 	return (

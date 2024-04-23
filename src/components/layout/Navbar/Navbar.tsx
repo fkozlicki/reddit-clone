@@ -4,7 +4,6 @@ import Logo from '@/components/layout/Logo/Logo';
 import Button from '@/components/ui/Button/Button';
 import { useChatContext } from '@/contexts/ChatContext';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import { useThemeContext } from '@/contexts/ThemeContext';
 import { ChatCircle } from '@phosphor-icons/react';
 import { Session } from 'next-auth';
 import dynamic from 'next/dynamic';

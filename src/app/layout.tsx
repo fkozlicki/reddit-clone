@@ -27,9 +27,9 @@ export default async function RootLayout({
 	const session = await getServerSession(authOptions);
 
 	return (
-		<html lang="en">
-			<Providers>
-				<body className={inter.className}>
+		<html lang="en" suppressHydrationWarning>
+			<body className={inter.className}>
+				<Providers>
 					<Toaster position="top-center" />
 					<Navbar session={session} />
 					<ChatRoom />
@@ -42,8 +42,8 @@ export default async function RootLayout({
 						<div className="flex-1">{children}</div>
 					</main>
 					<div id="portal" />
-				</body>
-			</Providers>
+				</Providers>
+			</body>
 		</html>
 	);
 }
