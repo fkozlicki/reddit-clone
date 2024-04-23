@@ -74,7 +74,7 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 									{items && <CaretDown className="ml-auto" size={18} />}
 								</span>
 								{items && showInnerList && (
-									<ul>
+									<ul className="max-h-[336px] overflow-auto mobile-scrollbar mobile-scrollbar-vertical">
 										{items.map(({ icon, text, onClick }, index) => (
 											<li key={index}>
 												<span

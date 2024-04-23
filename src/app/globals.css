@@ -6,13 +6,20 @@
 	.no-scrollbar::-webkit-scrollbar {
 		display: none;
 	}
+
 	.no-scrollbar {
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 	}
+
 	.mobile-scrollbar::-webkit-scrollbar {
 		height: 4px;
 		position: absolute;
+	}
+
+	.mobile-scrollbar-vertical::-webkit-scrollbar {
+		position: absolute;
+		width: 6px;
 	}
 
 	.mobile-scrollbar::-webkit-scrollbar-thumb {
