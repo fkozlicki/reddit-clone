@@ -9,6 +9,7 @@ Repo of Reddit clone application, built with Next 13. <br> DEMO: https://redditv
 - Create/read post
 - Create upvote/downvote to post/comment/reply
 - Create comment/reply
+- 1on1 chat (built with Subscriptions)
 
 ## Features
 - Next.js 13 App router
@@ -19,6 +20,7 @@ Repo of Reddit clone application, built with Next 13. <br> DEMO: https://redditv
 - Optimistic UI
 - Responsive design
 - Storybook UI documentation
+- GraphQL Subscriptions
 
 ## Preview
 
@@ -41,8 +43,7 @@ Repo of Reddit clone application, built with Next 13. <br> DEMO: https://redditv
 - TailwindCSS
 - Storybook
 - Next-Auth
-
-
+- Zod
 
 
 
