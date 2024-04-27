@@ -33,6 +33,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 				email,
 			});
 			toast.success('Signed in successfully');
+			onClose();
 		} catch {
 			toast.error("Couldn't sign in");
 		}
@@ -44,6 +45,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 		try {
 			await signIn('google');
 			toast.success('Signed in successfully');
+			onClose();
 		} catch {
 			toast.error("Couldn't sign in");
 		}
@@ -83,8 +85,14 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 					<div className="border-b border-input w-full" />
 				</div>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<AnimatedInput label="Email" register={register('email')} />
+					<AnimatedInput
+						label="Email"
+						{...register('email')}
+						disabled={loading}
+					/>
 					<Button
+						disabled={loading}
+						loading={loading}
 						type="submit"
 						variant="primary"
 						className="w-full"
