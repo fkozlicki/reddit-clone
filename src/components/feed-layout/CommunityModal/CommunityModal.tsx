@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import Input from '@/components/ui/Input/Input';
 import Modal from '@/components/ui/Modal/Modal';
-import { z } from 'zod';
+import useCreateCommunity from '@/hooks/mutation/useCreateCommunity';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import useCreateCommunity from '@/hooks/mutation/useCreateCommunity';
-import TextField from '@/components/ui/TextField/TextField';
+import { z } from 'zod';
 import Label from '../../ui/Label/Label';
 
 interface CommunityModalProps {
@@ -72,7 +71,7 @@ const CommunityModal = ({ open, onClose }: CommunityModalProps) => {
 		>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Label htmlFor="community-name">Name</Label>
-				<TextField
+				<Input
 					id="community-name"
 					placeholder="/r"
 					className="text-sm w-full"

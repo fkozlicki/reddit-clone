@@ -1,8 +1,8 @@
 import UploadImage from '@/components/settings/UploadImage/UploadImage';
 import Avatar from '@/components/ui/Avatar/Avatar';
+import Input from '@/components/ui/Input/Input';
 import Label from '@/components/ui/Label/Label';
 import Modal from '@/components/ui/Modal/Modal';
-import TextField from '@/components/ui/TextField/TextField';
 import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import { CommunityData } from '@/hooks/query/useCommunity';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -87,7 +87,7 @@ const CommunitySettingsModal = ({
 		>
 			<form>
 				<Label className="mb-2 inline-block">Name</Label>
-				<TextField {...register('name')} className="mb-4" />
+				<Input {...register('name')} className="mb-4" />
 				<Label className="mb-2 inline-block">Image</Label>
 				<UploadImage
 					folder={`/communities/${community.id}`}

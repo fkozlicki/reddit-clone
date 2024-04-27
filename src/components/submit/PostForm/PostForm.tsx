@@ -2,7 +2,7 @@
 
 import Button from '@/components/ui/Button/Button';
 import Editor from '@/components/ui/Editor/Editor';
-import TextField from '@/components/ui/TextField/TextField';
+import Input from '@/components/ui/Input/Input';
 import useCreatePost from '@/hooks/mutation/useCreatePost';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -55,7 +55,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="bg-primary p-3 rounded">
-			<TextField
+			<Input
 				placeholder="Title"
 				{...register('title')}
 				className="w-full mb-4"

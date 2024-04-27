@@ -3,14 +3,14 @@
 import useUpdateUser, {
 	UpdateUserVariables,
 } from '@/hooks/mutation/useUpdateUser';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 import UploadImage from '../settings/UploadImage/UploadImage';
+import Input from '../ui/Input/Input';
 import Label from '../ui/Label/Label';
-import TextField from '../ui/TextField/TextField';
-import toast from 'react-hot-toast';
-import { zodResolver } from '@hookform/resolvers/zod';
 import Textarea from '../ui/Textarea/Textarea';
 
 interface SettingsViewProps {
@@ -76,7 +76,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 			<div className="max-w-2xl mr-auto flex flex-col gap-4 lg:gap-6">
 				<div className="flex flex-col gap-1">
 					<Label>Name</Label>
-					<TextField
+					<Input
 						{...register('name', {
 							onBlur() {
 								onUpdate('name');
@@ -88,7 +88,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				</div>
 				<div className="flex flex-col gap-1">
 					<Label>Display name</Label>
-					<TextField
+					<Input
 						{...register('displayName', {
 							onBlur() {
 								onUpdate('displayName');

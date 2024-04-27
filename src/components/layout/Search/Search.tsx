@@ -1,6 +1,6 @@
 'use client';
 
-import TextField from '@/components/ui/TextField/TextField';
+import Input from '@/components/ui/Input/Input';
 import { useLazyCommunities } from '@/hooks/query/useCommunities';
 import usePosts from '@/hooks/query/usePosts';
 import { useClickAway } from '@/hooks/useClickAway';
@@ -50,7 +50,7 @@ const Search = () => {
 	return (
 		<div className="flex-1 max-w-[690px] hidden md:block px-4">
 			<div ref={ref} className="relative">
-				<TextField
+				<Input
 					value={search}
 					onFocus={() => setOpen(true)}
 					onChange={updateSearch}

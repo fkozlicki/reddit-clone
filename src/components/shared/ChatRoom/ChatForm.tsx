@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
-import TextField from '@/components/ui/TextField/TextField';
+import Input from '@/components/ui/Input/Input';
 import { useChatContext } from '@/contexts/ChatContext';
 import useCreateConversation from '@/hooks/mutation/useCreateConversation';
 import useCreateMessage from '@/hooks/mutation/useCreateMessage';
@@ -88,7 +88,7 @@ const ChatForm = ({ userId, conversationId }: ChatFormProps) => {
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex items-center gap-2"
 			>
-				<TextField
+				<Input
 					{...register('content')}
 					className="rounded-full"
 					placeholder="Message"

@@ -1,7 +1,7 @@
 import Button from '@/components/ui/Button/Button';
+import Input from '@/components/ui/Input/Input';
 import Modal from '@/components/ui/Modal/Modal';
-import TextField from '@/components/ui/TextField/TextField';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface ShareModalProps {
@@ -24,7 +24,7 @@ const ShareModal = ({ open, onClose, path }: ShareModalProps) => {
 	return (
 		<Modal open={open} onClose={onClose} title="Share" footer={false}>
 			<div className="flex gap-2">
-				<TextField readOnly={true} value={link} />
+				<Input readOnly={true} value={link} />
 				<Button
 					className="shrink-0"
 					onClick={copyToClipboard}

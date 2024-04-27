@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
 import { InputHTMLAttributes, forwardRef } from 'react';
 
-interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	remaining?: number;
 }
 
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
 	({ remaining, className, ...props }, ref) => {
 		return (
 			<>
@@ -32,6 +32,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 	}
 );
 
-TextField.displayName = 'DisplayName';
+Input.displayName = 'DisplayName';
 
-export default TextField;
+export default Input;
