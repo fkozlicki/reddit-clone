@@ -137,13 +137,10 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						)}
 						{showContent && (
 							<div
-								className={cn(
-									'px-2 pb-2 text-primary [&>ul]:ml-4 [&>ul]:list-disc [&>ol]:ml-4 [&>ol]:list-decimal [&>p>code]:bg-secondary [&>p>code]:text-xs [&>p>code]:px-1 [&>p>code]:py-1 [&>p>code]:rounded',
-									{
-										'max-h-[250px] overflow-hidden [mask-image:linear-gradient(180deg,#000_60%,transparent)]':
-											preview,
-									}
-								)}
+								className={cn('px-2 pb-2 text-primary [&>p]:mb-4', {
+									'max-h-[250px] overflow-hidden [mask-image:linear-gradient(180deg,#000_60%,transparent)]':
+										preview,
+								})}
 								dangerouslySetInnerHTML={{
 									__html: content,
 								}}

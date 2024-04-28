@@ -1,12 +1,12 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
-import Editor from '@/components/ui/Editor/Editor';
 import Input from '@/components/ui/Input/Input';
+import RichTextEditor from '@/components/ui/RichTextEditor/RichTextEditor';
 import useCreatePost from '@/hooks/mutation/useCreatePost';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { z } from 'zod';
 
@@ -30,6 +30,7 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		formState: { isValid },
 		reset,
 		setValue,
+		control,
 	} = useForm<CreatePostValues>({
 		resolver: zodResolver(createPostSchema),
 		defaultValues: {
@@ -60,7 +61,13 @@ const PostForm = ({ communityId }: PostFormProps) => {
 				{...register('title')}
 				className="w-full mb-4"
 			/>
-			<Editor onChange={(data) => setValue('content', data)} />
+			<Controller
+				control={control}
+				name="content"
+				render={({ field }) => (
+					<RichTextEditor value={field.value} onChange={field.onChange} />
+				)}
+			/>
 			<Button
 				variant="primary"
 				className="block ml-auto mt-4"

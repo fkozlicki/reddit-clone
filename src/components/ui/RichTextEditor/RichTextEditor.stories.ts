@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Editor from './Editor';
+import Editor from './RichTextEditor';
 import '../../../app/globals.css';
 
 const meta: Meta<typeof Editor> = {
