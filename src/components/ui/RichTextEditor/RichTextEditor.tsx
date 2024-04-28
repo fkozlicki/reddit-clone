@@ -1,23 +1,24 @@
-import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import Document from '@tiptap/extension-document';
 import Heading from '@tiptap/extension-heading';
-import Button from '../Button/Button';
-import { cn } from '@/lib/utils';
-import {
-	Code,
-	CodeBlock,
-	ListBullets,
-	ListNumbers,
-	Quotes,
-	TextB,
-	TextH,
-	TextItalic,
-} from '@phosphor-icons/react';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import css from 'highlight.js/lib/languages/css';
+import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from 'highlight.js/lib/languages/typescript';
+import html from 'highlight.js/lib/languages/xml';
+import { createLowlight } from 'lowlight';
+import CodeBlock from './CodeBlock';
+import Toolbar from './Toolbar';
 
-interface RichTextEditorProps {
-	value: string;
-	onChange: (value: string) => void;
-}
+const lowlight = createLowlight();
+
+lowlight.register({ javascript });
+lowlight.register({ typescript });
+lowlight.register({ css });
+lowlight.register({ html });
 
 const extensions = [
 	StarterKit.configure({
@@ -45,117 +46,29 @@ const extensions = [
 				class: 'pl-2 border-l-2 border-post',
 			},
 		},
-		codeBlock: {
-			HTMLAttributes: {
-				class: 'bg-secondary p-4 rounded',
-			},
-		},
+		codeBlock: false,
 	}),
 	Heading.configure({
 		HTMLAttributes: {
-			class: 'text-lg font-bold',
+			class: 'text-xl font-bold',
 		},
+	}),
+	Document,
+	Paragraph,
+	Text,
+	CodeBlockLowlight.extend({
+		addNodeView() {
+			return ReactNodeViewRenderer(CodeBlock);
+		},
+	}).configure({
+		lowlight,
 	}),
 ];
 
-const Toolbar = ({ editor }: { editor: Editor | null }) => {
-	if (!editor) {
-		return null;
-	}
-
-	return (
-		<div className="border border-input bg-transparent rounded-md rounded-b-none p-1 flex border-b-0">
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('bold'),
-				})}
-				onClick={() => editor.chain().focus().toggleBold().run()}
-			>
-				<TextB size={20} weight="bold" />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('italic'),
-				})}
-				onClick={() => editor.chain().focus().toggleItalic().run()}
-			>
-				<TextItalic size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('code'),
-				})}
-				onClick={() => editor.chain().focus().toggleCode().run()}
-			>
-				<Code size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('heading', { level: 1 }),
-				})}
-				onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-			>
-				<TextH size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('bulletList'),
-				})}
-				onClick={() => editor.chain().focus().toggleBulletList().run()}
-			>
-				<ListBullets size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('orderedList'),
-				})}
-				onClick={() => editor.chain().focus().toggleOrderedList().run()}
-			>
-				<ListNumbers size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('blockquote'),
-				})}
-				onClick={() => editor.chain().focus().toggleBlockquote().run()}
-			>
-				<Quotes size={20} />
-			</Button>
-			<Button
-				type="button"
-				shape="square"
-				variant="text"
-				className={cn('text-primary-light px-2', {
-					'text-primary': editor.isActive('codeblock'),
-				})}
-				onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-			>
-				<CodeBlock size={20} />
-			</Button>
-		</div>
-	);
-};
+interface RichTextEditorProps {
+	value: string;
+	onChange: (value: string) => void;
+}
 
 const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
 	const editor = useEditor({

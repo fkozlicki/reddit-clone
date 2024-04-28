@@ -29,7 +29,6 @@ const PostForm = ({ communityId }: PostFormProps) => {
 		register,
 		formState: { isValid },
 		reset,
-		setValue,
 		control,
 	} = useForm<CreatePostValues>({
 		resolver: zodResolver(createPostSchema),

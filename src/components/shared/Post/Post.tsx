@@ -8,9 +8,6 @@ import useSavePost from '@/hooks/mutation/useSavePost';
 import { PostPreview } from '@/hooks/query/usePosts';
 import { cn } from '@/lib/utils';
 import { calculateEllapsedTime } from '@/utils/calculateEllapsedTime';
-import Link from 'next/link';
-import { useState } from 'react';
-import SharePostModal from '../ShareModal/ShareModal';
 import {
 	ArrowsIn,
 	ArrowsOut,
@@ -19,6 +16,11 @@ import {
 	DotsThree,
 	Share,
 } from '@phosphor-icons/react';
+import 'highlight.js/styles/atom-one-dark.css';
+import Link from 'next/link';
+import { useState } from 'react';
+import SharePostModal from '../ShareModal/ShareModal';
+import PostContent from './PostContent';
 
 interface PostProps {
 	post: PostPreview;
@@ -137,14 +139,13 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						)}
 						{showContent && (
 							<div
-								className={cn('px-2 pb-2 text-primary [&>p]:mb-4', {
+								className={cn('px-2 pb-2', {
 									'max-h-[250px] overflow-hidden [mask-image:linear-gradient(180deg,#000_60%,transparent)]':
 										preview,
 								})}
-								dangerouslySetInnerHTML={{
-									__html: content,
-								}}
-							/>
+							>
+								<PostContent content={content} />
+							</div>
 						)}
 					</>
 				</Wrapper>
