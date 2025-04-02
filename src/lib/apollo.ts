@@ -1,9 +1,11 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { registerApolloClient } from '@apollo/client-integration-nextjs';
 import {
 	ApolloLink,
 	Operation,
 	FetchResult,
 	Observable,
+	HttpLink,
 } from '@apollo/client/core';
 import { print, GraphQLError } from 'graphql';
 import { createClient, ClientOptions, Client } from 'graphql-sse';
@@ -34,9 +36,13 @@ const link = new SSELink({
 	url: '/api/graphql',
 });
 
-const apolloClient = new ApolloClient({
-	link,
-	cache: new InMemoryCache(),
+export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+	return new ApolloClient({
+		cache: new InMemoryCache(),
+		link: new HttpLink({
+			uri: 'http://localhost:3000/api/graphql',
+			fetchOptions: {},
+		}),
+		ssrMode: true,
+	});
 });
-
-export default apolloClient;

@@ -1,23 +1,22 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
-import React, { ReactNode } from 'react';
-import { ApolloProvider } from '@apollo/client';
-import apolloClient from '@/lib/apollo';
-import ModalsProvider from '@/contexts/ModalsContext';
 import ChatProvider from '@/contexts/ChatContext';
+import ModalsProvider from '@/contexts/ModalsContext';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
+import { ReactNode } from 'react';
+import { ApolloWrapper } from './ApolloWrapper';
 
 const Providers = ({ children }: { children: ReactNode }) => {
 	return (
 		<SessionProvider>
-			<ApolloProvider client={apolloClient}>
+			<ApolloWrapper>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<ModalsProvider>
 						<ChatProvider>{children}</ChatProvider>
 					</ModalsProvider>
 				</ThemeProvider>
-			</ApolloProvider>
+			</ApolloWrapper>
 		</SessionProvider>
 	);
 };
