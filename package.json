@@ -10,6 +10,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"typecheck": "tsc --noEmit",
 		"storybook": "storybook dev -p 6006 -s ../public",
 		"build-storybook": "storybook build",
 		"vercel-build": "prisma generate && prisma migrate deploy && next build"

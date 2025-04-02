@@ -152,7 +152,7 @@ export default function useCreateComment(
 								if (comment.id === targetId) {
 									return {
 										...comment,
-										replies: [reply, ...comment.replies],
+										replies: [reply, ...(comment.replies ?? [])],
 									};
 								}
 

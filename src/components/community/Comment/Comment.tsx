@@ -85,7 +85,7 @@ const Comment = ({ comment, highlight }: CommentProps) => {
 							<CommentForm postId={comment.postId} replyToId={id} />
 						</div>
 					)}
-					{replies.map((reply, index) => (
+					{replies?.map((reply, index) => (
 						<Comment key={index} comment={reply} />
 					))}
 				</div>

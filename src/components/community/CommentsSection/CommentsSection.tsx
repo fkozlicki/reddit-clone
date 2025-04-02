@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import { PostComment } from '@/hooks/query/usePost';
 import Comment from '../Comment/Comment';
 import CommentForm from '../CommentForm/CommentForm';
-import { PostComment } from '@/hooks/query/usePost';
 
 interface CommentsSectionProps {
 	comments: PostComment[];

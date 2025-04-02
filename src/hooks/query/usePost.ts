@@ -8,7 +8,7 @@ export type PostAuthor = Pick<User, 'id' | 'name' | 'image'>;
 export type PostComment = Pick<Comment, 'id' | 'content' | 'createdAt'> & {
 	__typename: 'Comment';
 	author: PostAuthor;
-	replies: PostComment[];
+	replies?: PostComment[];
 	karma: number;
 	voteValue: VoteValue | null;
 	postId: string;
