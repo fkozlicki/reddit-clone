@@ -1,5 +1,3 @@
-'use client';
-
 import { QueryHookOptions, gql, useQuery } from '@apollo/client';
 import { Community, Post } from '@prisma/client';
 import { PostAuthor } from './usePost';
