@@ -1,11 +1,10 @@
 import SettingsView from '@/components/views/SettingsView';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
 import { notFound, redirect } from 'next/navigation';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Settings() {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 
 	if (!session) {
 		redirect('/');

@@ -1,10 +1,9 @@
 import HomeCTA from '@/components/feed-layout/HomeCTA/HomeCTA';
 import PremiumCTA from '@/components/feed-layout/PremiumCTA/PremiumCTA';
 import Grid from '@/components/ui/Grid/Grid';
-import { getServerSession } from 'next-auth';
-import { ReactNode } from 'react';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { auth } from '@/lib/auth';
 import dynamic from 'next/dynamic';
+import { ReactNode } from 'react';
 const CreatePost = dynamic(
 	() => import('@/components/feed-layout/CreatePost/CreatePost')
 );
@@ -14,7 +13,7 @@ export default async function FeedLayout({
 }: {
 	children: ReactNode;
 }) {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 
 	return (
 		<div className="sm:px-4 py-6">

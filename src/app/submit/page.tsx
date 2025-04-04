@@ -1,17 +1,16 @@
 import ChooseCommunity from '@/components/submit/ChooseCommunity/ChooseCommunity';
-import PostRules from '@/components/submit/PostRules/PostRules';
 import PostForm from '@/components/submit/PostForm/PostForm';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import PostRules from '@/components/submit/PostRules/PostRules';
 import Grid from '@/components/ui/Grid/Grid';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
 	title: 'Submit to Reddit',
 };
 
 export default async function Submit() {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 
 	if (!session) {
 		redirect('/');

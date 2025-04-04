@@ -1,14 +1,13 @@
 import Providers from '@/components/Providers';
 import Navbar from '@/components/layout/Navbar/Navbar';
+import ChatRoom from '@/components/shared/ChatRoom/ChatRoom';
+import { auth } from '@/lib/auth';
 import { cn } from '@/lib/utils';
-import { getServerSession } from 'next-auth';
+import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
-import dynamic from 'next/dynamic';
-import ChatRoom from '@/components/shared/ChatRoom/ChatRoom';
 const Sidebar = dynamic(() => import('@/components/layout/Sidebar/Sidebar'));
 
 const inter = Inter({ subsets: ['latin'] });
@@ -24,7 +23,7 @@ export default async function RootLayout({
 }: {
 	children: ReactNode;
 }) {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 
 	return (
 		<html lang="en" suppressHydrationWarning>
@@ -32,7 +31,7 @@ export default async function RootLayout({
 				<Providers>
 					<Toaster position="top-center" />
 					<Navbar session={session} />
-					<ChatRoom />
+					{/* <ChatRoom /> */}
 					<main
 						className={cn('pt-12 min-h-screen bg-secondary', {
 							'xl:pl-[270px] flex': !session,

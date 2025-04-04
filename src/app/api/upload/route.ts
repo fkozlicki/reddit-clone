@@ -1,10 +1,9 @@
+import { auth } from '@/lib/auth';
 import S3 from 'aws-sdk/clients/s3';
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '../auth/[...nextauth]/route';
 
 export async function PUT(req: NextRequest, res: NextResponse) {
-	const session = getServerSession(authOptions);
+	const session = await auth();
 
 	if (!session) {
 		throw new Error('You have to be logged in');

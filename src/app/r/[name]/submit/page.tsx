@@ -1,21 +1,19 @@
+import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
 import ChooseCommunity from '@/components/submit/ChooseCommunity/ChooseCommunity';
 import PostForm from '@/components/submit/PostForm/PostForm';
 import PostRules from '@/components/submit/PostRules/PostRules';
-import { notFound, redirect } from 'next/navigation';
-import React from 'react';
-import { prisma } from '@/lib/prisma';
 import Grid from '@/components/ui/Grid/Grid';
-import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { notFound, redirect } from 'next/navigation';
 
 export default async function CommunitySubmit({
 	params: { name },
 }: {
 	params: { name: string };
 }) {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 	const community = await prisma.community.findUnique({
 		where: {
 			name,
