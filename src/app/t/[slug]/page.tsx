@@ -6,10 +6,12 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 export default async function Topic({
-	params: { slug },
+	params,
 }: {
-	params: { slug: string };
+	params: Promise<{ slug: string }>;
 }) {
+	const { slug } = await params;
+
 	const topic = await prisma.topic.findUnique({
 		where: { slug },
 	});

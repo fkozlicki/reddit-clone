@@ -1,10 +1,12 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
 import React from 'react';
 
-export default function UserPosts({
-	params: { name },
+export default async function UserPosts({
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	return <Feed sort="new" filter={{ author: { name } }} />;
 }

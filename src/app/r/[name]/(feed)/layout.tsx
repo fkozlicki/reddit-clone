@@ -3,10 +3,12 @@ import CommunityHeader from '@/components/community/CommunityHeader/CommunityHea
 import Grid from '@/components/ui/Grid/Grid';
 import { CommunityLayoutProps } from '../layout';
 
-export default function CommunityFeedLayout({
+export default async function CommunityFeedLayout({
 	children,
-	params: { name },
+	params,
 }: CommunityLayoutProps) {
+	const { name } = await params;
+
 	return (
 		<>
 			<CommunityHeader name={name} />

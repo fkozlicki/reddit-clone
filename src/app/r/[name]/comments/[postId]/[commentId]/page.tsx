@@ -4,15 +4,15 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 type CommentPageProps = {
-	params: {
+	params: Promise<{
 		postId: string;
 		commentId: string;
-	};
+	}>;
 };
 
-export default async function CommentPage({
-	params: { postId, commentId },
-}: CommentPageProps) {
+export default async function CommentPage({ params }: CommentPageProps) {
+	const { commentId, postId } = await params;
+
 	const post = await prisma.post.findUnique({
 		where: {
 			id: postId,

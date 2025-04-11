@@ -1,10 +1,12 @@
 import CommentsFeed from '@/components/profile/CommentsFeed/CommentsFeed';
 import React from 'react';
 
-export default function UserComments({
-	params: { name },
+export default async function UserComments({
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	return <CommentsFeed userName={name} />;
 }

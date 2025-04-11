@@ -7,6 +7,7 @@ import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Image as ImageIcon } from '@phosphor-icons/react';
+import { uploadImageAction } from '@/actions/upload-image-action';
 
 interface UploadImageProps {
 	image: User['image'];
@@ -24,30 +25,20 @@ const UploadImage = ({ image, folder, onUpload }: UploadImageProps) => {
 		}
 
 		const file = event.target.files[0];
-		const filename = file.name;
-		const filetype = file.type;
+		const fileName = file.name;
+		const fileType = file.type;
 
 		setLoading(true);
 
 		try {
-			const res = await fetch(
-				`/api/upload?file=${filename}&fileType=${filetype}&folder=${folder}`,
-				{
-					method: 'PUT',
-				}
-			);
-
-			const { url } = await (res.json() as Promise<{ url: string }>);
-
-			await fetch(url, {
-				method: 'PUT',
-				body: file,
-				headers: { 'Content-Type': filetype },
+			const url = await uploadImageAction({
+				file,
+				fileName,
+				fileType,
+				folder,
 			});
 
-			const s3FileUrl = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com${folder}/${filename}`;
-
-			onUpload(s3FileUrl);
+			onUpload(url);
 		} catch (error) {
 			toast.error('Something went wrong');
 		}

@@ -9,10 +9,12 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 export default async function CommunitySubmit({
-	params: { name },
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	const session = await auth();
 	const community = await prisma.community.findUnique({
 		where: {
@@ -55,10 +57,12 @@ export default async function CommunitySubmit({
 }
 
 export async function generateMetadata({
-	params: { name },
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }): Promise<Metadata> {
+	const { name } = await params;
+
 	const community = await prisma.community.findFirst({
 		where: {
 			name,

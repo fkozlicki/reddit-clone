@@ -4,10 +4,12 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 type CommentsProps = {
-	params: { postId: string };
+	params: Promise<{ postId: string }>;
 };
 
-export default async function Comments({ params: { postId } }: CommentsProps) {
+export default async function Comments({ params }: CommentsProps) {
+	const { postId } = await params;
+
 	const post = await prisma.post.findFirst({
 		where: {
 			id: postId,
@@ -22,8 +24,10 @@ export default async function Comments({ params: { postId } }: CommentsProps) {
 }
 
 export async function generateMetadata({
-	params: { postId },
+	params,
 }: CommentsProps): Promise<Metadata> {
+	const { postId } = await params;
+
 	const post = await prisma.post.findFirst({
 		where: {
 			id: postId,

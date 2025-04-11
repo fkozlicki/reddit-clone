@@ -1,10 +1,12 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
 import React from 'react';
 
-export default function UserUpvotedPosts({
-	params: { name },
+export default async function UserUpvotedPosts({
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	return <Feed filter={{ votes: { some: { user: { name }, value: 1 } } }} />;
 }

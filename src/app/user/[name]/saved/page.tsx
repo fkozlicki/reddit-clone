@@ -1,9 +1,11 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
 
-export default function UserSavedPosts({
-	params: { name },
+export default async function UserSavedPosts({
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	return <Feed filter={{ saved: { some: { user: { name } } } }} sort="new" />;
 }

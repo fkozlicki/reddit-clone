@@ -4,13 +4,15 @@ import { ReactNode } from 'react';
 
 export interface CommunityLayoutProps {
 	children: ReactNode;
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }
 
 export default async function CommunityLayout({
 	children,
-	params: { name },
+	params,
 }: CommunityLayoutProps) {
+	const { name } = await params;
+
 	const community = await prisma.community.findUnique({
 		where: {
 			name,

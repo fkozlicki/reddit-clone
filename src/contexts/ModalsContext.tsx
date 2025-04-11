@@ -36,9 +36,7 @@ const ModalsContext = createContext<ModalsContext>([initialState, () => null]);
 export const useModalsContext = (): ModalsContext => useContext(ModalsContext);
 
 const ModalsProvider = ({ children }: { children: ReactNode }) => {
-	const [state, dispatch] = useReducer<
-		(state: ModalsState, action: ModalAction) => ModalsState
-	>(modalsReducer, initialState);
+	const [state, dispatch] = useReducer(modalsReducer, initialState);
 
 	return (
 		<ModalsContext.Provider value={[state, dispatch]}>

@@ -8,7 +8,7 @@ type Options = {
 
 export function useIntersectionObserver<T extends Element>(
 	options: Options = {}
-): [RefObject<T>, IntersectionObserverEntry | null] {
+): [RefObject<T | null>, IntersectionObserverEntry | null] {
 	const { threshold = 1, root = null, rootMargin = '0%' } = options;
 	const ref = useRef<T>(null);
 	const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);

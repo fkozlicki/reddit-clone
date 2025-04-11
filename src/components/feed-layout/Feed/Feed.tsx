@@ -1,13 +1,9 @@
 'use client';
 
 import Post from '@/components/shared/Post/Post';
-import {
-	POSTS_QUERY,
-	PostsQueryResponse,
-	PostsQueryVariables,
-} from '@/hooks/query/usePosts';
+import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import usePosts from '@/hooks/query/usePosts';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { useSuspenseQuery } from '@apollo/client';
 import { useEffect } from 'react';
 
 interface FeedProps {
@@ -16,10 +12,8 @@ interface FeedProps {
 }
 
 const Feed = ({ sort, filter }: FeedProps) => {
-	const { data, fetchMore } = useSuspenseQuery<
-		PostsQueryResponse,
-		PostsQueryVariables
-	>(POSTS_QUERY, {
+	const { data, fetchMore, loading } = usePosts({
+		notifyOnNetworkStatusChange: true,
 		variables: {
 			first: 5,
 			sort,
@@ -29,7 +23,7 @@ const Feed = ({ sort, filter }: FeedProps) => {
 	const [ref, entry] = useIntersectionObserver<HTMLDivElement>();
 
 	useEffect(() => {
-		if (entry?.isIntersecting && data?.posts.pageInfo.hasNextPage) {
+		if (entry?.isIntersecting && !loading && data?.posts.pageInfo.hasNextPage) {
 			fetchMore({
 				variables: {
 					after: data.posts.pageInfo.endCursor,
@@ -43,7 +37,7 @@ const Feed = ({ sort, filter }: FeedProps) => {
 				},
 			});
 		}
-	}, [entry, fetchMore, data]);
+	}, [entry, loading, fetchMore, data]);
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -54,6 +48,11 @@ const Feed = ({ sort, filter }: FeedProps) => {
 							{data.posts.edges.map(({ node: post }, index) => (
 								<Post key={index} post={post} preview />
 							))}
+							{!loading && (
+								<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
+									No more posts
+								</div>
+							)}
 						</>
 					) : (
 						<div className="text-center mb-4 bg-primary p-3 border border-post rounded text-primary">
@@ -62,7 +61,15 @@ const Feed = ({ sort, filter }: FeedProps) => {
 					)}
 				</>
 			)}
-			<div ref={ref}></div>
+			<div ref={ref}>
+				{loading && (
+					<div className="flex flex-col gap-4">
+						{Array.from({ length: 3 }).map((_, index) => (
+							<PostSkeleton key={index} />
+						))}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

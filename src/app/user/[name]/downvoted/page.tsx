@@ -1,9 +1,11 @@
 import Feed from '@/components/feed-layout/Feed/Feed';
 
-export default function UserDownvotedPosts({
-	params: { name },
+export default async function UserDownvotedPosts({
+	params,
 }: {
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	return <Feed filter={{ votes: { some: { user: { name }, value: -1 } } }} />;
 }

@@ -2,11 +2,11 @@ import { useClickAway } from '@/hooks/useClickAway';
 import { cn } from '@/lib/utils';
 import { CaretDown } from '@phosphor-icons/react';
 import { cva } from 'class-variance-authority';
-import React, {
+import {
 	HTMLAttributes,
+	MouseEventHandler,
 	ReactElement,
 	ReactNode,
-	cloneElement,
 	useState,
 } from 'react';
 
@@ -42,15 +42,7 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 
 	return (
 		<div ref={dropdownRef} className="relative">
-			{cloneElement(children, {
-				onClick: (event: MouseEvent) => {
-					event.stopPropagation();
-					toggleDropdown();
-					if (children.props.onClick) {
-						children.props.onClick();
-					}
-				},
-			})}
+			{children}
 			{open && (
 				<ul className={cn(dropdown({ className }))} {...props}>
 					{items.map(({ icon, text, onClick, items }, index) => (

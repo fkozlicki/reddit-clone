@@ -7,11 +7,13 @@ import { ReactNode } from 'react';
 
 export default async function UserLayout({
 	children,
-	params: { name },
+	params,
 }: {
 	children: ReactNode;
-	params: { name: string };
+	params: Promise<{ name: string }>;
 }) {
+	const { name } = await params;
+
 	const user = await prisma.user.findUnique({
 		where: {
 			name,
