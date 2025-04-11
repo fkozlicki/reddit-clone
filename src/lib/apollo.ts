@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/utils/getAppUrl';
 import {
 	ApolloClient,
 	InMemoryCache,
@@ -16,7 +17,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(
 		return new ApolloClient({
 			cache: new InMemoryCache(),
 			link: new HttpLink({
-				uri: 'http://localhost:3000/api/graphql',
+				uri: `${getAppUrl()}/api/graphql`,
 				headers: {
 					cookie,
 				},
