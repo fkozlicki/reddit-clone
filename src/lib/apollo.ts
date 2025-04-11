@@ -4,13 +4,23 @@ import {
 	registerApolloClient,
 } from '@apollo/client-integration-nextjs';
 import { HttpLink } from '@apollo/client/core';
+import { cookies } from 'next/headers';
 
-export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
-	return new ApolloClient({
-		cache: new InMemoryCache(),
-		link: new HttpLink({
-			uri: 'http://localhost:3000/api/graphql',
-			fetchOptions: {},
-		}),
-	});
-});
+export const { getClient, query, PreloadQuery } = registerApolloClient(
+	async () => {
+		const cookie = (await cookies())
+			.getAll()
+			.map(({ name, value }) => `${name}=${value}`)
+			.join(';');
+
+		return new ApolloClient({
+			cache: new InMemoryCache(),
+			link: new HttpLink({
+				uri: 'http://localhost:3000/api/graphql',
+				headers: {
+					cookie,
+				},
+			}),
+		});
+	}
+);

@@ -6,15 +6,15 @@ import useCommunity from '@/hooks/query/useCommunity';
 import { formatDate } from '@/utils/formatDate';
 import { useSession } from 'next-auth/react';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import CommunityMembershipButton from '@/components/community/CommunityMembershipButton/CommunityMembershipButton';
 import CommunityTopic from '@/components/community/CommunityTopic/CommunityTopic';
 import Avatar from '@/components/ui/Avatar/Avatar';
+import { CalendarBlank } from '@phosphor-icons/react';
 import Link from 'next/link';
 import CommunityDescriptionForm from '../CommunityDescriptionForm/CommunityDescriptionForm';
 import CommunitySettingsModal from '../CommunitySettingsModal/CommunitySettingsModal';
-import { CalendarBlank } from '@phosphor-icons/react';
 
 interface CommunityAboutProps {
 	cta?: 'Create Post' | 'Join';
@@ -35,7 +35,7 @@ const CommunityAbout = ({
 	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const params = useParams();
 	const name = params.name as string;
-	const { data, loading, error } = useCommunity({
+	const { data, error } = useCommunity({
 		variables: {
 			name,
 		},
@@ -53,11 +53,7 @@ const CommunityAbout = ({
 		setSettingsOpen(true);
 	};
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (error || !data) {
+	if (error) {
 		return <div>Couldnt load data</div>;
 	}
 
@@ -133,7 +129,9 @@ const CommunityAbout = ({
 				{editable && isModerator && (
 					<>
 						<div className="w-full h-px border-b border-input my-4" />
-						<CommunityTopic communityId={id} initialTopic={topic?.name} />
+						<Suspense fallback="Loading...">
+							<CommunityTopic communityId={id} initialTopic={topic?.name} />
+						</Suspense>
 					</>
 				)}
 				{cta && (

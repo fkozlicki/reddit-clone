@@ -1,15 +1,13 @@
 'use client';
 
-import React from 'react';
 import Button from '@/components/ui/Button/Button';
-import Link from 'next/link';
 import { useModalsContext } from '@/contexts/ModalsContext';
-import useTopics from '@/hooks/query/useTopics';
-import { Star } from '@phosphor-icons/react';
+import Link from 'next/link';
+import { Suspense } from 'react';
+import TopicsList from '../TopicsList/TopicsList';
 
 const Sidebar = () => {
 	const [, dispatch] = useModalsContext();
-	const { data } = useTopics();
 
 	const openSignIn = () => {
 		dispatch({ type: 'openSignIn' });
@@ -28,33 +26,9 @@ const Sidebar = () => {
 					>
 						Popular
 					</Link>
-					<div className="text-[10px] uppercase px-5 pb-1 pt-3 text-primary">
-						topics
-					</div>
-					<div className="max-h-[336px] overflow-auto mobile-scrollbar mobile-scrollbar-vertical">
-						{data?.topics.map(({ slug, name }, index) => (
-							<Link key={index} href={`/t/${slug}`}>
-								<Button
-									className="w-full rounded-none justify-start"
-									variant="text"
-									icon={<Star weight="fill" size={20} />}
-								>
-									{name}
-								</Button>
-							</Link>
-						))}
-						{data?.topics.map(({ slug, name }, index) => (
-							<Link key={index} href={`/t/${slug}`}>
-								<Button
-									className="w-full rounded-none justify-start"
-									variant="text"
-									icon={<Star weight="fill" size={20} />}
-								>
-									{name}
-								</Button>
-							</Link>
-						))}
-					</div>
+					<Suspense fallback="Loading...">
+						<TopicsList />
+					</Suspense>
 				</div>
 				<div className="w-full h-px px-6">
 					<div className=" bg-border-input w-full h-full" />

@@ -100,3 +100,7 @@ export const CommentFilter = builder.prismaWhere('Comment', {
 export const Sort = builder.enumType('Sort', {
 	values: ['hot', 'top', 'new'],
 });
+
+export type SortType = typeof Sort.$inferType;
+
+export type PostFilterType = typeof PostFilter.$inferInput;

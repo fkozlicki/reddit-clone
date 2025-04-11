@@ -42,7 +42,11 @@ const Dropdown = ({ items, children, className, ...props }: DropdownProps) => {
 
 	return (
 		<div ref={dropdownRef} className="relative">
-			{children}
+			{children && (
+				<div role="button" onClick={() => setOpen((prev) => !prev)}>
+					{children}
+				</div>
+			)}
 			{open && (
 				<ul className={cn(dropdown({ className }))} {...props}>
 					{items.map(({ icon, text, onClick, items }, index) => (

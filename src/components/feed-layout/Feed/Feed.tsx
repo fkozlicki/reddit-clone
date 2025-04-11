@@ -2,13 +2,14 @@
 
 import Post from '@/components/shared/Post/Post';
 import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import { PostFilterType, SortType } from '@/graphql/builder';
 import usePosts from '@/hooks/query/usePosts';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useEffect } from 'react';
 
 interface FeedProps {
-	sort?: any;
-	filter?: any;
+	sort?: SortType;
+	filter?: PostFilterType;
 }
 
 const Feed = ({ sort, filter }: FeedProps) => {

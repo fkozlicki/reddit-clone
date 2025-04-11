@@ -1,4 +1,8 @@
-import { QueryHookOptions, gql, useQuery } from '@apollo/client';
+import {
+	SuspenseQueryHookOptions,
+	gql,
+	useSuspenseQuery,
+} from '@apollo/client';
 import { Community, Topic } from '@prisma/client';
 import { PostAuthor } from './usePost';
 
@@ -41,9 +45,12 @@ export const COMMUNITY_QUERY = gql`
 `;
 
 export default function useCommunity(
-	options: QueryHookOptions<CommunityQueryResponse, CommunityQueryVariables>
+	options: SuspenseQueryHookOptions<
+		CommunityQueryResponse,
+		CommunityQueryVariables
+	>
 ) {
-	return useQuery<CommunityQueryResponse, CommunityQueryVariables>(
+	return useSuspenseQuery<CommunityQueryResponse, CommunityQueryVariables>(
 		COMMUNITY_QUERY,
 		options
 	);

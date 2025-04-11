@@ -1,3 +1,5 @@
+import { COMMUNITY_QUERY } from '@/hooks/query/useCommunity';
+import { PreloadQuery } from '@/lib/apollo';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -23,5 +25,14 @@ export default async function CommunityLayout({
 		return notFound();
 	}
 
-	return <>{children}</>;
+	return (
+		<PreloadQuery
+			query={COMMUNITY_QUERY}
+			variables={{
+				name,
+			}}
+		>
+			{children}
+		</PreloadQuery>
+	);
 }

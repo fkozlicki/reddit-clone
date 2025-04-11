@@ -47,15 +47,13 @@ const UserDropdown = ({ session }: UserDropdownProps) => {
 				{
 					text: 'Explore',
 					icon: <Binoculars size={20} />,
-					items:
-						data &&
-						data.topics.map(({ name, slug, id }) => ({
-							text: (
-								<Link key={id} href={`/t/${slug}`}>
-									{name}
-								</Link>
-							),
-						})),
+					items: data.topics.map(({ name, slug, id }) => ({
+						text: (
+							<Link key={id} href={`/t/${slug}`}>
+								{name}
+							</Link>
+						),
+					})),
 				},
 				{
 					text: (

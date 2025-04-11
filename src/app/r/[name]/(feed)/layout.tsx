@@ -1,6 +1,8 @@
 import CommunityAbout from '@/components/community/CommunityAbout/CommunityAbout';
 import CommunityHeader from '@/components/community/CommunityHeader/CommunityHeader';
 import Grid from '@/components/ui/Grid/Grid';
+import { TOPICS_QUERY } from '@/hooks/query/useTopics';
+import { PreloadQuery } from '@/lib/apollo';
 import { CommunityLayoutProps } from '../layout';
 
 export default async function CommunityFeedLayout({
@@ -10,7 +12,7 @@ export default async function CommunityFeedLayout({
 	const { name } = await params;
 
 	return (
-		<>
+		<PreloadQuery query={TOPICS_QUERY}>
 			<CommunityHeader name={name} />
 			<div className="py-6 px-4">
 				<Grid
@@ -18,6 +20,6 @@ export default async function CommunityFeedLayout({
 					right={<CommunityAbout withHeader editable cta="Create Post" />}
 				/>
 			</div>
-		</>
+		</PreloadQuery>
 	);
 }

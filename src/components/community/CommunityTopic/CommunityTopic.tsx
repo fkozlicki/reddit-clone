@@ -23,7 +23,7 @@ const CommunityTopic = ({ initialTopic, communityId }: CommunityTopicProps) => {
 			setTopic(name);
 		},
 	});
-	const { data, loading: loadingFetch } = useTopics();
+	const { data } = useTopics();
 
 	const handleAddTopic = (topicId: string) => {
 		changeTopic({
@@ -34,14 +34,10 @@ const CommunityTopic = ({ initialTopic, communityId }: CommunityTopicProps) => {
 		});
 	};
 
-	const items = loadingFetch
-		? [{ text: 'Loading...' }]
-		: data
-		? data.topics.map((topic) => ({
-				text: topic.name,
-				onClick: () => handleAddTopic(topic.id),
-		  }))
-		: [{ text: "Couldn't load topics" }];
+	const items = data.topics.map((topic) => ({
+		text: topic.name,
+		onClick: () => handleAddTopic(topic.id),
+	}));
 
 	return (
 		<>
