@@ -115,7 +115,7 @@ const CommunityAbout = ({
 				) : (
 					<div className="text-sm text-primary mb-4">{description}</div>
 				)}
-				<div className="flex items-center gap-4 text-primary">
+				<div className="flex items-center gap-2 text-primary">
 					<CalendarBlank size={20} />
 					<span className="text-sm">
 						Created {formatDate(new Date(createdAt))}
@@ -129,9 +129,7 @@ const CommunityAbout = ({
 				{editable && isModerator && (
 					<>
 						<div className="w-full h-px border-b border-input my-4" />
-						<Suspense fallback="Loading...">
-							<CommunityTopic communityId={id} initialTopic={topic?.name} />
-						</Suspense>
+						<CommunityTopic communityId={id} initialTopic={topic?.name} />
 					</>
 				)}
 				{cta && (

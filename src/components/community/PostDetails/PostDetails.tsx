@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import CommentsSection from '../CommentsSection/CommentsSection';
-import Post from '../../shared/Post/Post';
-import usePost from '@/hooks/query/usePost';
-import CommunityAbout from '../CommunityAbout/CommunityAbout';
 import PostSkeleton from '@/components/shared/PostSkeleton/PostSkeleton';
+import usePost from '@/hooks/query/usePost';
+import Post from '../../shared/Post/Post';
+import CommentsSection from '../CommentsSection/CommentsSection';
+import CommunityAbout from '../CommunityAbout/CommunityAbout';
 
 interface PostDetailsProps {
 	id: string;

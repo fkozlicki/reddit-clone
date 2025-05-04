@@ -2,7 +2,6 @@ import Dropdown from '@/components/ui/Dropdown/Dropdown';
 import useUpdateCommunity from '@/hooks/mutation/useUpdateCommunity';
 import useTopics from '@/hooks/query/useTopics';
 import { CaretDown } from '@phosphor-icons/react';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 interface CommunityTopicProps {
@@ -11,8 +10,6 @@ interface CommunityTopicProps {
 }
 
 const CommunityTopic = ({ initialTopic, communityId }: CommunityTopicProps) => {
-	const params = useParams();
-	const name = params.name as string;
 	const [topic, setTopic] = useState<string | undefined>(initialTopic);
 	const [changeTopic, { loading: loadingSave }] = useUpdateCommunity({
 		onCompleted({

@@ -1,6 +1,6 @@
 'use client';
 
-import Wrapper from '@/components/Wrapper';
+import ConditionalLink from '@/components/ConditionalLink';
 import VoteSection from '@/components/shared/VoteSection/VoteSection';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
@@ -115,11 +115,9 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						</span>
 					</div>
 				</div>
-				<Wrapper
+				<ConditionalLink
 					condition={!!preview}
-					wrap={(children) => (
-						<Link href={`/r/${communityName}/comments/${id}`}>{children}</Link>
-					)}
+					href={`/r/${communityName}/comments/${id}`}
 				>
 					<>
 						<div className="px-2 pb-2 text-lg font-bold text-primary">
@@ -148,7 +146,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 							</div>
 						)}
 					</>
-				</Wrapper>
+				</ConditionalLink>
 				<div className="px-2 flex pb-1 gap-2">
 					<div className="sm:hidden flex items-center">
 						<VoteSection
@@ -159,13 +157,9 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 							voteValue={voteValue}
 						/>
 					</div>
-					<Wrapper
+					<ConditionalLink
 						condition={!!preview}
-						wrap={(children) => (
-							<Link href={`/r/${communityName}/comments/${id}`}>
-								{children}
-							</Link>
-						)}
+						href={`/r/${communityName}/comments/${id}`}
 					>
 						<Button
 							variant="text"
@@ -175,7 +169,7 @@ const Post = ({ post, preview, toggleContent }: PostProps) => {
 						>
 							{commentsCount} Comment{commentsCount > 1 && 's'}
 						</Button>
-					</Wrapper>
+					</ConditionalLink>
 					<Button
 						onClick={openSharePostModal}
 						variant="text"
