@@ -6,6 +6,12 @@ interface NextContext {
 	params: Promise<Record<string, string>>;
 }
 
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
+
 const { handleRequest } = createYoga<NextContext>({
 	schema,
 	context: createContext,

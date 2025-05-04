@@ -7,22 +7,21 @@ import { ThemeProvider } from 'next-themes';
 import { ReactNode } from 'react';
 
 import { getAppUrl } from '@/utils/getAppUrl';
-import { HttpLink } from '@apollo/client';
 import {
 	ApolloClient,
 	ApolloNextAppProvider,
 	InMemoryCache,
 } from '@apollo/client-integration-nextjs';
+import { SSELink } from '@/lib/sse-link';
 
 function makeClient() {
-	const httpLink = new HttpLink({
-		uri: `${getAppUrl()}/api/graphql`,
-		fetchOptions: {},
+	const link = new SSELink({
+		url: `${getAppUrl()}/api/graphql`,
 	});
 
 	return new ApolloClient({
 		cache: new InMemoryCache(),
-		link: httpLink,
+		link: link,
 	});
 }
 

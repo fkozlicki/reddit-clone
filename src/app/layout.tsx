@@ -31,7 +31,7 @@ export default async function RootLayout({
 				<Providers>
 					<Toaster position="top-center" />
 					<Navbar session={session} />
-					{/* <ChatRoom /> */}
+					<ChatRoom />
 					<main
 						className={cn('pt-12 min-h-screen bg-secondary', {
 							'xl:pl-[270px] flex': !session,
