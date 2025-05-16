@@ -1,6 +1,6 @@
 export function getAppUrl() {
 	if (process.env.NODE_ENV === 'production') {
-		return 'https://redditv2.vercel.app';
+		return 'https://redditv3.vercel.app';
 	}
 
 	if (process.env.NODE_ENV === 'development') {
