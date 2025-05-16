@@ -115,7 +115,7 @@ const SettingsView = ({ user }: SettingsViewProps) => {
 				</div>
 				<UploadImage
 					image={watch('image')}
-					folder={`/users/${user.id}`}
+					folder={`users/${user.id}`}
 					onUpload={onUpload}
 				/>
 			</div>

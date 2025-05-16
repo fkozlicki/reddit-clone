@@ -12,25 +12,18 @@ const client = new S3Client({
 
 interface UploadImageParams {
 	file: File;
-	fileName: string;
-	fileType: string;
 	folder: string;
 }
 
-export async function uploadImageAction({
-	file,
-	fileName,
-	folder,
-	fileType,
-}: UploadImageParams) {
+export async function uploadImageAction({ file, folder }: UploadImageParams) {
 	const command = new PutObjectCommand({
-		Bucket: `${process.env._AWS_BUCKET_NAME}${folder}`,
-		Key: fileName,
-		ContentType: fileType,
-		Body: file,
+		Bucket: process.env._AWS_BUCKET_NAME,
+		Key: `${folder}/${file.name}`,
+		ContentType: file.type,
+		Body: Buffer.from(await file.arrayBuffer()),
 	});
 
 	await client.send(command);
 
-	return `https://${process.env._AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com${folder}/${fileName}`;
+	return `https://${process.env._AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com/${folder}/${file.name}`;
 }

@@ -90,7 +90,7 @@ const CommunitySettingsModal = ({
 				<Input {...register('name')} className="mb-4" />
 				<Label className="mb-2 inline-block">Image</Label>
 				<UploadImage
-					folder={`/communities/${community.id}`}
+					folder={`communities/${community.id}`}
 					image={community.image}
 					onUpload={onUpload}
 				/>
